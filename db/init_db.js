@@ -3,7 +3,7 @@ const {
   // declare your model imports here
   // for example, User
 } = require("./");
-const { createUsers } = require("./models/user");
+const { createUser } = require("./models/user");
 
 async function buildTables() {
   try {
@@ -11,16 +11,18 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS cart;
+    DROP TABLE IF EXISTS reviews;
     DROP TABLE IF EXISTS pastries;
-    DROP TABLE IF EXISTS users
+    DROP TABLE IF EXISTS users;
   `);
     // build tables in correct order
     await client.query(`
     CREATE TABLE users(
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL
+    password VARCHAR(255) NOT NULL,
+    
   );
 
   CREATE TABLE pastries(
@@ -29,14 +31,47 @@ async function buildTables() {
     description TEXT NOT NULL,
     "isGlutenFree" BOOLEAN DEFAULT false,
     "isSweet" BOOLEAN DEFAULT false,
-    price INTEGER
+    "imageURL" VARCHAR(255),
+    inventory INTEGER NOT NULL,
+    "priceInCents" INTEGER NOT NULL
    );
 
-   CREATE TABLE cart(
-    id SERIAL PRIMARY KEY
+   CREATE TABLE carts(
+    id SERIAL PRIMARY KEY,
     "userId" INTEGER REFERENCES users(id)
-    "pastriesId" INTEGER REFERENCES pastries(id)
    );
+
+   CREATE TABLE cart_pastries (
+    id SERIAL PRIMARY KEY,
+    quantity INTEGER NOT NULL,
+    "pastryId" INTEGER REFERENCES pastries(id),
+    "cartId" INTEGER REFERENCES carts(id),
+    UNIQUE ("cartId", "pastryId")
+   )
+
+   CREATE TABLE order_pastries (
+    id SERIAL PRIMARY KEY,
+    quantity INTEGER NOT NULL,
+    "priceInCents" INTEGER NOT NULL,
+    "pastryId" INTEGER REFERENCES pastries(id),
+    "orderId" INTEGER REFERENCES orders(id),
+    UNIQUE ("orderId", "pastryId")
+   )
+
+   CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    "userId" INTEGER REFERENCES users(id)
+   )
+
+
+
+   CREATE TABLE reviews(
+    id SERIAL PRIMARY KEY,
+    "userId" INTEGER REFERENCES users(id),
+    "pastryId" INTEGER REFERENCES pastries(id),
+    "reviewDescription" TEXT NOT NULL,
+    UNIQUE ("userId", "pastryId")
+   )
   `);
   } catch (error) {
     throw error;
@@ -48,7 +83,7 @@ async function populateInitialData() {
     // create useful starting data by leveraging your
     // Model.method() adapters to seed your db, for example:
     // const user1 = await User.createUser({ ...user info goes here... })
-    const createdUsers = [
+    const users = [
       {
         username: "Kim",
         password: "kimspassword",
@@ -66,9 +101,9 @@ async function populateInitialData() {
       },
     ];
 
-    const users = await Promise.all(createdUsers.map(createUsers));
+    const createdUsers = await Promise.all(users.map(createUser));
     console.log("Users being created");
-    console.log(users);
+    console.log(createdUsers);
   } catch (error) {
     throw error;
   }
