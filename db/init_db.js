@@ -116,6 +116,15 @@ async function populateInitialData() {
       inventory: 23,
       priceInCents: 100
     },
+    {
+      name: "Bacom Maple Bar",
+      description: "Sugary Savory Goodness",
+      isGlutenFree: false,
+      isSweet: true,
+      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+      inventory: 10,
+      priceInCents: 500
+    },
   ];
 
   const createdPastries = await Promise.all(pastries.map(createPastries));
