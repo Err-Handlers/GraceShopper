@@ -24,7 +24,6 @@ async function buildTables() {
     await client.query(`
       CREATE TABLE users(
         id SERIAL PRIMARY KEY,
-        username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL
       );
@@ -88,17 +87,14 @@ async function populateInitialData() {
     // const user1 = await User.createUser({ ...user info goes here... })
     const users = [
       {
-        username: "Kim",
         password: "kimspassword",
         email: "kimsemail@email.com"
       },
       {
-        username: "Erin",
         password: "erinspassword",
         email: "erinsemail@email.com"
       },
       {
-        username: "Thuan",
         password: "thuanspassword",
         email: "thuansemail@email.com"
       },
