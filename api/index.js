@@ -1,6 +1,34 @@
 const express = require("express");
 const router = express.Router()
+const { JWT_SECRET } = process.env;
+const { getUserById } = require("../db/models/user")
 
+
+router.use(async (req, res, next) => {
+  const prefix = 'Bearer ';
+  const auth = req.header('Authorization');
+  if (!auth) { 
+    next();
+  } else if (auth.startsWith(prefix)) {
+    const token = auth.slice(prefix.length);
+    
+    try {
+      const { id } = jwt.verify(token, JWT_SECRET);
+
+      if (id) {
+        req.user = await getUserById(id);
+        next();
+      }
+    } catch ({ name, message }) {
+      next({ name, message });
+    }
+  } else {
+    next({
+      name: 'AuthorizationHeaderError',
+      message: `Authorization token must start with ${ prefix }`
+    });
+  }
+});
 
 router.get('/', (req, res, next) => {
   res.send({
@@ -11,10 +39,10 @@ router.get('/', (req, res, next) => {
 // place your routers here
 
 const usersRouter = require("./users")
-usersRouter.use("/users", usersRouter)
+router.use("/users", usersRouter)
 
-const pastriesRouter = require("./pastries")
-pastriesRouter.use("/pastries", pastriesRouter)
+// const pastriesRouter = require("./pastries")
+// router.use("/pastries", pastriesRouter);
 
 
 

@@ -10,20 +10,41 @@ async function getAllUsers() {
   return rows
 }
 
-async function createUser({username, password, email }) {
+async function createUser({ password, email }) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const { rows: [user] } = await client.query(`
-    INSERT INTO users (username, password, email)
-    VALUES ($1, $2, $3)
+    INSERT INTO users (password, email)
+    VALUES ($1, $2)
     RETURNING *;
-  `, [username, hashedPassword, email])
+  `, [hashedPassword, email])
   delete user.password
   return user;
 }
 
+async function getUserById({ id }) {
+  const { rows: [user] } = await client.query(`
+    SELECT * FROM users 
+    WHERE id = $1
+  `, [id])
+  return user;
+}
+
+
+async function getUserByEmail({ email }) {
+    const { rows: [user] } = await client.query(`
+      SELECT * FROM users
+      WHERE email = $1
+    `, [email])
+    return user;
+}
+
+
+
 module.exports = {
   // add your database adapter fns here
   getAllUsers,
+  getUserByEmail,
+  getUserById,
   createUser
 };
