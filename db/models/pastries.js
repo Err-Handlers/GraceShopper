@@ -9,8 +9,6 @@ async function getAllPastries() {
     return rows
 }
 
-
-
 async function createPastries({name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents }) {
 
     const { rows: [pastry] } = await client.query(`
@@ -20,6 +18,9 @@ async function createPastries({name, description, isGlutenFree, isSweet, imageUR
     `, [name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents])
     return pastry;
 }
+
+
+
 
 module.exports = {
     getAllPastries,
