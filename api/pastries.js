@@ -19,7 +19,28 @@ pastriesRouter.get('/pastries', async (req, res) => {
 });
 
 //admin route
-
+pastriesRouter.post('/pastries', async (req,res, next) => {
+    try {
+    const { name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents } = req.body;
+    
+    const newPastry = await createPastries({ 
+        name: name,
+        description: description,
+        isGlutenFree: isGlutenFree,
+        isSweet: isSweet,
+        imageURL: imageURL,
+        inventory: inventory,
+        priceInCents: priceInCents
+    } )
+    if (!req.user.isAdmin) {
+        throw "must be admin"
+    }   
+    res.send({newPastry})
+    } catch (error) {
+    console.log(error)
+    next (error)
+    }
+} )
 
 
 module.exports= {
