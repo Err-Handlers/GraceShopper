@@ -1,4 +1,4 @@
-const baseUrl = "postgres://localhost:5432/graceshopper/api"
+const baseUrl = "http://localhost:4000/api"
 
 export const callApi = async ({ method, path, token, body }) => {
   const options = {

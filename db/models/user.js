@@ -41,6 +41,8 @@ async function getUserByEmail({ email }) {
 
 
 
+
+
 module.exports = {
   // add your database adapter fns here
   getAllUsers,
