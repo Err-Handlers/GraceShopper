@@ -4,6 +4,7 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
+const { createPastries } = require("./models/pastries")
 
 async function buildTables() {
   try {
@@ -103,6 +104,33 @@ async function populateInitialData() {
     const createdUsers = await Promise.all(users.map(createUser));
     console.log("Users being created");
     console.log(createdUsers);
+
+    //initial pastries data
+    const pastries = [
+      {
+      name: "Croissant",
+      description: "Buttery and Flakey",
+      isGlutenFree: false,
+      isSweet: false,
+      imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
+      inventory: 23,
+      priceInCents: 100
+    },
+    {
+      name: "Bacom Maple Bar",
+      description: "Sugary Savory Goodness",
+      isGlutenFree: false,
+      isSweet: true,
+      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+      inventory: 10,
+      priceInCents: 500
+    },
+  ];
+
+  const createdPastries = await Promise.all(pastries.map(createPastries));
+    console.log("Pastries being created");
+    console.log(createdPastries);
+
   } catch (error) {
     throw error;
   }

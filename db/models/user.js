@@ -10,7 +10,7 @@ async function getAllUsers() {
   return rows
 }
 
-async function createUser({ password, email }) {
+async function createUser({password, email }) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const { rows: [user] } = await client.query(`
