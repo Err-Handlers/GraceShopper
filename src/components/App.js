@@ -8,9 +8,11 @@ import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
+  const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [token, setToken] = useState("");
+  console.log('error :>> ', error);
   useEffect(() => {
     // follow this pattern inside your useEffect calls:
     // first, create an async function that will wrap your axios service adapter
@@ -39,10 +41,13 @@ const App = () => {
           path="/register"
           element={
             <Register
+              setError={setError}
+              error={error}
               email={email}
               setEmail={setEmail}
               password={password}
               setPassword={setPassword}
+              setToken={setToken}
             />
           }
         ></Route>

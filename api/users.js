@@ -33,12 +33,17 @@ router.post("/register", async (req, res, next) => {
     res.send({
         user,
         message: "You're signed in",
-        token
+        token,
+        ok: true
     });
 }
   } catch ({name, message}) {
     next({name, message})
   }
 });
+
+router.get("/login", async (req, res, next) => {
+  res.send("Log In")
+})
 
 module.exports = router
