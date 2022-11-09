@@ -21,11 +21,11 @@ export default function Register({
       console.log("result :>> ", result);
       if (result.error) {
         console.log("ERROR");
-        setError(result.error);
       }
       setToken(result.token);
       console.log("User Registered");
     } catch (err) {
+      setError(err);
       console.error(err);
     }
   };
