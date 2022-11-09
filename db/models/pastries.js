@@ -20,11 +20,9 @@ async function createPastry({name, description, isGlutenFree, isSweet, imageURL,
 }
 
 async function updatePastry(id, fields){
-  console.log('fields :>> ', fields);
   const setString = Object.keys(fields).map(
     (key, index) => `"${key}"= $${index + 1}`
   ).join(', ');
-    console.log('setString :>> ', setString);
   const {rows: [pastry]} = await client.query(`
     UPDATE pastries
     SET ${setString}
@@ -43,7 +41,7 @@ async function deletePastry({id}){
       RETURNING *
     `, [id]
   )
-  console.log('pastry :>> ', pastry);
+
     return pastry;
   } catch (error){
     console.log("deleting patries failed")
