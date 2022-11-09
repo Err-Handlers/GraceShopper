@@ -4,7 +4,7 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastry, updatePastry } = require("./models/pastries")
+const { createPastry, updatePastry, deletePastry } = require("./models/pastries")
 
 async function buildTables() {
   try {
@@ -134,6 +134,10 @@ async function populateInitialData() {
     console.log(createdPastries);
     const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
     console.log('updatedPastry :>> ', updatedPastry);
+
+const deletedPastry = await deletePastry(createdPastries[0].id)
+    console.log('deletedPastry :>> ', deletedPastry);
+
   } catch (error) {
     throw error;
   }

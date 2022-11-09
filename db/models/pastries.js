@@ -33,7 +33,7 @@ async function updatePastry(id, fields){
     return pastry;
 }
 
-async function deletePastry({id}){
+async function deletePastry(id){
   try{
     const { rows: [pastry]} = await client.query(`
       DELETE FROM pastries
