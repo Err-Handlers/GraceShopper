@@ -13,20 +13,21 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   console.log('error :>> ', error);
-  useEffect(() => {
-    // follow this pattern inside your useEffect calls:
-    // first, create an async function that will wrap your axios service adapter
-    // invoke the adapter, await the response, and set the data
-    const getAPIStatus = async () => {
-      const { healthy } = await getAPIHealth();
-      setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
-    };
+  
+  // useEffect(() => {
+  //   // follow this pattern inside your useEffect calls:
+  //   // first, create an async function that will wrap your axios service adapter
+  //   // invoke the adapter, await the response, and set the data
+  //   const getAPIStatus = async () => {
+  //     const { healthy } = await getAPIHealth();
+  //     setAPIHealth(healthy ? "api is up! :D" : "api is down :/");
+  //   };
 
-    // second, after you've defined your getter above
-    // invoke it immediately after its declaration, inside the useEffect callback
-    getAPIStatus();
-  }, []);
-
+  //   // second, after you've defined your getter above
+  //   // invoke it immediately after its declaration, inside the useEffect callback
+  //   getAPIStatus();
+  // }, []);
+  
   return (
     <div className="app-container">
       <nav>
