@@ -7,10 +7,9 @@ export default function Register({
   setPassword,
   setError,
   setToken,
-  error
+  error,
 }) {
   const handleRegisterSubmit = async (e) => {
-
     e.preventDefault();
     try {
       const result = await callApi({
@@ -18,10 +17,9 @@ export default function Register({
         body: { email, password },
         path: "/users/register",
       });
+
       console.log("result :>> ", result);
-      if (result.error) {
-        console.log("ERROR");
-      }
+
       setToken(result.token);
       console.log("User Registered");
     } catch (err) {

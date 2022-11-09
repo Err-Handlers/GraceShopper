@@ -4,7 +4,7 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastries } = require("./models/pastries")
+const { createPastry, updatePastry, deletePastry } = require("./models/pastries")
 
 async function buildTables() {
   try {
@@ -26,7 +26,8 @@ async function buildTables() {
       CREATE TABLE users(
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        "isAdmin" BOOLEAN DEFAULT false
       );
 
       CREATE TABLE pastries(
@@ -89,7 +90,8 @@ async function populateInitialData() {
     const users = [
       {
         password: "kimspassword",
-        email: "kimsemail@email.com"
+        email: "kimsemail@email.com",
+        isAdmin: true
       },
       {
         password: "erinspassword",
@@ -127,14 +129,20 @@ async function populateInitialData() {
     },
   ];
 
-  const createdPastries = await Promise.all(pastries.map(createPastries));
+  const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
+    const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
+    console.log('updatedPastry :>> ', updatedPastry);
+
+const deletedPastry = await deletePastry(createdPastries[0].id)
+    console.log('deletedPastry :>> ', deletedPastry);
 
   } catch (error) {
     throw error;
   }
 }
+
 
 buildTables()
   .then(populateInitialData)
