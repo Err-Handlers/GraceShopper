@@ -18,6 +18,8 @@ export default function Register({
         path: "/users/register",
       });
 
+      console.log("result :>> ", result);
+
       setToken(result.token);
       console.log("User Registered");
     } catch (err) {

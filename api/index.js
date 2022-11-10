@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router()
+const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
 const { getUserById } = require("../db/models/user")
 
@@ -30,16 +31,11 @@ router.use(async (req, res, next) => {
   }
 });
 
-router.get('/', (req, res, next) => {
-  res.send({
-    message: 'API is under construction!',
-  });
-});
-
 // place your routers here
 
 const usersRouter = require("./users")
 router.use("/users", usersRouter)
+
 
 const pastriesRouter = require("./pastries")
 router.use("/pastries", pastriesRouter);
