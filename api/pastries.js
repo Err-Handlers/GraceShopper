@@ -1,7 +1,9 @@
 const express = require('express');
 const pastriesRouter = express.Router();
-const {getAllPastries,
-    createPastries} = require('../db');
+const {
+    getAllPastries,
+    createPastries,
+} = require('../db');
 const { deletePastries } = require('../db/models/pastries');
 
 pastriesRouter.use((req, res, next) => {
@@ -10,18 +12,14 @@ pastriesRouter.use((req, res, next) => {
     next();
 }); 
 
-pastriesRouter.get('/pastries', async (req, res) => {
-
+pastriesRouter.get('/', async (req, res, next) => {
     const pastries = await getAllPastries();
-
-    res.send({
-        pastries
-    });
+    res.send(pastries);
 });
 
 //admin routes
 
-pastriesRouter.post('/pastries', async (req,res, next) => {
+pastriesRouter.post('/', async (req,res, next) => {
     try {
     const { name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents } = req.body;
     
@@ -68,6 +66,4 @@ pastriesRouter.delete('/:pastryId', async(req, res, next) => {
     res.send(deletedPastry)
 })
 
-module.exports= {
-    pastriesRouter
-}
+module.exports= pastriesRouter

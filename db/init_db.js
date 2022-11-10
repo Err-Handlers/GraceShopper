@@ -4,7 +4,7 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastry, updatePastry, deletePastry } = require("./models/pastries")
+const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
 
 async function buildTables() {
   try {
@@ -119,7 +119,7 @@ async function populateInitialData() {
       priceInCents: 100
     },
     {
-      name: "Bacom Maple Bar",
+      name: "Bacon Maple Bar",
       description: "Sugary Savory Goodness",
       isGlutenFree: false,
       isSweet: true,
@@ -129,20 +129,23 @@ async function populateInitialData() {
     },
   ];
 
-  const createdPastries = await Promise.all(pastries.map(createPastry));
+    const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
-    const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
-    console.log('updatedPastry :>> ', updatedPastry);
 
-const deletedPastry = await deletePastry(createdPastries[0].id)
-    console.log('deletedPastry :>> ', deletedPastry);
+    // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
+    // console.log('updatedPastry :>> ', updatedPastry);
+
+    // const deletedPastry = await deletePastry(createdPastries[0].id)
+    // console.log('deletedPastry :>> ', deletedPastry);
+
+    // gettingAllPastries = await getAllPastries();
+    // console.log('gettingAllPastries :>> ', gettingAllPastries);
 
   } catch (error) {
     throw error;
   }
 }
-
 
 buildTables()
   .then(populateInitialData)

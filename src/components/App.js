@@ -6,15 +6,31 @@ import { getAPIHealth } from "../axios-services";
 import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
+
+import Pastries from "./Pastries";
+import { callApi } from "../api/utils";
 import Login from "./Login";
+
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
+  const [pastries, setPastries] = useState([]);
+  
+  console.log('error :>> ', error);
 
-  console.log("error :>> ", error);
+  const fetchPastries = async () => {
+    const data = await callApi({
+      path: "/pastries"
+    })
+    setPastries(data);
+  };
+  
+  useEffect(() => {
+    fetchPastries();
+  }, []);
   
   return (
       <div className="app-container">
@@ -26,6 +42,9 @@ const App = () => {
             <li>
               <Link to="login">Login</Link>
             </li>
+            <li>
+            <Link to="/pastries">Pastries</Link>
+          </li>
           </ul>
         </nav>
         <Routes>
@@ -57,8 +76,18 @@ const App = () => {
               />
             }
           ></Route>
+           <Route
+          path="/pastries"
+          element={
+            <Pastries 
+              pastries={pastries}
+              setPastries={setPastries}
+            />
+          }
+      ></Route>
         </Routes>
       </div>
+
   );
 };
 
