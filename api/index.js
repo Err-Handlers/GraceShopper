@@ -41,10 +41,8 @@ router.get('/', (req, res, next) => {
 const usersRouter = require("./users")
 router.use("/users", usersRouter)
 
-// const pastriesRouter = require("./pastries")
-// router.use("/pastries", pastriesRouter);
-
-
+const pastriesRouter = require("./pastries")
+router.use("/pastries", pastriesRouter);
 
 router.get('/health', (req, res, next) => {
   res.send({

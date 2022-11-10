@@ -6,16 +6,17 @@ async function getAllPastries() {
     const { rows } = await client.query(`
       SELECT * FROM pastries
     `)
+    
     return rows
 }
 
 async function createPastry({name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents }) {
-
     const { rows: [pastry] } = await client.query(`
       INSERT INTO pastries (name, description, "isGlutenFree", "isSweet", "imageURL", inventory, "priceInCents")
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `, [name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents])
+
     return pastry;
 }
 

@@ -7,14 +7,28 @@ import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
 import Pastries from "./Pastries";
+import { callApi } from "../api/utils";
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-  console.log('error :>> ', error);
+  const [pastries, setPastries] = useState([]);
   
+  console.log('error :>> ', error);
+
+  const fetchPastries = async () => {
+    const data = await callApi({
+      path: "/pastries"
+    })
+    setPastries(data);
+  };
+  
+  useEffect(() => {
+    fetchPastries();
+  }, []);
+
   // useEffect(() => {
   //   // follow this pattern inside your useEffect calls:
   //   // first, create an async function that will wrap your axios service adapter
@@ -60,7 +74,8 @@ const App = () => {
           path="/pastries"
           element={
             <Pastries 
-             
+              pastries={pastries}
+              setPastries={setPastries}
             />
           }
       ></Route>
