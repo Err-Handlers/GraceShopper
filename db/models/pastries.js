@@ -62,10 +62,23 @@ async function deletePastry(id){
     console.log("deleting pastries failed")
   }
 }
+async function getPastryById(id){
+  console.log(id);
+  try {
+    const { rows: [pastry] } = await client.query(`
+      SELECT * FROM pastries
+      WHERE id = $1
+    `, [id])
+    console.log(pastry);
+    return pastry;
+  } catch (error) {
+    console.log("pastry not found", error);
+  }
+}
 
 module.exports = {
     getAllPastries,
-    getPastryById
+    getPastryById,
     createPastry,
     updatePastry,
     deletePastry

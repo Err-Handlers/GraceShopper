@@ -5,7 +5,7 @@ const {
 } = require("./");
 const { createUser } = require("./models/user");
 
-const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
+const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
 const { createCart, getCartByUserId } = require("./models/cart")
 
 
