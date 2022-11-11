@@ -4,7 +4,7 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastries } = require("./models/pastries")
+const { createPastries, getPastryById } = require("./models/pastries")
 
 async function buildTables() {
   try {
@@ -121,6 +121,9 @@ async function populateInitialData() {
   const createdPastries = await Promise.all(pastries.map(createPastries));
     console.log("Pastries being created");
     console.log(createdPastries);
+
+    const pastryById = await getPastryById(createdPastries[0].id)
+    console.log("pastry:", pastryById);
 
   } catch (error) {
     throw error;
