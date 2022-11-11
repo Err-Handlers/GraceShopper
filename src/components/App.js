@@ -10,6 +10,7 @@ import Register from "./Register";
 import Pastries from "./Pastries";
 import { callApi } from "../api/utils";
 import Login from "./Login";
+import CreateForm from "./CreateForm";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -45,6 +46,9 @@ const App = () => {
             <li>
             <Link to="/pastries">Pastries</Link>
           </li>
+          <li>
+            <Link to="/admin">Admin</Link>
+          </li>
           </ul>
         </nav>
         <Routes>
@@ -76,12 +80,22 @@ const App = () => {
               />
             }
           ></Route>
-           <Route
+          <Route
           path="/pastries"
           element={
             <Pastries 
               pastries={pastries}
               setPastries={setPastries}
+            />
+          }
+      ></Route>
+      <Route
+          path="/admin"
+          element={
+            <CreateForm
+              pastries={pastries}
+              setPastries={setPastries}
+              token={token}
             />
           }
       ></Route>
