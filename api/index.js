@@ -36,6 +36,8 @@ router.use(async (req, res, next) => {
 const usersRouter = require("./users")
 router.use("/users", usersRouter)
 
+const cartRouter = require("./cart")
+router.use("/cart", cartRouter)
 
 const pastriesRouter = require("./pastries")
 router.use("/pastries", pastriesRouter);
