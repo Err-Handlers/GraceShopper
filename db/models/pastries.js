@@ -39,13 +39,13 @@ async function deletePastry(id){
     const { rows: [pastry]} = await client.query(`
       DELETE FROM pastries
       WHERE id = $1
-      RETURNING *
+      RETURNING *;
     `, [id]
   )
 
     return pastry;
   } catch (error){
-    console.log("deleting patries failed")
+    console.log("deleting pastries failed")
   }
 }
 
