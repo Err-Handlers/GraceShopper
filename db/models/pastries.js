@@ -6,18 +6,20 @@ async function getAllPastries() {
     const { rows } = await client.query(`
       SELECT * FROM pastries
     `)
+    
     return rows
 }
 
-async function createPastries({name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents }) {
-
+async function createPastry({name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents }) {
     const { rows: [pastry] } = await client.query(`
       INSERT INTO pastries (name, description, "isGlutenFree", "isSweet", "imageURL", inventory, "priceInCents")
       VALUES ($1, $2, $3, $4, $5, $6, $7)
       RETURNING *;
     `, [name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents])
+
     return pastry;
 }
+
 
 async function getPastryById(id){
   console.log(id);
@@ -33,9 +35,38 @@ async function getPastryById(id){
   }
 }
 
+async function updatePastry(id, fields){
+  const setString = Object.keys(fields).map(
+    (key, index) => `"${key}"= $${index + 1}`
+  ).join(', ');
+  const {rows: [pastry]} = await client.query(`
+    UPDATE pastries
+    SET ${setString}
+    WHERE id=${id}
+    RETURNING *;
+  `, Object.values(fields));
+
+    return pastry;
+}
+
+async function deletePastry(id){
+  try{
+    const { rows: [pastry]} = await client.query(`
+      DELETE FROM pastries
+      WHERE id = $1
+      RETURNING *;
+    `, [id]
+  )
+    return pastry;
+  } catch (error){
+    console.log("deleting pastries failed")
+  }
+}
 
 module.exports = {
     getAllPastries,
-    createPastries,
     getPastryById
+    createPastry,
+    updatePastry,
+    deletePastry
 };

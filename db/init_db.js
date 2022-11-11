@@ -4,7 +4,10 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastries, getPastryById } = require("./models/pastries")
+
+const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
+const { createCart, getCartByUserId } = require("./models/cart")
+
 
 async function buildTables() {
   try {
@@ -26,7 +29,8 @@ async function buildTables() {
       CREATE TABLE users(
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        "isAdmin" BOOLEAN DEFAULT false
       );
 
       CREATE TABLE pastries(
@@ -89,7 +93,8 @@ async function populateInitialData() {
     const users = [
       {
         password: "kimspassword",
-        email: "kimsemail@email.com"
+        email: "kimsemail@email.com",
+        isAdmin: true
       },
       {
         password: "erinspassword",
@@ -116,11 +121,42 @@ async function populateInitialData() {
       inventory: 23,
       priceInCents: 100
     },
+    {
+      name: "Bacon Maple Bar",
+      description: "Sugary Savory Goodness",
+      isGlutenFree: false,
+      isSweet: true,
+      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+      inventory: 10,
+      priceInCents: 500
+    },
   ];
 
-  const createdPastries = await Promise.all(pastries.map(createPastries));
+  carts = [
+    { userId: 1},
+    {userId: 2},
+    {userId: 3}
+   ]
+
+    const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
+    
+    const createCarts = await Promise.all(carts.map(createCart));
+    console.log('createCarts :>> ', createCarts);
+
+    const getCart  = await getCartByUserId(createdUsers[1])
+    console.log('getCart :>> ', getCart);
+
+
+    // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
+    // console.log('updatedPastry :>> ', updatedPastry);
+
+    // const deletedPastry = await deletePastry(createdPastries[0].id)
+    // console.log('deletedPastry :>> ', deletedPastry);
+
+    // gettingAllPastries = await getAllPastries();
+    // console.log('gettingAllPastries :>> ', gettingAllPastries);
 
     const pastryById = await getPastryById(createdPastries[0].id)
     console.log("pastry:", pastryById);
