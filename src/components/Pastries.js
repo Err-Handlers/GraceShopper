@@ -13,7 +13,7 @@ const Pastries = ({pastries}) => {
                     <h4>Name: {pastry.name}</h4>
                     <h4>Description: {pastry.description}</h4>
                     <h4>Inventory: {pastry.inventory}</h4>
-                    <h4>Price: {pastry.priceInCents}</h4>
+                    <h4>{`Price: $${pastry.priceInCents / 100}.00`}</h4>
                     <br></br>
                 </div>
                 );

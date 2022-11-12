@@ -20,6 +20,21 @@ async function createPastry({name, description, isGlutenFree, isSweet, imageURL,
     return pastry;
 }
 
+
+async function getPastryById(id){
+  console.log(id);
+  try {
+    const { rows: [pastry] } = await client.query(`
+      SELECT * FROM pastries
+      WHERE id = $1
+    `, [id])
+    console.log(pastry);
+    return pastry;
+  } catch (error) {
+    console.log("pastry not found", error);
+  }
+}
+
 async function updatePastry(id, fields){
   const setString = Object.keys(fields).map(
     (key, index) => `"${key}"= $${index + 1}`
@@ -42,15 +57,28 @@ async function deletePastry(id){
       RETURNING *;
     `, [id]
   )
-
     return pastry;
   } catch (error){
     console.log("deleting pastries failed")
   }
 }
+async function getPastryById(id){
+  console.log(id);
+  try {
+    const { rows: [pastry] } = await client.query(`
+      SELECT * FROM pastries
+      WHERE id = $1
+    `, [id])
+    console.log(pastry);
+    return pastry;
+  } catch (error) {
+    console.log("pastry not found", error);
+  }
+}
 
 module.exports = {
     getAllPastries,
+    getPastryById,
     createPastry,
     updatePastry,
     deletePastry

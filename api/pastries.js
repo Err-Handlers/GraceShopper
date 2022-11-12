@@ -2,7 +2,7 @@ const express = require('express');
 const pastriesRouter = express.Router();
 const {
     getAllPastries,
-    createPastries,
+    createPastry,
 } = require('../db');
 const { deletePastries } = require('../db/models/pastries');
 
@@ -21,9 +21,9 @@ pastriesRouter.get('/', async (req, res, next) => {
 
 pastriesRouter.post('/', async (req,res, next) => {
     try {
-    const { name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents } = req.body;
+    const { name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents } = req.body.pastry;
     
-    const newPastry = await createPastries({ 
+    const newPastry = await createPastry({ 
         name: name,
         description: description,
         isGlutenFree: isGlutenFree,
@@ -32,10 +32,11 @@ pastriesRouter.post('/', async (req,res, next) => {
         inventory: inventory,
         priceInCents: priceInCents
     } )
+    console.log(req.user)
     if (!req.user.isAdmin) {
         throw "must be admin"
     }   
-    res.send({newPastry})
+    res.send({pastry: newPastry})
     } catch (error) {
     console.log(error)
     next (error)

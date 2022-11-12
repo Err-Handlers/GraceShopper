@@ -7,6 +7,7 @@ const { createUser } = require("./models/user");
 const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
 const { createCart, getCartByUserId, addPastryToCartPastries, getPastriesByCartId } = require("./models/cart")
 
+
 async function buildTables() {
   try {
     client.connect();
@@ -160,6 +161,9 @@ async function populateInitialData() {
 
     // gettingAllPastries = await getAllPastries();
     // console.log('gettingAllPastries :>> ', gettingAllPastries);
+
+    const pastryById = await getPastryById(createdPastries[0].id)
+    console.log("pastry:", pastryById);
 
   } catch (error) {
     throw error;
