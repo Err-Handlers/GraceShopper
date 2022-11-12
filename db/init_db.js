@@ -4,9 +4,8 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-
-const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
-const { createCart, getCartByUserId } = require("./models/cart")
+const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
+const { createCart, getCartByUserId, addPastryToCartPastries, getPastriesByCartId } = require("./models/cart")
 
 
 async function buildTables() {
@@ -148,6 +147,11 @@ async function populateInitialData() {
     const getCart  = await getCartByUserId(createdUsers[1])
     console.log('getCart :>> ', getCart);
 
+    const getCartPastry = await addPastryToCartPastries(5, createdPastries[0].id, createCarts[1].id)
+    console.log('getCartPastry :>> ', getCartPastry);
+
+    const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
+    console.log('getPastriesInCart :>> ', getPastriesInCart);
 
     // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
     // console.log('updatedPastry :>> ', updatedPastry);
