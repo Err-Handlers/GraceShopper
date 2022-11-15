@@ -16,8 +16,6 @@ async function buildTables() {
     await client.query(`
       DROP TABLE IF EXISTS order_pastries;
       DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS cart_pastries;
-      DROP TABLE IF EXISTS carts;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS pastries;
       DROP TABLE IF EXISTS users;
@@ -51,22 +49,12 @@ async function buildTables() {
         UNIQUE ("userId", "pastryId")
       );
 
-      CREATE TABLE carts(
-        id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id)
-      );
-
-      CREATE TABLE cart_pastries(
-        id SERIAL PRIMARY KEY,
-        quantity INTEGER NOT NULL,
-        "pastryId" INTEGER REFERENCES pastries(id),
-        "cartId" INTEGER REFERENCES carts(id),
-        UNIQUE ("cartId", "pastryId")
-      );
+      CREATE TYPE status AS ENUM ('cart', 'completed');
 
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id)
+        "userId" INTEGER REFERENCES users(id),
+        status "STATUS"
       );
 
       CREATE TABLE order_pastries(
