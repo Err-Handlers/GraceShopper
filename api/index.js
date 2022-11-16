@@ -33,8 +33,6 @@ router.use(async (req, res, next) => {
 
 // place your routers here
 
-
-
 const usersRouter = require("./users")
 router.use("/users", usersRouter)
 
@@ -43,6 +41,9 @@ router.use("/cart", cartRouter)
 
 const pastriesRouter = require("./pastries")
 router.use("/pastries", pastriesRouter);
+
+// const adminRouter = require("./admin")
+// router.use("/admin", adminRouter);
 
 router.get('/health', (req, res, next) => {
   res.send({

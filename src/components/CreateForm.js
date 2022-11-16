@@ -1,7 +1,8 @@
 import { callApi } from "../api/utils";
 import { useState} from 'react'
+import { useNavigate } from "react-router-dom";
 
-const CreateForm = ({pastries, setPastries, token}) => {
+const CreateForm = ({pastries, setPastries, token, navigate}) => {
 
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -11,12 +12,12 @@ const CreateForm = ({pastries, setPastries, token}) => {
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
     
-    
-    const [isAdmin, setAdmin] = useState(null)
+    const [isAdmin, setAdmin] = useState(false)
 
-
+// use navigate to pastries page
     const createPastry = async (event) => {
         event.preventDefault();
+        
         try { 
             const {pastry} = await callApi ({
                 method: "POST",
@@ -31,8 +32,6 @@ const CreateForm = ({pastries, setPastries, token}) => {
                             imageURL,
                             inventory,
                             priceInCents, 
-                            
-                            
                         }
                     }
             });
@@ -44,9 +43,10 @@ const CreateForm = ({pastries, setPastries, token}) => {
             setIsSweet(null);
             setImageURL("");
             setInventory("");   
-            setPriceInCents("");   
+            setPriceInCents("");
             
-              
+            //useNavigate("/")
+            
         } catch (error) {
         console.log(error)
         }
@@ -73,9 +73,17 @@ const CreateForm = ({pastries, setPastries, token}) => {
 
                 <input
                 type="text"
+                name="description"
+                value={imageURL}
+                placeholder="product url"
+                onChange={(event) => setImageURL(event.target.value)}
+                />
+
+                <input
+                type="text"
                 name="price"
                 value={priceInCents}
-                placeholder="price"
+                placeholder="priceincents"
                 onChange={(event) =>setPriceInCents(event.target.value)}
                 />
 

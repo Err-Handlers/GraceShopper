@@ -1,6 +1,25 @@
 import React from 'react'
+import { callApi } from '../api/utils'
 
-const Pastries = ({pastries}) => {
+const Pastries = ({pastries, setPastries}) => {
+    // const token = localStorage.getItem("token");
+    const deletePastry = async (pastryId) => {
+        console.log(pastryId)
+        try {
+            await callApi({
+                method: "DELETE",
+                path: `/pastries/${pastryId}`
+                // token
+        })
+        setPastries(
+            (prev) => 
+        prev.filter((pastry) => pastryId !== pastry.id))
+
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
     return (
 
     <>
@@ -14,6 +33,7 @@ const Pastries = ({pastries}) => {
                     <h4>Description: {pastry.description}</h4>
                     <h4>Inventory: {pastry.inventory}</h4>
                     <h4>{`Price: $${pastry.priceInCents / 100}.00`}</h4>
+                    <button onClick={()=>{deletePastry(pastry.id)}}>Delete</button>
                     <br></br>
                 </div>
                 );

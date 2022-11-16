@@ -50,8 +50,9 @@ async function updatePastry(id, fields){
 }
 
 async function deletePastry(id){
+  console.log("money", id)
   try{
-    const { rows: [pastry]} = await client.query(`
+    const { rows: pastry} = await client.query(`
       DELETE FROM pastries
       WHERE id = $1
       RETURNING *;
@@ -81,5 +82,5 @@ module.exports = {
     getPastryById,
     createPastry,
     updatePastry,
-    deletePastry
+    deletePastry,
 };

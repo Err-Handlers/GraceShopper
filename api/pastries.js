@@ -3,8 +3,9 @@ const pastriesRouter = express.Router();
 const {
     getAllPastries,
     createPastry,
+    deletePastry,
 } = require('../db');
-const { deletePastries } = require('../db/models/pastries');
+
 
 pastriesRouter.use((req, res, next) => {
     console.log("A request is being made to /pastries");
@@ -62,8 +63,9 @@ pastriesRouter.patch('/:pastryId', async(req, res, next) => {
 })
 
 pastriesRouter.delete('/:pastryId', async(req, res, next) => {
-    const {id} = req.params;
-    const deletedPastry = await deletePastries({id})
+    const {pastryId} = req.params;
+    const deletedPastry = await deletePastry(pastryId)
+    console.log(deletedPastry)
     res.send(deletedPastry)
 })
 
