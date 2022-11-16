@@ -1,24 +1,30 @@
+const client = require("../client");
 
-
-const client = require('../client')
-
-async function createCart ({userId}) {
-    try {
-        const { rows: [cart] } = await client.query(`
-            INSERT INTO carts("userId")
-            VALUES ($1)
-            RETURNING *
-        `, [userId])
-        return cart
-    } catch (error) {
-        console.log(error);
-    }
+async function createOrder({ userId, status }) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+    INSERT INTO orders("userId", status)
+    VALUES ($1, $2)
+    RETURNING *;
+  `,
+      [userId, status]
+    );
+    return order;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-async function getCartByUserId ({id}) {
-    try {
-        const { rows: [cart] } = await client.query(`
-            SELECT * FROM carts
+async function getOrderByUserId({ id }) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(
+      `
+            SELECT * FROM orders
             WHERE "userId" = $1
         `, [id])
         console.log('cart :>> ', cart);
@@ -41,28 +47,71 @@ async function addPastryToCartPastries (quantity, pastryId, cartId) {
     }
 }
 
-async function getPastriesByCartId (cartId) {
-    try {
-        const { rows } = await client.query(`
-            SELECT * FROM cart_pastries
-            JOIN pastries ON cart_pastries."pastryId" = pastries.id
-            WHERE "cartId" = $1;
-        `, [cartId])
-        return rows
-    } catch (error) {
-        console.log(error)
-    }
+async function updateOrderQuantity(quantity, orderPastryId) {
+  try {
+      const { rows: [order] } = await client.query(`
+        UPDATE order_pastries
+        SET quantity = ${quantity}
+        WHERE id = ${orderPastryId}
+      `)
+      return order;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
-//get cartPastriesbyCartId 
+async function getOrderPastryIdByOrderId() {
+  
+}
+
+async function findOrCreateCart(userId) {
+  try {
+    const {
+      rows: [cart],
+    } = await client.query(
+      `
+            SELECT *
+            FROM orders
+            WHERE "userId" = $1 AND status = 'cart';
+        `,
+      [userId]
+    );
+    console.log('cart :>> ', cart);
+    if (!cart) {
+      // create cart
+      const order = await createOrder({ userId: userId, status: "cart" });
+      console.log('order :>> ', order);
+      // return cart
+      return order;
+    }
+    return cart;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+async function getOrderPastriesByOrderId(orderId) {
+  const { rows } = await client.query(`
+    SELECT * FROM order_pastries
+    WHERE id = $1
+  `, [orderId])
+  return rows;
+}
+
+
+
+//get cartPastriesbyCartId
 //(cartId: 1, pastryId: 1, quantity: 3)
 //(cartId: 1, pastrId: 2, quantity: 2)
 
 //need to get pastries by cartId through cart_pastries
 
 module.exports = {
-    getCartByUserId,
-    createCart,
-    addPastryToCartPastries,
-    getPastriesByCartId
-}
+  getOrderByUserId,
+  addPastryToOrderPastries,
+  getPastriesByUserId,
+  getOrdersInCart,
+  createOrder,
+  findOrCreateCart
+};

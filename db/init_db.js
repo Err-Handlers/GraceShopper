@@ -4,8 +4,8 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
-const { createCart, getCartByUserId, addPastryToCartPastries, getPastriesByCartId } = require("./models/cart")
+const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
+const { getOrderByUserId, addPastryToOrderPastries, getPastriesByCartId, getOrdersInCart, createOrder } = require("./models/cart")
 
 
 async function buildTables() {
@@ -16,6 +16,7 @@ async function buildTables() {
     await client.query(`
       DROP TABLE IF EXISTS order_pastries;
       DROP TABLE IF EXISTS orders;
+      DROP TYPE status;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS pastries;
       DROP TABLE IF EXISTS users;
@@ -54,7 +55,7 @@ async function buildTables() {
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        status "STATUS"
+        status STATUS
       );
 
       CREATE TABLE order_pastries(
@@ -119,27 +120,38 @@ async function populateInitialData() {
     },
   ];
 
-  carts = [
-    { userId: 1},
-    {userId: 2},
-    {userId: 3}
-   ]
+  const initialOrders = [
+    {
+      userId: 1,
+      status: 'cart'
+    },
+    {
+      userId: 2,
+      status: 'completed'
+    },
+    {
+      userId: 3,
+      status: 'cart'
+    }
+  ]
+
 
     const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
+
+    const createdOrders = await Promise.all(initialOrders.map(createOrder));
+    console.log('createdOrders :>> ', createdOrders);
+
+    const ordersInCart = await getOrdersInCart()
+    console.log('ordersInCart :>> ', ordersInCart);
+
+    const addProductToOrderProducts = await addPastryToCartPastries({})
+
     
-    const createCarts = await Promise.all(carts.map(createCart));
-    console.log('createCarts :>> ', createCarts);
 
-    const getCart  = await getCartByUserId(createdUsers[1])
-    console.log('getCart :>> ', getCart);
-
-    const getCartPastry = await addPastryToCartPastries(5, createdPastries[0].id, createCarts[1].id)
-    console.log('getCartPastry :>> ', getCartPastry);
-
-    const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
-    console.log('getPastriesInCart :>> ', getPastriesInCart);
+    // const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
+    // console.log('getPastriesInCart :>> ', getPastriesInCart);
 
     // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
     // console.log('updatedPastry :>> ', updatedPastry);
@@ -147,11 +159,13 @@ async function populateInitialData() {
     // const deletedPastry = await deletePastry(createdPastries[0].id)
     // console.log('deletedPastry :>> ', deletedPastry);
 
-    // gettingAllPastries = await getAllPastries();
+    // const gettingAllPastries = await getAllPastries();
     // console.log('gettingAllPastries :>> ', gettingAllPastries);
 
-    const pastryById = await getPastryById(createdPastries[0].id)
-    console.log("pastry:", pastryById);
+    // const pastryById = await getPastryById(createdPastries[0].id)
+    // console.log("pastry:", pastryById);
+
+
 
   } catch (error) {
     throw error;
