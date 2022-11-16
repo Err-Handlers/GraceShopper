@@ -6,11 +6,11 @@ import { getAPIHealth } from "../axios-services";
 import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
-
 import Pastries from "./Pastries";
 import { callApi } from "../api/utils";
 import Login from "./Login";
 import CreateForm from "./CreateForm";
+import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -19,6 +19,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [pastries, setPastries] = useState([]);
+
+  const navigate = useNavigate();
   
   console.log('error :>> ', error);
 
@@ -86,6 +88,7 @@ const App = () => {
             <Pastries 
               pastries={pastries}
               setPastries={setPastries}
+              token={token}
             />
           }
       ></Route>
@@ -96,6 +99,7 @@ const App = () => {
               pastries={pastries}
               setPastries={setPastries}
               token={token}
+              navigate={navigate}
             />
           }
       ></Route>
