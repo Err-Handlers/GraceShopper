@@ -22,7 +22,7 @@ async function createUser({password, email }) {
   return user;
 }
 
-async function getLoggedInUser({ email, password }) {
+async function validateAndGetUser({ email, password }) {
   const user = await getUserByEmail(email);
   if(!user){
     throw new Error("Incorrect email or password")
@@ -36,7 +36,7 @@ async function getLoggedInUser({ email, password }) {
   }
 } //the reason we can't just use getUserByEmail is because there is no password in that response? -erin
 
-async function getUserById({ id }) {
+async function getUserById( id ) {
   const { rows: [user] } = await client.query(`
     SELECT * FROM users 
     WHERE id = $1
@@ -53,15 +53,11 @@ async function getUserByEmail( email ) {
     return user;
 }
 
-
-
-
-
 module.exports = {
   // add your database adapter fns here
   getAllUsers,
   getUserByEmail,
   getUserById,
   createUser,
-  getLoggedInUser
+  validateAndGetUser
 };
