@@ -3,7 +3,7 @@ import { useState} from 'react'
 import { useNavigate } from "react-router-dom";
 
 const CreateForm = ({pastries, setPastries, token, navigate}) => {
-
+    
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [isGlutenFree, setIsGlutenFree] = useState(null);
@@ -11,8 +11,6 @@ const CreateForm = ({pastries, setPastries, token, navigate}) => {
     const [imageURL, setImageURL] = useState("");
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
-    
-    const [isAdmin, setAdmin] = useState(false)
 
 // use navigate to pastries page
     const createPastry = async (event) => {

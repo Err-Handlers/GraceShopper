@@ -2,14 +2,14 @@ import React from 'react'
 import { callApi } from '../api/utils'
 
 const Pastries = ({pastries, setPastries}) => {
-    // const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     const deletePastry = async (pastryId) => {
         console.log(pastryId)
         try {
             await callApi({
                 method: "DELETE",
-                path: `/pastries/${pastryId}`
-                // token
+                path: `/pastries/${pastryId}`,
+                token
         })
         setPastries(
             (prev) => 

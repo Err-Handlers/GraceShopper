@@ -5,8 +5,6 @@ const {
 } = require("./");
 const { createUser } = require("./models/user");
 const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
-const { createCart, getCartByUserId, addPastryToCartPastries, getPastriesByCartId } = require("./models/cart")
-
 
 async function buildTables() {
   try {
@@ -16,6 +14,8 @@ async function buildTables() {
     await client.query(`
       DROP TABLE IF EXISTS order_pastries;
       DROP TABLE IF EXISTS orders;
+      DROP TABLE IF EXISTS cart_pastries;
+      DROP TABLE IF EXISTS carts;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS pastries;
       DROP TABLE IF EXISTS users;
@@ -29,7 +29,6 @@ async function buildTables() {
         password VARCHAR(255) NOT NULL,
         "isAdmin" BOOLEAN DEFAULT false
       );
-
       CREATE TABLE pastries(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
@@ -40,7 +39,6 @@ async function buildTables() {
         inventory INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL
       );
-
       CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
@@ -48,15 +46,21 @@ async function buildTables() {
         "reviewDescription" TEXT NOT NULL,
         UNIQUE ("userId", "pastryId")
       );
-
-      CREATE TYPE status AS ENUM ('cart', 'completed');
-
+      CREATE TABLE carts(
+        id SERIAL PRIMARY KEY,
+        "userId" INTEGER REFERENCES users(id)
+      );
+      CREATE TABLE cart_pastries(
+        id SERIAL PRIMARY KEY,
+        quantity INTEGER NOT NULL,
+        "pastryId" INTEGER REFERENCES pastries(id),
+        "cartId" INTEGER REFERENCES carts(id),
+        UNIQUE ("cartId", "pastryId")
+      );
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id),
-        status "STATUS"
+        "userId" INTEGER REFERENCES users(id)
       );
-
       CREATE TABLE order_pastries(
         id SERIAL PRIMARY KEY,
         quantity INTEGER NOT NULL,
@@ -65,7 +69,6 @@ async function buildTables() {
         "orderId" INTEGER REFERENCES orders(id),
         UNIQUE ("orderId", "pastryId")
       );
-
     `);
   } catch (error) {
     throw error;
@@ -85,11 +88,13 @@ async function populateInitialData() {
       },
       {
         password: "erinspassword",
-        email: "erinsemail@email.com"
+        email: "erinsemail@email.com",
+        isAdmin: false
       },
       {
         password: "thuanspassword",
-        email: "thuansemail@email.com"
+        email: "thuansemail@email.com",
+        isAdmin: false
       },
     ];
 
@@ -119,27 +124,9 @@ async function populateInitialData() {
     },
   ];
 
-  carts = [
-    { userId: 1},
-    {userId: 2},
-    {userId: 3}
-   ]
-
     const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
-    
-    const createCarts = await Promise.all(carts.map(createCart));
-    console.log('createCarts :>> ', createCarts);
-
-    const getCart  = await getCartByUserId(createdUsers[1])
-    console.log('getCart :>> ', getCart);
-
-    const getCartPastry = await addPastryToCartPastries(5, createdPastries[0].id, createCarts[1].id)
-    console.log('getCartPastry :>> ', getCartPastry);
-
-    const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
-    console.log('getPastriesInCart :>> ', getPastriesInCart);
 
     // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
     // console.log('updatedPastry :>> ', updatedPastry);
@@ -149,9 +136,6 @@ async function populateInitialData() {
 
     // gettingAllPastries = await getAllPastries();
     // console.log('gettingAllPastries :>> ', gettingAllPastries);
-
-    const pastryById = await getPastryById(createdPastries[0].id)
-    console.log("pastry:", pastryById);
 
   } catch (error) {
     throw error;
