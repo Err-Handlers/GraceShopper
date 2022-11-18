@@ -4,7 +4,8 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastry, updatePastry, deletePastry, getAllPastries } = require("./models/pastries")
+const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
+const { getOrderByUserId, addPastryToOrderPastries, getPastriesByCartId, getOrdersInCart, createOrder } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -14,8 +15,7 @@ async function buildTables() {
     await client.query(`
       DROP TABLE IF EXISTS order_pastries;
       DROP TABLE IF EXISTS orders;
-      DROP TABLE IF EXISTS cart_pastries;
-      DROP TABLE IF EXISTS carts;
+      DROP TYPE status;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS pastries;
       DROP TABLE IF EXISTS users;
@@ -46,20 +46,14 @@ async function buildTables() {
         "reviewDescription" TEXT NOT NULL,
         UNIQUE ("userId", "pastryId")
       );
-      CREATE TABLE carts(
-        id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id)
-      );
-      CREATE TABLE cart_pastries(
-        id SERIAL PRIMARY KEY,
-        quantity INTEGER NOT NULL,
-        "pastryId" INTEGER REFERENCES pastries(id),
-        "cartId" INTEGER REFERENCES carts(id),
-        UNIQUE ("cartId", "pastryId")
+      
+      CREATE TYPE status AS ENUM (
+        'cart', 'completed'
       );
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
-        "userId" INTEGER REFERENCES users(id)
+        "userId" INTEGER REFERENCES users(id),
+        status STATUS
       );
       CREATE TABLE order_pastries(
         id SERIAL PRIMARY KEY,
@@ -124,9 +118,38 @@ async function populateInitialData() {
     },
   ];
 
+  const initialOrders = [
+    {
+      userId: 1,
+      status: 'cart'
+    },
+    {
+      userId: 2,
+      status: 'completed'
+    },
+    {
+      userId: 3,
+      status: 'cart'
+    }
+  ]
+
+
     const createdPastries = await Promise.all(pastries.map(createPastry));
     console.log("Pastries being created");
     console.log(createdPastries);
+
+    const createdOrders = await Promise.all(initialOrders.map(createOrder));
+    console.log('createdOrders :>> ', createdOrders);
+
+    const ordersInCart = await getOrdersInCart()
+    console.log('ordersInCart :>> ', ordersInCart);
+
+    const addProductToOrderProducts = await addPastryToCartPastries({})
+
+    
+
+    // const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
+    // console.log('getPastriesInCart :>> ', getPastriesInCart);
 
     // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
     // console.log('updatedPastry :>> ', updatedPastry);
@@ -134,8 +157,11 @@ async function populateInitialData() {
     // const deletedPastry = await deletePastry(createdPastries[0].id)
     // console.log('deletedPastry :>> ', deletedPastry);
 
-    // gettingAllPastries = await getAllPastries();
+    // const gettingAllPastries = await getAllPastries();
     // console.log('gettingAllPastries :>> ', gettingAllPastries);
+
+    // const pastryById = await getPastryById(createdPastries[0].id)
+    // console.log("pastry:", pastryById);
 
   } catch (error) {
     throw error;
