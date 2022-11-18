@@ -7,7 +7,6 @@ const { createUser } = require("./models/user");
 const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
 const { getOrderByUserId, addPastryToOrderPastries, getPastriesByCartId, getOrdersInCart, createOrder } = require("./models/cart")
 
-
 async function buildTables() {
   try {
     client.connect();
@@ -30,7 +29,6 @@ async function buildTables() {
         password VARCHAR(255) NOT NULL,
         "isAdmin" BOOLEAN DEFAULT false
       );
-
       CREATE TABLE pastries(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
@@ -41,7 +39,6 @@ async function buildTables() {
         inventory INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL
       );
-
       CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
@@ -49,15 +46,15 @@ async function buildTables() {
         "reviewDescription" TEXT NOT NULL,
         UNIQUE ("userId", "pastryId")
       );
-
-      CREATE TYPE status AS ENUM ('cart', 'completed');
-
+      
+      CREATE TYPE status AS ENUM (
+        'cart', 'completed'
+      );
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         status STATUS
       );
-
       CREATE TABLE order_pastries(
         id SERIAL PRIMARY KEY,
         quantity INTEGER NOT NULL,
@@ -66,7 +63,6 @@ async function buildTables() {
         "orderId" INTEGER REFERENCES orders(id),
         UNIQUE ("orderId", "pastryId")
       );
-
     `);
   } catch (error) {
     throw error;
@@ -86,11 +82,13 @@ async function populateInitialData() {
       },
       {
         password: "erinspassword",
-        email: "erinsemail@email.com"
+        email: "erinsemail@email.com",
+        isAdmin: false
       },
       {
         password: "thuanspassword",
-        email: "thuansemail@email.com"
+        email: "thuansemail@email.com",
+        isAdmin: false
       },
     ];
 
@@ -164,8 +162,6 @@ async function populateInitialData() {
 
     // const pastryById = await getPastryById(createdPastries[0].id)
     // console.log("pastry:", pastryById);
-
-
 
   } catch (error) {
     throw error;

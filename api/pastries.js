@@ -20,7 +20,17 @@ pastriesRouter.get('/', async (req, res, next) => {
 
 //admin routes
 
-pastriesRouter.post('/', async (req,res, next) => {
+const requireAdmin = (req, res, next) => {
+    if(!req.user || !req.user.isAdmin) {
+        next({
+            name: "MissingAdminError",
+            message: "You must be an admin to perform this action"
+        });
+    }
+    next();
+}
+
+pastriesRouter.post('/', requireAdmin, async (req,res, next) => {
     try {
     const { name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents } = req.body.pastry;
     
@@ -33,7 +43,7 @@ pastriesRouter.post('/', async (req,res, next) => {
         inventory: inventory,
         priceInCents: priceInCents
     } )
-    console.log(req.user)
+    console.log(req.user, "hfkshfksa")
     if (!req.user.isAdmin) {
         throw "must be admin"
     }   
@@ -44,7 +54,7 @@ pastriesRouter.post('/', async (req,res, next) => {
     }
 } )
 
-pastriesRouter.patch('/:pastryId', async(req, res, next) => {
+pastriesRouter.patch('/:pastryId', requireAdmin, async(req, res, next) => {
     const {id} = req.params;
     const {name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents} = req.body;
 
@@ -62,7 +72,7 @@ pastriesRouter.patch('/:pastryId', async(req, res, next) => {
     res.send(updatedPastry)
 })
 
-pastriesRouter.delete('/:pastryId', async(req, res, next) => {
+pastriesRouter.delete('/:pastryId', requireAdmin, async(req, res, next) => {
     const {pastryId} = req.params;
     const deletedPastry = await deletePastry(pastryId)
     console.log(deletedPastry)

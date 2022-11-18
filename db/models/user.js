@@ -10,14 +10,14 @@ async function getAllUsers() {
   return rows
 }
 
-async function createUser({password, email }) {
+async function createUser({password, email, isAdmin}) {
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const { rows: [user] } = await client.query(`
-    INSERT INTO users (password, email)
-    VALUES ($1, $2)
+    INSERT INTO users (password, email, "isAdmin")
+    VALUES ($1, $2, $3)
     RETURNING *;
-  `, [hashedPassword, email])
+  `, [hashedPassword, email, isAdmin])
   delete user.password
   return user;
 }
@@ -36,6 +36,7 @@ async function validateAndGetUser({ email, password }) {
   }
 } //the reason we can't just use getUserByEmail is because there is no password in that response? -erin
 
+
 async function getUserById( id ) {
   const { rows: [user] } = await client.query(`
     SELECT * FROM users 
@@ -43,7 +44,6 @@ async function getUserById( id ) {
   `, [id])
   return user;
 }
-
 
 async function getUserByEmail( email ) {
     const { rows: [user] } = await client.query(`
