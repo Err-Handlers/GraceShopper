@@ -1,7 +1,7 @@
 import React from 'react'
 import { callApi } from '../api/utils'
 
-const Pastries = ({pastries, setPastries, token}) => {
+const Pastries = ({pastries, setPastries, token, isAdmin}) => {
     // const token = localStorage.getItem("token");
     const deletePastry = async (pastryId) => {
         console.log(pastryId)
@@ -33,7 +33,7 @@ const Pastries = ({pastries, setPastries, token}) => {
                     <h4>Description: {pastry.description}</h4>
                     <h4>Inventory: {pastry.inventory}</h4>
                     <h4>{`Price: $${pastry.priceInCents / 100}.00`}</h4>
-                    <button onClick={()=>{deletePastry(pastry.id)}}>Delete</button>
+                    {isAdmin ? <button onClick={()=>{deletePastry(pastry.id)}}>Delete</button> : null}
                     <br></br>
                 </div>
                 );
