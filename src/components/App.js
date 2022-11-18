@@ -109,6 +109,7 @@ useEffect(() => {
               pastries={pastries}
               setPastries={setPastries}
               token={token}
+              isAdmin={isAdmin}
             />
           }
       ></Route>
