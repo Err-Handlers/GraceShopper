@@ -20,6 +20,26 @@ const App = () => {
   const [token, setToken] = useState("");
   const [pastries, setPastries] = useState([]);
 
+  // const isAdmin = localStorage.getItem("isAdmin");
+  // console.log(isAdmin)
+
+const [currentUser, setCurrentUser] = useState(undefined);
+const [isAdmin, setIsAdmin] = useState([]);
+
+useEffect(() => {
+    const admin = localStorage.getItem("isAdmin");
+    console.log(admin, "isadmin")
+
+    if (admin === "false"){
+      return setIsAdmin(false);
+    }
+
+    if (admin === "true"){
+      return setIsAdmin(true)
+    }
+
+  }, []);
+
   const navigate = useNavigate();
   
   console.log('error :>> ', error);
@@ -49,7 +69,7 @@ const App = () => {
             <Link to="/pastries">Pastries</Link>
           </li>
           <li>
-            <Link to="/admin">Admin</Link>
+          {isAdmin ? <Link to="/admin">Admin</Link> : null}
           </li>
           </ul>
         </nav>
