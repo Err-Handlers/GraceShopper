@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
-const { createUser, getUserByEmail, getLoggedInUser } = require("../db/models/user");
+const { createUser, getUserByEmail, validateAndGetUser } = require("../db/models/user");
 
 router.post("/register", async (req, res, next) => {
   console.log("req.body :>> ", req.body);
@@ -54,7 +54,7 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
-    const user = await getLoggedInUser({email, password});
+    const user = await validateAndGetUser({email, password});
     console.log(user);
     if (user) {
       const token = jwt.sign(
