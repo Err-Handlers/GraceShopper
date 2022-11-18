@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
 
 export default function Login({ setEmail, email, setPassword, password, setToken, setError, error }) {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   console.log(password);
 
   const submitHandler = async (e) => {
@@ -15,7 +15,14 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       });
       setToken(result.token);
       console.log(result);
-    //   navigate("/");
+
+      localStorage.setItem("user", result.user);
+      console.log(result.user)
+      localStorage.setItem("isAdmin", result.user.isAdmin);
+
+      navigate("/pastries");
+      window.location.reload(false);
+      
     } catch (error) {
       setError(error)  
       console.error(error);
