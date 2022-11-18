@@ -28,19 +28,19 @@ async function getOrderByUserId({ id }) {
             WHERE "userId" = $1
         `, [id])
         console.log('cart :>> ', cart);
-        return cart;
+        return order;
     } catch (error) {
         console.log(error);
     }
 }
 
-async function addPastryToCartPastries (quantity, pastryId, cartId) {
+async function addPastryToOrderPastries(quantity, orderId, pastryId, cartId) {
     try {
         const { rows: [cartPastry] } = await client.query(`
-            INSERT INTO cart_pastries(quantity, "pastryId", "cartId")
-            VALUES ($1, $2, $3)
+            INSERT INTO order_pastries(quantity, "orderId", "pastryId", "cartId")
+            VALUES ($1, $2, $3, $4)
             RETURNING *;
-        `, [quantity, pastryId, cartId])
+        `, [quantity, orderId, pastryId, cartId])
         return cartPastry
     } catch (error) {
         console.log(error);
@@ -60,8 +60,16 @@ async function updateOrderQuantity(quantity, orderPastryId) {
   }
 }
 
-async function getOrderPastryIdByOrderId() {
-  
+async function getOrderPastryIdByOrderId({orderId}) {
+  try {
+    const { rows: [orderPastry] } = await client.query(`
+        SELECT * FROM order_pastries
+        WHERE id = $1
+    `, [orderId])
+    return orderPastry;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function findOrCreateCart(userId) {
@@ -110,8 +118,6 @@ async function getOrderPastriesByOrderId(orderId) {
 module.exports = {
   getOrderByUserId,
   addPastryToOrderPastries,
-  getPastriesByUserId,
-  getOrdersInCart,
   createOrder,
   findOrCreateCart
 };
