@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
 
-export default function Login({ setEmail, email, setPassword, password, setToken, setError, error }) {
+export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin }) {
   const navigate = useNavigate();
   console.log(password);
 
@@ -13,14 +13,14 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         body: { email, password },
         path: "/users/login",
       });
-      
+
       setToken(result.token);
       console.log(result);
 
       localStorage.setItem("user", result.user);
       console.log(result.user)
       localStorage.setItem("isAdmin", result.user.isAdmin);
-
+      localStorage.setItem("token", result.token);
 
       if (result.user.isAdmin != true){
         navigate("/pastries");
@@ -28,7 +28,10 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       }
 
       if (result.user.isAdmin = true){
-        navigate("/admin");
+        navigate("/pastries");
+        // window.location.reload(false);
+        setToken(result.token);
+        setIsAdmin(true)
       }
       
     } catch (error) {
