@@ -1,13 +1,13 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addPastryToOrderPastries, findOrCreateCart, getPastryById, getProductInCart, updateOrderQuantity, getOrderPastryByOrderId } = require("../db/models");
+const { addPastryToOrderPastries, findOrCreateCart, getPastryById, getProductInCart, updateOrderQuantity, getOrderPastriesByUserId } = require("../db/models");
 
 cartRouter.get("/", async (req, res, next) => {
   try {
     console.log('req.user :>> ', req.user);
-    const usersProducts = await getPastriesByUserId(1)
-    console.log('newCart :>> ', usersProducts);
-    res.send(usersProducts);
+    const allProductsInCart = await getOrderPastriesByUserId(req.user.id)
+    console.log('theCart :>> ', allProductsInCart);
+    res.send(allProductsInCart);
   } catch ({ name, message }) {
     next({ name, message });
   }

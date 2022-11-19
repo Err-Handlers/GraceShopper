@@ -48,6 +48,7 @@ async function getProductInCart({ orderId, pastryId }) {
   return product;
 }
 
+
 async function addPastryToOrderPastries({
   quantity,
   orderId,
@@ -144,6 +145,22 @@ async function getAllOrderPastriesByOrderId(orderId){
   }
 }
 
+async function getOrderPastriesByUserId(userId){
+  try {
+    const {
+      rows
+    } = await client.query(
+      `
+        SELECT orders.*, order_pastries.* FROM orders
+        JOIN order_pastries ON order_pastries."orderId" = orders.id
+        WHERE orders."userId" = $1;
+      `, [userId])
+      return rows;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 //get cartPastriesbyCartId
 //(cartId: 1, pastryId: 1, quantity: 3)
 //(cartId: 1, pastrId: 2, quantity: 2)
@@ -157,5 +174,6 @@ module.exports = {
   findOrCreateCart,
   updateOrderQuantity,
   getProductInCart,
-  getOrderPastryByOrderId
+  getOrderPastryByOrderId,
+  getOrderPastriesByUserId
 };
