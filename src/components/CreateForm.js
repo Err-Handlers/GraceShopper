@@ -1,6 +1,7 @@
 import { callApi } from "../api/utils";
 import { useState} from 'react'
 import { useNavigate } from "react-router-dom";
+import e from "cors";
 
 const CreateForm = ({pastries, setPastries, token, navigate}) => {
     
@@ -41,10 +42,9 @@ const CreateForm = ({pastries, setPastries, token, navigate}) => {
             setIsSweet(null);
             setImageURL("");
             setInventory("");   
-            setPriceInCents("");
-            
-            //useNavigate("/")
-            
+            setPriceInCents("")
+
+            navigate("/pastries");
         } catch (error) {
         console.log(error)
         }

@@ -4,7 +4,6 @@ import { callApi } from '../api/utils'
 const Pastries = ({pastries, setPastries, token, isAdmin}) => {
     // const token = localStorage.getItem("token");
     const deletePastry = async (pastryId) => {
-        console.log(pastryId)
         try {
             await callApi({
                 method: "DELETE",

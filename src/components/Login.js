@@ -13,6 +13,7 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         body: { email, password },
         path: "/users/login",
       });
+      
       setToken(result.token);
       console.log(result);
 
@@ -20,8 +21,15 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       console.log(result.user)
       localStorage.setItem("isAdmin", result.user.isAdmin);
 
-      navigate("/pastries");
-      window.location.reload(false);
+
+      if (result.user.isAdmin != true){
+        navigate("/pastries");
+        window.location.reload(false);
+      }
+
+      if (result.user.isAdmin = true){
+        navigate("/admin");
+      }
       
     } catch (error) {
       setError(error)  

@@ -22,23 +22,23 @@ const App = () => {
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
+  // const [currentUser, setCurrentUser] = useState(undefined);
 
-const [currentUser, setCurrentUser] = useState(undefined);
-const [isAdmin, setIsAdmin] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-useEffect(() => {
-    const admin = localStorage.getItem("isAdmin");
-    console.log(admin, "isadmin")
+  useEffect(() => {
+      const admin = localStorage.getItem("isAdmin");
+      console.log(admin, "isadmin")
 
-    if (admin === "false"){
-      return setIsAdmin(false);
-    }
+      if (admin === "false"){
+        return setIsAdmin(false);
+      }
 
-    if (admin === "true"){
-      return setIsAdmin(true)
-    }
-
-  }, []);
+      if (admin === "true"){
+        return setIsAdmin(true)
+      }
+      
+    }, []);
 
   const navigate = useNavigate();
   
