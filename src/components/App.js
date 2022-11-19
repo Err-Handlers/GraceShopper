@@ -30,15 +30,21 @@ const App = () => {
       const admin = localStorage.getItem("isAdmin");
       console.log(admin, "isadmin")
 
-      if (admin === "false"){
-        return setIsAdmin(false);
-      }
+      //maybe keep this in, test this out
+      // if (admin === "false"){
+      //   return setIsAdmin(false);
+      // }
 
       if (admin === "true"){
         return setIsAdmin(true)
       }
-      
+
     }, []);
+
+    //watch for a user change
+    //if user changes, set admin to this
+    //add a logout function
+
 
   const navigate = useNavigate();
   
