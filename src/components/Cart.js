@@ -1,4 +1,22 @@
 import { callApi } from "../api/utils";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
+export default function cart ({token}){
+ 
+    try {
+        const fetchCart = async () => {
+            const data = await callApi({ path: "/cart", token})
+        }
+        useEffect( () => {
+        fetchCart()
+        }, [])
+    } catch (error) {
+        setError(error)
+        console.log(error)
+    }
 
+    
+    return(
+        <h1>CART!!!!!</h1>
+    )
+}
