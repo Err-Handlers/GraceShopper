@@ -1,6 +1,6 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { getCartByUserId, getPastriesByUserId, addPastryToOrderPastries, findOrCreateCart, getPastryById } = require("../db/models");
+const { addPastryToOrderPastries, findOrCreateCart, getPastryById, getProductInCart, updateOrderQuantity, getOrderPastryByOrderId } = require("../db/models");
 
 cartRouter.get("/", async (req, res, next) => {
   try {
@@ -18,11 +18,20 @@ cartRouter.post("/", async (req, res, next) => {
     console.log(req.body);
     const { quantity, pastryId } = req.body;
     const cart = await findOrCreateCart(req.user.id)
-    // console.log('cart :>> ', cart);
+    console.log('cart :>> ', cart);
     const pastry = await getPastryById(pastryId)
-    const orderProducts = await addPastryToOrderPastries(quantity, pastryId, cart.id, pastry.priceInCents)
-    console.log('orderProducts :>> ', orderProducts);
-    res.send(orderProducts);
+    console.log('pastry :>> ', pastry);
+    const productInCart = await getProductInCart({orderId: cart.id, pastryId})
+    console.log('productInCart :>> ', productInCart);
+    let result;
+    if (!productInCart) {
+        result = await addPastryToOrderPastries({quantity, orderId: productInCart.orderId, pastryId, priceInCents: pastry.priceInCents})
+    } else {
+        result = await updateOrderQuantity(quantity, productInCart.id)
+        result.quantity += productInCart.quantity
+    }
+    console.log('result :>> ', result);
+     res.send(result)
   } catch ({ name, message }) {
     next({ name, message });
   }
