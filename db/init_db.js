@@ -141,8 +141,6 @@ async function populateInitialData() {
     const createdOrders = await Promise.all(initialOrders.map(createOrder));
     console.log('createdOrders :>> ', createdOrders);
 
-    const ordersInCart = await getOrdersInCart()
-    console.log('ordersInCart :>> ', ordersInCart);
 
     // const addProductToOrderProducts = await addPastryToCartPastries({})
 

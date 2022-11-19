@@ -25,10 +25,10 @@ cartRouter.post("/", async (req, res, next) => {
     console.log('productInCart :>> ', productInCart);
     let result;
     if (!productInCart) {
-        result = await addPastryToOrderPastries({quantity, orderId: productInCart.orderId, pastryId, priceInCents: pastry.priceInCents})
+        result = await addPastryToOrderPastries({quantity, orderId: cart.id, pastryId, priceInCents: pastry.priceInCents})
     } else {
-        result = await updateOrderQuantity(quantity, productInCart.id)
-        result.quantity += productInCart.quantity
+        const newQuantity = productInCart.quantity + Number(quantity)
+        result = await updateOrderQuantity(newQuantity, productInCart.id)
     }
     console.log('result :>> ', result);
      res.send(result)

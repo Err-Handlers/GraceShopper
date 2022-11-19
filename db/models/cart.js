@@ -115,14 +115,33 @@ async function findOrCreateCart(userId) {
 }
 
 async function getOrderPastryByOrderId(orderId) {
-  const { rows } = await client.query(
-    `
-    SELECT * FROM order_pastries
-    WHERE "orderId" = $1
-  `,
-    [orderId]
-  );
-  return rows;
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT * FROM order_pastries
+      WHERE "orderId" = $1 
+    `,
+      [orderId]
+    );
+    return rows;
+  } catch (error) {
+   console.log(error); 
+  }
+}
+
+async function getAllOrderPastriesByOrderId(orderId){
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT * FROM order_pastries
+      WHERE "orderId" = $1
+    `,
+      [orderId]
+    );
+    return rows;
+  } catch (error) {
+   console.log(error); 
+  }
 }
 
 //get cartPastriesbyCartId
