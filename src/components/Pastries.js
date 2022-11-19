@@ -33,6 +33,7 @@ const Pastries = ({pastries, setPastries, token, isAdmin}) => {
                     <h4>Inventory: {pastry.inventory}</h4>
                     <h4>{`Price: $${pastry.priceInCents / 100}.00`}</h4>
                     {isAdmin ? <button onClick={()=>{deletePastry(pastry.id)}}>Delete</button> : null}
+                    {isAdmin ? <button onClick={()=>{editProduct(pastry.id)}}>Edit/Update</button> : null}
                     <br></br>
                     <br></br>
                 </div>
