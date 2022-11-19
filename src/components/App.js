@@ -19,6 +19,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
   const [pastries, setPastries] = useState([]);
+  const userToken = localStorage.getItem("token")
+  console.log(userToken)
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
@@ -28,12 +30,11 @@ const App = () => {
 
   useEffect(() => {
       const admin = localStorage.getItem("isAdmin");
-      console.log(admin, "isadmin")
+      console.log(admin, "isAdmin")
 
-      //maybe keep this in, test this out
-      // if (admin === "false"){
-      //   return setIsAdmin(false);
-      // }
+      if (admin === "false"){
+        return setIsAdmin(false);
+      }
 
       if (admin === "true"){
         return setIsAdmin(true)
@@ -44,7 +45,6 @@ const App = () => {
     //watch for a user change
     //if user changes, set admin to this
     //add a logout function
-
 
   const navigate = useNavigate();
   
@@ -69,7 +69,14 @@ const App = () => {
               <Link to="/register">Register</Link>
             </li>
             <li>
-              <Link to="login">Login</Link>
+            {!userToken ? 
+              ( <Link to="login">Login</Link> ) : 
+              (<Link to="/pastries" onClick={() => {
+                    localStorage.removeItem("token");
+                    setIsAdmin(false);
+                    navigate("/pastries");
+                  }}>Log Out</Link>
+              )}
             </li>
             <li>
             <Link to="/pastries">Pastries</Link>
@@ -105,6 +112,7 @@ const App = () => {
                 setPassword={setPassword}
                 password={password}
                 setToken={setToken}
+                setIsAdmin={setIsAdmin}
               />
             }
           ></Route>
