@@ -15,35 +15,36 @@ const EditProductForm = () => {
     
 
     // let navigate = useNavigate();
-    const index = Pastries.map(function(event) {
-        return event.id
-    }).indexOf(id)
-    const editProduct = async (event) => {
-        event.preventDefault();
-        let product = Pastries[index];
-        product.Name = name;
-        product.Description = description;
-        product.isGlutenFree = isGlutenFree;
-        product.isSweet = isSweet;
-        product.imageURL = imageURL;
-        product.inventory = inventory;
-        product.priceInCents = priceInCents;
-        navigate("/admin")
-    }
-    useEffect(() => {
-        setName(localStorage.getItem('Name'))
-        setDescription(localStorage.getItem('Description'))
-        setIsGlutenFree(localStorage.getItem('isGlutenFree'))
-        setIsSweet(localStorage.getItem('isSweet'))
-        setImageURL(localStorage.getItem('imageURL'))
-        setInventory(localStorage.getItem('Inventory'))
-        setPriceInCents(localStorage.getItem('priceInCents'))
-        setId(localStorage.getItem("Id"))
-    }, [])
+    // const index = Pastries.map(function(event) {
+    //     return event.id
+    // }).indexOf(id)
+    // const editProduct = async (event) => {
+    //     event.preventDefault();
+    //     let product = Pastries[index];
+    //     product.Name = name;
+    //     product.Description = description;
+    //     product.isGlutenFree = isGlutenFree;
+    //     product.isSweet = isSweet;
+    //     product.imageURL = imageURL;
+    //     product.inventory = inventory;
+    //     product.priceInCents = priceInCents;
+    //     navigate("/admin")
+    // }
+    // useEffect(() => {
+    //     setName(localStorage.getItem('Name'))
+    //     setDescription(localStorage.getItem('Description'))
+    //     setIsGlutenFree(localStorage.getItem('isGlutenFree'))
+    //     setIsSweet(localStorage.getItem('isSweet'))
+    //     setImageURL(localStorage.getItem('imageURL'))
+    //     setInventory(localStorage.getItem('Inventory'))
+    //     setPriceInCents(localStorage.getItem('priceInCents'))
+    //     setId(localStorage.getItem("Id"))
+    // }, [])
+
     return (
         <div>
-            <div>
-            <form onSubmit={editProduct}>
+            <div> name: {name}
+            {/* <form onSubmit={editProduct}>
                 <input
                 type="text"
                 name="title"
@@ -81,7 +82,7 @@ const EditProductForm = () => {
                 />
                 <button type="submit">Update Product
                 </button>
-            </form>
+            </form> */}
         </div>
         </div>
     )
