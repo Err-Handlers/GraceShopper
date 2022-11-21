@@ -7,6 +7,7 @@ import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
 import Pastries from "./Pastries";
+import Cart from "./Cart";
 import { callApi } from "../api/utils";
 import Login from "./Login";
 import CreateForm from "./CreateForm";
@@ -67,6 +68,9 @@ const App = () => {
           <ul>
             <li>
               <Link to="/register">Register</Link>
+            </li>
+            <li>
+              <Link to="/cart">Cart</Link>
             </li>
             <li>
             {!userToken ? 
@@ -138,6 +142,8 @@ const App = () => {
             />
           }
       ></Route>
+      <Route path="/cart" element={<Cart token={token}/>}>
+      </Route>
         </Routes>
       </div>
 
