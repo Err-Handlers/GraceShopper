@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { callApi } from '../api/utils'
 
 const Pastries = ({pastries, setPastries, token, isAdmin}) => {
+    
+    const [quantity, setQuantity] = useState(0);
+    const [cart, setCart] = useState([]);
+    
+    const submitHandler = async (e, pastryId) => {
+        e.preventDefault();
+        console.log('pastryId :>> ', pastryId);
+        try {
+            const data = await callApi({method: "POST", path: '/cart', body: {quantity, pastryId}})
+            console.log('data :>> ', data);
+            setCart( prev => [ data, ...prev])
+            console.log('cart :>> ', cart);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    
     // const token = localStorage.getItem("token");
     const deletePastry = async (pastryId) => {
         try {
@@ -33,6 +50,17 @@ const Pastries = ({pastries, setPastries, token, isAdmin}) => {
                     <h4>Inventory: {pastry.inventory}</h4>
                     <h4>{`Price: $${pastry.priceInCents / 100}.00`}</h4>
                     {isAdmin ? <button onClick={()=>{deletePastry(pastry.id)}}>Delete</button> : null}
+                    <form>
+                        <select onChange={ e => setQuantity(e.target.value)}>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                        </select>
+                        <button onClick={(e) => submitHandler(e, pastry.id)}>Add</button>
+                    </form>
                     <br></br>
                     <br></br>
                 </div>

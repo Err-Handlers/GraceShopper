@@ -17,6 +17,6 @@ export default function cart ({token}){
 
     
     return(
-        <h1>CART!!!!!</h1>
+        <h1>Cart</h1>
     )
 }

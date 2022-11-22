@@ -153,7 +153,7 @@ async function getOrderPastriesByUserId(userId){
       `
         SELECT orders.*, order_pastries.* FROM orders
         JOIN order_pastries ON order_pastries."orderId" = orders.id
-        WHERE orders."userId" = $1;
+        WHERE orders."userId" = $1 AND orders.status = 'cart';
       `, [userId])
       return rows;
   } catch (error) {
