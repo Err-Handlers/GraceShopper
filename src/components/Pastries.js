@@ -5,12 +5,13 @@ const Pastries = ({pastries, setPastries, token, isAdmin}) => {
     
     const [quantity, setQuantity] = useState(0);
     const [cart, setCart] = useState([]);
+    console.log('token :>> ', token);
     
-    const submitHandler = async (e, pastryId) => {
+    const submitHandler = async (e, pastryId, token) => {
         e.preventDefault();
         console.log('pastryId :>> ', pastryId);
         try {
-            const data = await callApi({method: "POST", path: '/cart', body: {quantity, pastryId}})
+            const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, pastryId}})
             console.log('data :>> ', data);
             setCart( prev => [ data, ...prev])
             console.log('cart :>> ', cart);
@@ -59,7 +60,7 @@ const Pastries = ({pastries, setPastries, token, isAdmin}) => {
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button onClick={(e) => submitHandler(e, pastry.id)}>Add</button>
+                        <button onClick={(e) => submitHandler(e, pastry.id, token)}>Add</button>
                     </form>
                     <br></br>
                     <br></br>

@@ -161,6 +161,21 @@ async function getOrderPastriesByUserId(userId){
   }
 }
 
+async function getPastryInfoFromAllPastriesInCart(orderId){
+  try {
+    const { rows } = await client.query(`
+    SELECT pastries.* FROM pastries
+    JOIN order_pastries 
+    ON pastries.id = order_pastries."pastryId"
+    WHERE order_pastries."orderId" = ${orderId}
+    `)
+    console.log('rows :>> ', rows);
+    return rows;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //get cartPastriesbyCartId
 //(cartId: 1, pastryId: 1, quantity: 3)
 //(cartId: 1, pastrId: 2, quantity: 2)
@@ -175,5 +190,6 @@ module.exports = {
   updateOrderQuantity,
   getProductInCart,
   getOrderPastryByOrderId,
-  getOrderPastriesByUserId
+  getOrderPastriesByUserId,
+  getPastryInfoFromAllPastriesInCart
 };

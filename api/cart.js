@@ -7,7 +7,9 @@ cartRouter.get("/", async (req, res, next) => {
     console.log('req.user :>> ', req.user);
     const allProductsInCart = await getOrderPastriesByUserId(req.user.id)
     console.log('theCart :>> ', allProductsInCart);
-    res.send(allProductsInCart);
+    const pastries = await Promise.all(allProductsInCart.map( product => getPastryById(product.pastryId)))
+    console.log('pastries :>> ', pastries);
+    res.send(pastries);
   } catch ({ name, message }) {
     next({ name, message });
   }

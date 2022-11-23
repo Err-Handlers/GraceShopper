@@ -18,14 +18,20 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const [pastries, setPastries] = useState([]);
   const userToken = localStorage.getItem("token")
   console.log(userToken)
+  console.log('token :>> ', token);
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
   // const [currentUser, setCurrentUser] = useState(undefined);
+
+  
+  useEffect(() => {
+    window.localStorage.setItem("token", token);
+  }, [token]);
 
   const [isAdmin, setIsAdmin] = useState(false);
 
