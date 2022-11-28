@@ -5,7 +5,7 @@ const {
 } = require("./");
 const { createUser } = require("./models/user");
 const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
-const { getOrderByUserId, addPastryToOrderPastries, createOrder, getPastryInfoFromCart } = require("./models/cart")
+const { getOrderByUserId, addPastryToOrderPastries, createOrder, getPastryInfoFromAllPastriesInCart } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -13,11 +13,11 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
-      DROP TABLE IF EXISTS order_pastries;
+      DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
       DROP TYPE IF EXISTS status;
       DROP TABLE IF EXISTS reviews;
-      DROP TABLE IF EXISTS pastries;
+      DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
     `);
 
@@ -29,12 +29,10 @@ async function buildTables() {
         password VARCHAR(255) NOT NULL,
         "isAdmin" BOOLEAN DEFAULT false
       );
-      CREATE TABLE pastries(
+      CREATE TABLE products(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
         description TEXT NOT NULL,
-        "isGlutenFree" BOOLEAN DEFAULT false,
-        "isSweet" BOOLEAN DEFAULT false,
         "imageURL" VARCHAR(255),
         inventory INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL
@@ -42,7 +40,7 @@ async function buildTables() {
       CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "pastryId" INTEGER REFERENCES pastries(id),
+        "productId" INTEGER REFERENCES products(id),
         "reviewDescription" TEXT NOT NULL,
         UNIQUE ("userId", "pastryId")
       );
@@ -55,13 +53,13 @@ async function buildTables() {
         "userId" INTEGER REFERENCES users(id),
         status STATUS
       );
-      CREATE TABLE order_pastries(
+      CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         quantity INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL,
-        "pastryId" INTEGER REFERENCES pastries(id),
+        "productId" INTEGER REFERENCES products(id),
         "orderId" INTEGER REFERENCES orders(id),
-        UNIQUE ("orderId", "pastryId")
+        UNIQUE ("orderId", "productId")
       );
     `);
   } catch (error) {
@@ -141,7 +139,7 @@ async function populateInitialData() {
     const createdOrders = await Promise.all(initialOrders.map(createOrder));
     console.log('createdOrders :>> ', createdOrders);
 
-    const test = await getPastryInfoFromCart(1, 1)
+    const test = await getPastryInfoFromAllPastriesInCart(1);
     console.log('test :>> ', test);
 
 
