@@ -50,7 +50,7 @@ export default function cart({ token }) {
 
         </div>
         <div className="cartButtons">
-            <button className="cartButton">CONTINUE BROWSING</button>
+            <button className="cartButton">BROWSE S'MORE</button>
             <button className="cartButton">CHECKOUT</button>
         </div>
       </div>
