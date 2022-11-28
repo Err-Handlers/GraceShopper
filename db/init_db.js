@@ -3,9 +3,9 @@ const {
   // declare your model imports here
   // for example, User
 } = require("./");
-const { createUser } = require("./models/user");
-const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
-const { getOrderByUserId, addPastryToOrderPastries, createOrder, getPastryInfoFromAllPastriesInCart } = require("./models/cart")
+// const { createUser } = require("./models/user");
+// const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/products")
+// const { getOrderByUserId, addPastryToOrderPastries, createOrder, getPastryInfoFromAllPastriesInCart } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -42,7 +42,7 @@ async function buildTables() {
         "userId" INTEGER REFERENCES users(id),
         "productId" INTEGER REFERENCES products(id),
         "reviewDescription" TEXT NOT NULL,
-        UNIQUE ("userId", "pastryId")
+        UNIQUE ("userId", "productId")
       );
       
       CREATE TYPE status AS ENUM (
@@ -67,80 +67,80 @@ async function buildTables() {
   }
 }
 
-async function populateInitialData() {
-  try {
-    // create useful starting data by leveraging your
-    // Model.method() adapters to seed your db, for example:
-    // const user1 = await User.createUser({ ...user info goes here... })
-    const users = [
-      {
-        password: "kimspassword",
-        email: "kimsemail@email.com",
-        isAdmin: true
-      },
-      {
-        password: "erinspassword",
-        email: "erinsemail@email.com",
-        isAdmin: false
-      },
-      {
-        password: "thuanspassword",
-        email: "thuansemail@email.com",
-        isAdmin: false
-      },
-    ];
+// async function populateInitialData() {
+//   try {
+//     // create useful starting data by leveraging your
+//     // Model.method() adapters to seed your db, for example:
+//     // const user1 = await User.createUser({ ...user info goes here... })
+//     const users = [
+//       {
+//         password: "kimspassword",
+//         email: "kimsemail@email.com",
+//         isAdmin: true
+//       },
+//       {
+//         password: "erinspassword",
+//         email: "erinsemail@email.com",
+//         isAdmin: false
+//       },
+//       {
+//         password: "thuanspassword",
+//         email: "thuansemail@email.com",
+//         isAdmin: false
+//       },
+//     ];
 
-    const createdUsers = await Promise.all(users.map(createUser));
-    console.log("Users being created");
-    console.log(createdUsers);
+//     const createdUsers = await Promise.all(users.map(createUser));
+//     console.log("Users being created");
+//     console.log(createdUsers);
 
-    //initial pastries data
-    const pastries = [
-      {
-      name: "Croissant",
-      description: "Buttery and Flakey",
-      isGlutenFree: false,
-      isSweet: false,
-      imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
-      inventory: 23,
-      priceInCents: 100
-    },
-    {
-      name: "Bacon Maple Bar",
-      description: "Sugary Savory Goodness",
-      isGlutenFree: false,
-      isSweet: true,
-      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
-      inventory: 10,
-      priceInCents: 500
-    },
-  ];
+//     //initial pastries data
+//     const pastries = [
+//       {
+//       name: "Croissant",
+//       description: "Buttery and Flakey",
+//       isGlutenFree: false,
+//       isSweet: false,
+//       imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
+//       inventory: 23,
+//       priceInCents: 100
+//     },
+//     {
+//       name: "Bacon Maple Bar",
+//       description: "Sugary Savory Goodness",
+//       isGlutenFree: false,
+//       isSweet: true,
+//       imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+//       inventory: 10,
+//       priceInCents: 500
+//     },
+//   ];
 
-  const initialOrders = [
-    {
-      userId: 1,
-      status: 'cart'
-    },
-    {
-      userId: 2,
-      status: 'completed'
-    },
-    {
-      userId: 3,
-      status: 'cart'
-    }
-  ]
+//   const initialOrders = [
+//     {
+//       userId: 1,
+//       status: 'cart'
+//     },
+//     {
+//       userId: 2,
+//       status: 'completed'
+//     },
+//     {
+//       userId: 3,
+//       status: 'cart'
+//     }
+//   ]
 
 
-    const createdPastries = await Promise.all(pastries.map(createPastry));
-    console.log("Pastries being created");
-    console.log(createdPastries);
+//     const createdPastries = await Promise.all(pastries.map(createPastry));
+//     console.log("Pastries being created");
+//     console.log(createdPastries);
 
-    const createdOrders = await Promise.all(initialOrders.map(createOrder));
-    console.log('createdOrders :>> ', createdOrders);
+//     const createdOrders = await Promise.all(initialOrders.map(createOrder));
+//     console.log('createdOrders :>> ', createdOrders);
 
-    const test = await getPastryInfoFromAllPastriesInCart(1);
-    console.log('test :>> ', test);
+//     const test = await getPastryInfoFromAllPastriesInCart(1);
+//     console.log('test :>> ', test);
 
 
     // const addProductToOrderProducts = await addPastryToCartPastries({})
@@ -162,10 +162,6 @@ async function populateInitialData() {
     // const pastryById = await getPastryById(createdPastries[0].id)
     // console.log("pastry:", pastryById);
 
-  } catch (error) {
-    throw error;
-  }
-}
 
 buildTables()
   .then(populateInitialData)

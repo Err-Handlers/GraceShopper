@@ -32,7 +32,7 @@ const requireAdmin = (req, res, next) => {
 
 productsRouter.post('/', requireAdmin, async (req,res, next) => {
     try {
-    const { name, description, imageURL, inventory, priceInCents } = req.body.pastry;
+    const { name, description, imageURL, inventory, priceInCents } = req.body.product;
     
     const newProduct = await createProduct({ 
         name: name,
@@ -69,8 +69,8 @@ productsRouter.patch('/:productId', requireAdmin, async(req, res, next) => {
 })
 
 productsRouter.delete('/:productId', requireAdmin, async(req, res, next) => {
-    const {pastryId} = req.params;
-    const deletedProduct = await deleteProduct(pastryId)
+    const {productId} = req.params;
+    const deletedProduct = await deleteProduct(productId)
     console.log(deletedProduct)
     res.send(deletedProduct)
 })

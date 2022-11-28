@@ -3,31 +3,26 @@ import { useState} from 'react'
 import { useNavigate } from "react-router-dom";
 import e from "cors";
 
-const CreateForm = ({pastries, setPastries, token, navigate}) => {
+const CreateForm = ({products, setProducts, token, navigate}) => {
     
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
-    const [isGlutenFree, setIsGlutenFree] = useState(null);
-    const [isSweet, setIsSweet] = useState(null);
     const [imageURL, setImageURL] = useState("");
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
 
-// use navigate to pastries page
-    const createPastry = async (event) => {
+    const createProduct = async (event) => {
         event.preventDefault();
         
         try { 
-            const {pastry} = await callApi ({
+            const {product} = await callApi ({
                 method: "POST",
-                path: "/pastries",
+                path: "/products",
                 token,
                     body: {
-                        pastry: {
+                        product: {
                             name,
                             description,
-                            isGlutenFree,
-                            isSweet,
                             imageURL,
                             inventory,
                             priceInCents, 
@@ -35,16 +30,14 @@ const CreateForm = ({pastries, setPastries, token, navigate}) => {
                     }
             });
 
-            setPastries((prev) => [pastry, ...prev]);
+            setProducts((prev) => [product, ...prev]);
             setName("");
             setDescription("");
-            setIsGlutenFree(null);
-            setIsSweet(null);
             setImageURL("");
             setInventory("");   
             setPriceInCents("")
 
-            navigate("/pastries");
+            navigate("/products");
         } catch (error) {
         console.log(error)
         }
@@ -52,7 +45,7 @@ const CreateForm = ({pastries, setPastries, token, navigate}) => {
 
     return (
         <div>
-            <form onSubmit={createPastry}>
+            <form onSubmit={createProduct}>
                 <input
                 type="text"
                 name="title"

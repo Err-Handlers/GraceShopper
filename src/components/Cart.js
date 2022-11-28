@@ -83,7 +83,7 @@ function Cart({ token }) {
             <div className="cartButtons">
               <button
                 className="cartButton"
-                onClick={() => navigate("/pastries")}
+                onClick={() => navigate("/products")}
               >
                 LET ME ADD MORE
               </button>

@@ -130,7 +130,31 @@ async function getOrderProductByOrderId(orderId) {
   }
 }
 
-async function getOrderPastriesByUserId(userId){
+async function addProductToOrderProducts({
+  quantity,
+  orderId,
+  productId,
+  priceInCents,
+}) {
+  try {
+      const {
+        rows: [product],
+      } = await client.query(
+        `
+      INSERT INTO order_products(quantity, "orderId", "productId", "priceInCents")
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
+  `,
+        [quantity, orderId, productId, priceInCents]
+      );
+
+      return product;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getOrderProductsByUserId(userId){
   try {
     const {
       rows
@@ -163,7 +187,7 @@ async function getProductInCartDetails(orderId){
 
 async function deleteProductFromCart(productId, orderId){
   try {
-    const { rows: [pastry] } = await client.query(`
+    const { rows: [product] } = await client.query(`
       DELETE FROM order_products
       WHERE "productId" = $1 AND "orderId" = $2
       RETURNING *
@@ -173,12 +197,6 @@ async function deleteProductFromCart(productId, orderId){
   }
 }
 
-//get cartPastriesbyCartId
-//(cartId: 1, pastryId: 1, quantity: 3)
-//(cartId: 1, pastrId: 2, quantity: 2)
-
-//need to get pastries by cartId through cart_pastries
-
 module.exports = {
   getOrderByUserId,
   addProductToCart,
@@ -187,7 +205,8 @@ module.exports = {
   updateOrderQuantity,
   getProductInCart,
   getOrderProductByOrderId,
-  getOrderPastriesByUserId,
+  getOrderProductsByUserId,
   getProductInCartDetails,
-  deleteProductFromCart
+  deleteProductFromCart,
+  addProductToOrderProducts
 };

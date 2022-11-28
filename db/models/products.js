@@ -39,7 +39,7 @@ async function updateProduct(id, fields){
     (key, index) => `"${key}"= $${index + 1}`
   ).join(', ');
   const {rows: [product]} = await client.query(`
-    UPDATE pastries
+    UPDATE products
     SET ${setString}
     WHERE id=${id}
     RETURNING *;
@@ -66,7 +66,7 @@ async function deleteProduct(id){
 
 
 module.exports = {
-    getAllPastries: getAllProducts,
+    getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
