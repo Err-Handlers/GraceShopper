@@ -71,7 +71,7 @@ const App = () => {
   return (
       <div className="app-container">
         <nav className="navbarContainer">
-          <h2>StickySituations</h2>
+          <h2 className="logoName">StickySituations</h2>
           <input className="searchBar" type="text" placeholder="Sift through stickers..."></input>
           <ul className="navbar">
           <li>
