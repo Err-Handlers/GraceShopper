@@ -70,29 +70,39 @@ const App = () => {
   
   return (
       <div className="app-container">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/cart">Cart</Link>
-            </li>
+        <nav className="navbarContainer">
+          <h2>StickySituations</h2>
+          <input className="searchBar" type="text" placeholder="Sift through stickers..."></input>
+          <ul className="navbar">
+          <li>
+            <Link className="navbarLinks" to="/pastries">Home</Link>
+          </li>
             <li>
             {!userToken ? 
-              ( <Link to="login">Login</Link> ) : 
-              (<Link to="/pastries" onClick={() => {
+              (
+                <div>
+                    <Link className="navbarLinks" to="/register">Register</Link>
+                      <Link className="navbarLinks" to="login">Login</Link> 
+                  </div>
+                ) : 
+              (
+              <div>
+                <Link className="navbarLinks">Account</Link>
+              
+              <Link className="navbarLinks" to="/pastries" onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
                     navigate("/pastries");
-                  }}>Log Out</Link>
+                  }}>Logout</Link>
+
+              </div>
               )}
             </li>
             <li>
-            <Link to="/pastries">Pastries</Link>
-          </li>
+              <Link className="navbarLinks" to="/cart">Cart</Link>
+            </li>
           <li>
-          {isAdmin ? <Link to="/admin">Admin</Link> : null}
+          {isAdmin ? <Link className="navbarLinks" to="/admin">Admin</Link> : null}
           </li>
           </ul>
         </nav>
