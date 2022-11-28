@@ -18,7 +18,7 @@ export default function cart({ token }) {
   }
 
   return (
-    <div>
+    <div className="mainContainer">
       <div className="cartContainer">
         <div className="cartHeaders">
         <h3>ITEMS</h3>
