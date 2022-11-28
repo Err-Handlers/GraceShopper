@@ -62,7 +62,7 @@
   flex-direction: row;
   justify-content: space-between;
   padding-left: 18px;
-  padding-right: 18px;
+  padding-right: 135px;
   border-bottom: solid 1px rgb(75, 132, 136);
   color: rgb(104, 182, 188)
 }
@@ -130,3 +130,6 @@
   background-color: rgba(104, 182, 188, 0.389);
 }
 
+.cartDeleteButton{
+  color: rgb(98, 98, 98);
+}

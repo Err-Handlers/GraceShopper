@@ -44,6 +44,7 @@ export default function cart({ token }) {
                 <p className="cartProductPrice">
                   ${pastry.priceInCents / 100}.00
                 </p>
+                <p className="cartDeleteButton">X</p>
               </div>
         );
       })}
