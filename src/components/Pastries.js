@@ -3,13 +3,11 @@ import { callApi } from '../api/utils'
 
 const Pastries = ({pastries, setPastries, token, isAdmin}) => {
     
-    const [quantity, setQuantity] = useState(0);
     const [cart, setCart] = useState([]);
-    console.log('token :>> ', token);
+    const [quantity, setQuantity] = useState(0);
     
     const submitHandler = async (e, pastryId, token) => {
         e.preventDefault();
-        console.log('pastryId :>> ', pastryId);
         try {
             const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, pastryId}})
             console.log('data :>> ', data);

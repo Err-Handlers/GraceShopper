@@ -176,6 +176,18 @@ async function getPastryInfoFromAllPastriesInCart(orderId){
   }
 }
 
+async function deleteProductFromCart(productId, orderId){
+  try {
+    const { rows: [pastry] } = await client.query(`
+      DELETE FROM order_pastries
+      WHERE "pastryId" = $1 AND "orderId" = $2
+      RETURNING *
+    `, [productId, orderId])
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 //get cartPastriesbyCartId
 //(cartId: 1, pastryId: 1, quantity: 3)
 //(cartId: 1, pastrId: 2, quantity: 2)
@@ -191,5 +203,6 @@ module.exports = {
   getProductInCart,
   getOrderPastryByOrderId,
   getOrderPastriesByUserId,
-  getPastryInfoFromAllPastriesInCart
+  getPastryInfoFromAllPastriesInCart,
+  deleteProductFromCart
 };

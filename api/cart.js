@@ -6,7 +6,7 @@ cartRouter.get("/", async (req, res, next) => {
   try {
     console.log('req.user :>> ', req.user);
     const allProductsInCart = await getOrderPastriesByUserId(req.user.id)
-    console.log('theCart :>> ', allProductsInCart);
+    console.log('theCart********** :>> ', allProductsInCart);
     const pastries = await Promise.all(allProductsInCart.map( product => getPastryById(product.pastryId)))
     console.log('pastries :>> ', pastries);
     res.send(pastries);
@@ -14,6 +14,7 @@ cartRouter.get("/", async (req, res, next) => {
     next({ name, message });
   }
 });
+
 
 cartRouter.post("/", async (req, res, next) => {
   try {
@@ -38,5 +39,14 @@ cartRouter.post("/", async (req, res, next) => {
     next({ name, message });
   }
 });
+
+cartRouter.delete("/", async (req, res, next) => {
+  try {
+    const updatedCart = await deleteProductFromCart(productId)
+    res.send(updatedCart)
+  } catch (error) {
+    
+  }
+})
 
 module.exports = cartRouter;
