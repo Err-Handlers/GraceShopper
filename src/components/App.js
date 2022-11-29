@@ -61,6 +61,7 @@ const App = () => {
     const data = await callApi({
       path: "/products"
     })
+    console.log('data :>> ', data);
     setProducts(data);
   };
   

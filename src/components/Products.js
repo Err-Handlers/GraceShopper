@@ -38,19 +38,18 @@ const Products = ({products, setProducts, token, isAdmin}) => {
     return (
 
     <>
-        <center><h1>Products</h1></center>
-        <div>
+        <img src="../assets/product_imgs/koiYellow.png" width="250" height ="250"></img>
+        <div className="productsContainer">
             {products.map((product) => {
                 return (
-                <div key={product.id}>
-                    <img src={product.imageURL} width="400" height="400"></img>
-                    <h4>Name: {product.name}</h4>
-                    <h4>Description: {product.description}</h4>
-                    <h4>Inventory: {product.inventory}</h4>
-                    <h4>{`Price: $${product.priceInCents / 100}.00`}</h4>
+                <div className="singleProduct" key={product.id}>
+                    <img src={product.imageURL} width="300" height="300"></img>
+                    <h3 className='productName'>{product.name}</h3>
+                    {/* <h4>Inventory: {product.inventory}</h4> */}
+                    <h4 className='productPrice'>{`$${product.priceInCents / 100}.00`}</h4>
                     {isAdmin ? <button onClick={()=>{deleteProduct(product.id)}}>Delete</button> : null}
-                    <form>
-                        <select onChange={ e => setQuantity(e.target.value)}>
+                    <form className='productButtonsContainer'>
+                        <select className="productButtons" onChange={ e => setQuantity(e.target.value)}>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -58,7 +57,7 @@ const Products = ({products, setProducts, token, isAdmin}) => {
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button onClick={(e) => submitHandler(e, product.id, token)}>Add</button>
+                        <button className="productButtons" onClick={(e) => submitHandler(e, product.id, token)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>
