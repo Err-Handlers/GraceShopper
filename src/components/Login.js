@@ -65,7 +65,7 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         <br></br>
         <center><button className="loginButton" onClick={submitHandler}>SIGN IN</button></center>
       </form>
-      <p className="registerLink">Don't have an account yet? Click me!</p>
+      <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? Click me!</p>
     </div>
 
     </div>
