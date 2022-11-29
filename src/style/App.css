@@ -215,3 +215,9 @@
 .cartDeleteButton{
   color: rgb(98, 98, 98);
 }
+
+.cartDeleteButton:hover{
+  border: 1px solid rgb(98, 98, 98);
+  border-radius: 5px;
+  padding: 2px;
+}
