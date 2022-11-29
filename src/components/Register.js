@@ -29,14 +29,25 @@ export default function Register({
   };
 
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="loginpage">
+      <div className= "loginContainer">
+      <h2>REGISTER</h2>
+      <br></br>
       <form>
-        <input type="text" onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" onChange={(e) => setPassword(e.target.value)} />
-        <input type="submit" value="Sign up" onClick={handleRegisterSubmit} />
+        <label className="loginHeaders">EMAIL ADDRESS</label>
+        <br></br>
+        <input className="loginInput" type="text" onChange={(e) => setEmail(e.target.value)} />
+        <br></br>
+        <br></br>
+        <label className="loginHeaders">PASSWORD</label>
+        <br></br>
+        <input className="loginInput" type="password" onChange={(e) => setPassword(e.target.value)} />
+        <br></br>
+        <center><input className="loginButton" type="submit" value="Sign up" onClick={handleRegisterSubmit} /></center>
       </form>
+      <p className="registerLink">Already have an account? Sign in!</p>
       {error && <p>{error}</p>}
     </div>
+      </div>
   );
 }
