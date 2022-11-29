@@ -41,27 +41,33 @@ export default function Login({ setEmail, email, setPassword, password, setToken
   };
 
   return (
-    <div>
-      <h1>Sign in to access your account</h1>
-      <form>
-        <label>Email:</label>
+    <div className="loginpage">
+    <div className= "loginContainer">
+      <h2>SIGN IN</h2>
+      <br></br>
+      <form >
+        <label className="loginHeaders">EMAIL ADDRESS</label>
         <br></br>
-        <input
+        <input className="loginInput"
           type="text"
           onChange={(e) => setEmail(e.target.value)}
           required
         ></input>
         <br></br>
-        <label>Password:</label>
         <br></br>
-        <input
+        <label className="loginHeaders">PASSWORD</label>
+        <br></br>
+        <input className="loginInput"
           type="password"
           onChange={(e) => setPassword(e.target.value)}
           required
         ></input>
         <br></br>
-        <button onClick={submitHandler}>Login</button>
+        <center><button className="loginButton" onClick={submitHandler}>SIGN IN</button></center>
       </form>
+      <p className="registerLink">Don't have an account yet? Click me!</p>
+    </div>
+
     </div>
   );
 }
