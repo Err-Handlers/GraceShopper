@@ -6,7 +6,7 @@ import { getAPIHealth } from "../axios-services";
 import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
-import Pastries from "./Pastries";
+import Products from "./Products";
 import Cart from "./Cart";
 import { callApi } from "../api/utils";
 import Login from "./Login";
@@ -19,7 +19,7 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
-  const [pastries, setPastries] = useState([]);
+  const [products, setProducts] = useState([]);
   const userToken = localStorage.getItem("token")
   console.log(userToken)
   console.log('token :>> ', token);
@@ -57,15 +57,16 @@ const App = () => {
   
   console.log('error :>> ', error);
 
-  const fetchPastries = async () => {
+  const fetchProducts = async () => {
     const data = await callApi({
-      path: "/pastries"
+      path: "/products"
     })
-    setPastries(data);
+    console.log('data :>> ', data);
+    setProducts(data);
   };
   
   useEffect(() => {
-    fetchPastries();
+    fetchProducts();
   }, []);
   
   return (
@@ -75,7 +76,7 @@ const App = () => {
           <input className="searchBar" type="text" placeholder="Sift through stickers..."></input>
           <ul className="navbar">
           <li>
-            <Link className="navbarLinks" to="/pastries">Home</Link>
+            <Link className="navbarLinks" to="/products">Home</Link>
           </li>
             <li>
             {!userToken ? 
@@ -89,10 +90,10 @@ const App = () => {
               <div>
                 <Link className="navbarLinks">Account</Link>
               
-              <Link className="navbarLinks" to="/pastries" onClick={() => {
+              <Link className="navbarLinks" to="/products" onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
-                    navigate("/pastries");
+                    navigate("/products");
                   }}>Logout</Link>
 
               </div>
@@ -137,11 +138,11 @@ const App = () => {
             }
           ></Route>
           <Route
-          path="/pastries"
+          path="/products"
           element={
-            <Pastries 
-              pastries={pastries}
-              setPastries={setPastries}
+            <Products 
+              products={products}
+              setProducts={setProducts}
               token={token}
               isAdmin={isAdmin}
             />
@@ -151,8 +152,8 @@ const App = () => {
           path="/admin"
           element={
             <CreateForm
-              pastries={pastries}
-              setPastries={setPastries}
+              products={products}
+              setProducts={setProducts}
               token={token}
               navigate={navigate}
             />

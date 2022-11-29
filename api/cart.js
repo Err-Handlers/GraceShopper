@@ -1,33 +1,34 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addPastryToOrderPastries, findOrCreateCart, getPastryById, getProductInCart, updateOrderQuantity, getOrderPastriesByUserId } = require("../db/models");
+const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId } = require("../db/models");
 
 cartRouter.get("/", async (req, res, next) => {
   try {
     console.log('req.user :>> ', req.user);
-    const allProductsInCart = await getOrderPastriesByUserId(req.user.id)
-    console.log('theCart :>> ', allProductsInCart);
-    const pastries = await Promise.all(allProductsInCart.map( product => getPastryById(product.pastryId)))
-    console.log('pastries :>> ', pastries);
-    res.send(pastries);
+    const allProductsInCart = await getOrderProductsByUserId(req.user.id)
+    console.log('theCart********** :>> ', allProductsInCart);
+    const products = await Promise.all(allProductsInCart.map( product => getProductById(product.productId)))
+    console.log('products :>> ', products);
+    res.send(products);
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
 
+
 cartRouter.post("/", async (req, res, next) => {
   try {
     console.log(req.body);
-    const { quantity, pastryId } = req.body;
+    const { quantity, productId } = req.body;
     const cart = await findOrCreateCart(req.user.id)
     console.log('cart :>> ', cart);
-    const pastry = await getPastryById(pastryId)
-    console.log('pastry :>> ', pastry);
-    const productInCart = await getProductInCart({orderId: cart.id, pastryId})
+    const product = await getProductById(productId)
+    console.log('product :>> ', product);
+    const productInCart = await getProductInCart({orderId: cart.id, productId})
     console.log('productInCart :>> ', productInCart);
     let result;
     if (!productInCart) {
-        result = await addPastryToOrderPastries({quantity, orderId: cart.id, pastryId, priceInCents: pastry.priceInCents})
+        result = await addProductToOrderProducts({quantity, orderId: cart.id, productId, priceInCents: product.priceInCents})
     } else {
         const newQuantity = productInCart.quantity + Number(quantity)
         result = await updateOrderQuantity(newQuantity, productInCart.id)
@@ -38,5 +39,14 @@ cartRouter.post("/", async (req, res, next) => {
     next({ name, message });
   }
 });
+
+cartRouter.delete("/", async (req, res, next) => {
+  try {
+    const updatedCart = await deleteProductFromCart(productId)
+    res.send(updatedCart)
+  } catch (error) {
+    
+  }
+})
 
 module.exports = cartRouter;

@@ -34,7 +34,7 @@ async function validateAndGetUser({ email, password }) {
     delete user.password;
     return user;
   }
-} //the reason we can't just use getUserByEmail is because there is no password in that response? -erin
+}
 
 
 async function getUserById( id ) {
@@ -53,8 +53,8 @@ async function getUserByEmail( email ) {
     return user;
 }
 
+
 module.exports = {
-  // add your database adapter fns here
   getAllUsers,
   getUserByEmail,
   getUserById,

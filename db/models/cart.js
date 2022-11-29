@@ -35,52 +35,52 @@ async function getOrderByUserId({ id }) {
   }
 }
 
-async function getProductInCart({ orderId, pastryId }) {
+async function getProductInCart({ orderId, productId }) {
   const {
     rows: [product],
   } = await client.query(
     `
-      SELECT * FROM order_pastries
-      WHERE "orderId" = $1 AND "pastryId" = $2
+      SELECT * FROM order_products
+      WHERE "orderId" = $1 AND "productId" = $2
     `,
-    [orderId, pastryId]
+    [orderId, productId]
   );
   return product;
 }
 
 
-async function addPastryToOrderPastries({
+async function addProductToCart({
   quantity,
   orderId,
-  pastryId,
+  productId,
   priceInCents,
 }) {
   try {
       const {
-        rows: [cartPastry],
+        rows
       } = await client.query(
         `
-      INSERT INTO order_pastries(quantity, "orderId", "pastryId", "priceInCents")
+      INSERT INTO order_products(quantity, "orderId", "productId", "priceInCents")
       VALUES ($1, $2, $3, $4)
       RETURNING *;
   `,
-        [quantity, orderId, pastryId, priceInCents]
+        [quantity, orderId, productId, priceInCents]
       );
 
-      return cartPastry;
+      return rows;
   } catch (error) {
     console.log(error);
   }
 }
 
-async function updateOrderQuantity(quantity, orderPastryId) {
+async function updateOrderQuantity(quantity, productId) {
   try {
     const {
       rows: [order],
     } = await client.query(`
-        UPDATE order_pastries
+        UPDATE order_products
         SET quantity = ${quantity}
-        WHERE id = ${orderPastryId}
+        WHERE id = ${productId}
         RETURNING *
       `);
     return order;
@@ -104,7 +104,7 @@ async function findOrCreateCart(userId) {
     );
     if (!cart) {
       // create cart
-      const order = await createOrder({ userId: userId, status: "cart" });
+      const order = await createOrder({ userId, status: "cart" });
       // return cart
       return order;
     }
@@ -115,11 +115,11 @@ async function findOrCreateCart(userId) {
   }
 }
 
-async function getOrderPastryByOrderId(orderId) {
+async function getOrderProductByOrderId(orderId) {
   try {
     const { rows } = await client.query(
       `
-      SELECT * FROM order_pastries
+      SELECT * FROM order_products
       WHERE "orderId" = $1 
     `,
       [orderId]
@@ -130,29 +130,38 @@ async function getOrderPastryByOrderId(orderId) {
   }
 }
 
-async function getAllOrderPastriesByOrderId(orderId){
+async function addProductToOrderProducts({
+  quantity,
+  orderId,
+  productId,
+  priceInCents,
+}) {
   try {
-    const { rows } = await client.query(
-      `
-      SELECT * FROM order_pastries
-      WHERE "orderId" = $1
-    `,
-      [orderId]
-    );
-    return rows;
+      const {
+        rows: [product],
+      } = await client.query(
+        `
+      INSERT INTO order_products(quantity, "orderId", "productId", "priceInCents")
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
+  `,
+        [quantity, orderId, productId, priceInCents]
+      );
+
+      return product;
   } catch (error) {
-   console.log(error); 
+    console.log(error);
   }
 }
 
-async function getOrderPastriesByUserId(userId){
+async function getOrderProductsByUserId(userId){
   try {
     const {
       rows
     } = await client.query(
       `
-        SELECT orders.*, order_pastries.* FROM orders
-        JOIN order_pastries ON order_pastries."orderId" = orders.id
+        SELECT orders.*, order_products.* FROM orders
+        JOIN order_products ON order_products."orderId" = orders.id
         WHERE orders."userId" = $1 AND orders.status = 'cart';
       `, [userId])
       return rows;
@@ -161,13 +170,13 @@ async function getOrderPastriesByUserId(userId){
   }
 }
 
-async function getPastryInfoFromAllPastriesInCart(orderId){
+async function getProductInCartDetails(orderId){
   try {
     const { rows } = await client.query(`
-    SELECT pastries.* FROM pastries
-    JOIN order_pastries 
-    ON pastries.id = order_pastries."pastryId"
-    WHERE order_pastries."orderId" = ${orderId}
+    SELECT products.* FROM products
+    JOIN order_products 
+    ON products.id = order_products."productId"
+    WHERE order_products."orderId" = ${orderId}
     `)
     console.log('rows :>> ', rows);
     return rows;
@@ -176,20 +185,28 @@ async function getPastryInfoFromAllPastriesInCart(orderId){
   }
 }
 
-//get cartPastriesbyCartId
-//(cartId: 1, pastryId: 1, quantity: 3)
-//(cartId: 1, pastrId: 2, quantity: 2)
-
-//need to get pastries by cartId through cart_pastries
+async function deleteProductFromCart(productId, orderId){
+  try {
+    const { rows: [product] } = await client.query(`
+      DELETE FROM order_products
+      WHERE "productId" = $1 AND "orderId" = $2
+      RETURNING *
+    `, [productId, orderId])
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 module.exports = {
   getOrderByUserId,
-  addPastryToOrderPastries,
+  addProductToCart,
   createOrder,
   findOrCreateCart,
   updateOrderQuantity,
   getProductInCart,
-  getOrderPastryByOrderId,
-  getOrderPastriesByUserId,
-  getPastryInfoFromAllPastriesInCart
+  getOrderProductByOrderId,
+  getOrderProductsByUserId,
+  getProductInCartDetails,
+  deleteProductFromCart,
+  addProductToOrderProducts
 };
