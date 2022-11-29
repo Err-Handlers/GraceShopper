@@ -3,9 +3,9 @@ const {
   // declare your model imports here
   // for example, User
 } = require("./");
-// const { createUser } = require("./models/user");
-// const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/products")
-// const { getOrderByUserId, addPastryToOrderPastries, createOrder, getPastryInfoFromAllPastriesInCart } = require("./models/cart")
+const { createUser } = require("./models/user");
+const { createProduct, updateProduct, getAllProducts, getProductById } = require("./models/products")
+const { getOrderByUserId, addProductToOrderProducts, createOrder, getProductInCartDetails } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -67,102 +67,102 @@ async function buildTables() {
   }
 }
 
-// async function populateInitialData() {
-//   try {
-//     // create useful starting data by leveraging your
-//     // Model.method() adapters to seed your db, for example:
-//     // const user1 = await User.createUser({ ...user info goes here... })
-//     const users = [
-//       {
-//         password: "kimspassword",
-//         email: "kimsemail@email.com",
-//         isAdmin: true
-//       },
-//       {
-//         password: "erinspassword",
-//         email: "erinsemail@email.com",
-//         isAdmin: false
-//       },
-//       {
-//         password: "thuanspassword",
-//         email: "thuansemail@email.com",
-//         isAdmin: false
-//       },
-//     ];
+async function populateInitialData() {
+  try {
+    // create useful starting data by leveraging your
+    // Model.method() adapters to seed your db, for example:
+    // const user1 = await User.createUser({ ...user info goes here... })
+    const users = [
+      {
+        password: "kimspassword",
+        email: "kimsemail@email.com",
+        isAdmin: true
+      },
+      {
+        password: "erinspassword",
+        email: "erinsemail@email.com",
+        isAdmin: false
+      },
+      {
+        password: "thuanspassword",
+        email: "thuansemail@email.com",
+        isAdmin: false
+      },
+    ];
 
-//     const createdUsers = await Promise.all(users.map(createUser));
-//     console.log("Users being created");
-//     console.log(createdUsers);
+    const createdUsers = await Promise.all(users.map(createUser));
+    console.log("Users being created");
+    console.log(createdUsers);
 
-//     //initial pastries data
-//     const pastries = [
-//       {
-//       name: "Croissant",
-//       description: "Buttery and Flakey",
-//       isGlutenFree: false,
-//       isSweet: false,
-//       imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
-//       inventory: 23,
-//       priceInCents: 100
-//     },
-//     {
-//       name: "Bacon Maple Bar",
-//       description: "Sugary Savory Goodness",
-//       isGlutenFree: false,
-//       isSweet: true,
-//       imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
-//       inventory: 10,
-//       priceInCents: 500
-//     },
-//   ];
+    //initial pastries data
+    const products = [
+      {
+      name: "Plant Trees",
+      description: "Arms wrapped around a tree",
+      imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
+      inventory: 23,
+      priceInCents: 100
+    },
+    {
+      name: "Koi Fish",
+      description: "Minimal Koi Art",
+      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+      inventory: 10,
+      priceInCents: 500
+    },
+  ];
 
-//   const initialOrders = [
-//     {
-//       userId: 1,
-//       status: 'cart'
-//     },
-//     {
-//       userId: 2,
-//       status: 'completed'
-//     },
-//     {
-//       userId: 3,
-//       status: 'cart'
-//     }
-//   ]
-
-
-//     const createdPastries = await Promise.all(pastries.map(createPastry));
-//     console.log("Pastries being created");
-//     console.log(createdPastries);
-
-//     const createdOrders = await Promise.all(initialOrders.map(createOrder));
-//     console.log('createdOrders :>> ', createdOrders);
-
-//     const test = await getPastryInfoFromAllPastriesInCart(1);
-//     console.log('test :>> ', test);
-
-
-    // const addProductToOrderProducts = await addPastryToCartPastries({})
-
-    
-
-    // const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
-    // console.log('getPastriesInCart :>> ', getPastriesInCart);
-
-    // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
-    // console.log('updatedPastry :>> ', updatedPastry);
-
-    // const deletedPastry = await deletePastry(createdPastries[0].id)
-    // console.log('deletedPastry :>> ', deletedPastry);
-
-    // const gettingAllPastries = await getAllPastries();
-    // console.log('gettingAllPastries :>> ', gettingAllPastries);
-
-    // const pastryById = await getPastryById(createdPastries[0].id)
-    // console.log("pastry:", pastryById);
-
-
+  const initialOrders = [
+    {
+      userId: 1,
+      status: 'cart'
+    },
+    {
+      userId: 2,
+      status: 'completed'
+    },
+    {
+      userId: 3,
+      status: 'cart'
+    }
+  ]
+  
+      const createdProducts = await Promise.all(products.map(createProduct));
+      console.log("Products being created");
+      console.log(createdProducts);
+  
+      const createdOrders = await Promise.all(initialOrders.map(createOrder));
+      console.log('createdOrders :>> ', createdOrders);
+  
+      // const test = await getProductInCartDetails(1);
+      // console.log('test :>> ', test);
+  
+  
+  // const addProductToOrderProducts = await addPastryToCartPastries({})
+  
+  
+  
+  // const getProductsInCart = await getProductsByCartId(createCarts[1].id)
+  // console.log('getPastriesInCart :>> ', getProductsInCart);
+  
+  // const updatedPastry = await updateProduct(createdProducts[0].id, {description: "updated description"})
+  // console.log('updatedPastry :>> ', updatedPastry);
+  
+  // const deletedPastry = await updateProduct(createdProducts[0].id)
+  // console.log('deletedPastry :>> ', deletedPastry);
+  
+  // const gettingAllPastries = await getAllProducts();
+  // console.log('gettingAllPastries :>> ', gettingAllPastries);
+  
+  // const pastryById = await getProductById(createdProducts[0].id)
+  // console.log("pastry:", pastryById);
+  
+}
+catch (error){
+  console.log(error);
+}
+}
+  
 buildTables()
   .then(populateInitialData)
   .catch(console.error)
