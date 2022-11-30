@@ -19,10 +19,11 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
-  const [products, setProducts] = useState([]);
   const userToken = localStorage.getItem("token")
-  console.log(userToken)
-  console.log('token :>> ', token);
+  // console.log(userToken)
+  // console.log('token :>> ', token);
+
+  const [productToEdit, setProductToEdit] = useState("")
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
@@ -56,18 +57,6 @@ const App = () => {
   const navigate = useNavigate();
   
   console.log('error :>> ', error);
-
-  const fetchProducts = async () => {
-    const data = await callApi({
-      path: "/products"
-    })
-    console.log('data :>> ', data);
-    setProducts(data);
-  };
-  
-  useEffect(() => {
-    fetchProducts();
-  }, []);
   
   return (
       <div className="app-container">
@@ -141,10 +130,9 @@ const App = () => {
           path="/products"
           element={
             <Products 
-              products={products}
-              setProducts={setProducts}
               token={token}
               isAdmin={isAdmin}
+              productToEdit={productToEdit}
             />
           }
       ></Route>
@@ -152,8 +140,6 @@ const App = () => {
           path="/admin"
           element={
             <CreateForm
-              products={products}
-              setProducts={setProducts}
               token={token}
               navigate={navigate}
             />

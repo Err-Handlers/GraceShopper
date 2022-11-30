@@ -1,16 +1,30 @@
 import { callApi } from "../api/utils";
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
-import e from "cors";
+// import e from "cors";
+// import Products from "./Products";
 
-const CreateForm = ({products, setProducts, token, navigate}) => {
     
+const CreateForm = ({token, navigate}) => {
+    const [products, setProducts] = useState([])
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [imageURL, setImageURL] = useState("");
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
 
+    const fetchProducts = async () => {
+        const data = await callApi({
+          path: "/products"
+        })
+        setProducts(data);
+      };
+      
+      useEffect(() => {
+        fetchProducts();
+      }, []);
+
+// use navigate to pastries page
     const createProduct = async (event) => {
         event.preventDefault();
         
