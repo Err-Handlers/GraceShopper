@@ -1,9 +1,12 @@
 import { callApi } from "../api/utils";
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 import e from "cors";
+import Pastries from "./Pastries";
 
-const CreateForm = ({pastries, setPastries, token, navigate}) => {
+const CreateForm = ({ token, navigate}) => {
+
+    const [pastries, setPastries] = useState([])
     
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -12,6 +15,17 @@ const CreateForm = ({pastries, setPastries, token, navigate}) => {
     const [imageURL, setImageURL] = useState("");
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
+
+    const fetchPastries = async () => {
+        const data = await callApi({
+          path: "/pastries"
+        })
+        setPastries(data);
+      };
+      
+      useEffect(() => {
+        fetchPastries();
+      }, []);
 
 // use navigate to pastries page
     const createPastry = async (event) => {

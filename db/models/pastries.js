@@ -35,10 +35,13 @@ async function getPastryById(id){
   }
 }
 
-async function updatePastry(id, fields){
+async function updatePastry({id, ...fields}){
+  console.log("fields", fields)
   const setString = Object.keys(fields).map(
     (key, index) => `"${key}"= $${index + 1}`
   ).join(', ');
+
+  console.log("dsdfdfsdfdsf", setString)
   const {rows: [pastry]} = await client.query(`
     UPDATE pastries
     SET ${setString}
@@ -50,7 +53,6 @@ async function updatePastry(id, fields){
 }
 
 async function deletePastry(id){
-  console.log("money", id)
   try{
     const { rows: pastry} = await client.query(`
       DELETE FROM pastries

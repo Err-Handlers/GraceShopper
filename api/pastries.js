@@ -4,6 +4,7 @@ const {
     getAllPastries,
     createPastry,
     deletePastry,
+    updatePastry
 } = require('../db');
 
 
@@ -55,10 +56,12 @@ pastriesRouter.post('/', requireAdmin, async (req,res, next) => {
 } )
 
 pastriesRouter.patch('/:pastryId', requireAdmin, async(req, res, next) => {
-    const {id} = req.params;
+    console.log("fsdfsdfsdfdsfsdf")
+    const {pastryId:id} = req.params
     const {name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents} = req.body;
+    console.log("req", id)
 
-    const updatedPastry = await updatedPastry({ 
+    const updatedPastry = await updatePastry({ 
         id: id,
         name: name,
         description: description,
@@ -68,7 +71,7 @@ pastriesRouter.patch('/:pastryId', requireAdmin, async(req, res, next) => {
         inventory: inventory,
         priceInCents: priceInCents
     })
-
+    console.log(updatedPastry)
     res.send(updatedPastry)
 })
 

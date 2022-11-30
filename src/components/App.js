@@ -18,9 +18,11 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
-  const [pastries, setPastries] = useState([]);
+  
   const userToken = localStorage.getItem("token")
   console.log(userToken)
+
+  const [pastryToEdit, setPastryToEdit] = useState("")
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
@@ -50,16 +52,16 @@ const App = () => {
   
   console.log('error :>> ', error);
 
-  const fetchPastries = async () => {
-    const data = await callApi({
-      path: "/pastries"
-    })
-    setPastries(data);
-  };
+  // const fetchPastries = async () => {
+  //   const data = await callApi({
+  //     path: "/pastries"
+  //   })
+  //   setPastries(data);
+  // };
   
-  useEffect(() => {
-    fetchPastries();
-  }, []);
+  // useEffect(() => {
+  //   fetchPastries();
+  // }, []);
   
   return (
       <div className="app-container">
@@ -120,10 +122,9 @@ const App = () => {
           path="/pastries"
           element={
             <Pastries 
-              pastries={pastries}
-              setPastries={setPastries}
               token={token}
               isAdmin={isAdmin}
+              pastryToEdit={pastryToEdit}
             />
           }
       ></Route>
@@ -131,8 +132,7 @@ const App = () => {
           path="/admin"
           element={
             <CreateForm
-              pastries={pastries}
-              setPastries={setPastries}
+              
               token={token}
               navigate={navigate}
             />
