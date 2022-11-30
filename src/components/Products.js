@@ -1,8 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { callApi } from '../api/utils'
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import "bootstrap/dist/css/bootstrap.min.css";
+import EditProductForm from "./EditProductForm";
 
 const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantity, setQuantity}) => {
-    
+
+const Products = ({token, isAdmin, productToEdit}) => {
+    const [show, setShow] = useState(false)
+    const [products, setProducts] = useState([]);
+    const [cart, setCart] = useState([]);
+    const [quantity, setQuantity] = useState(0);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const handleClose = () => {
+        setShow(false);
+      };
+      const handleShow = () => setShow(true);
+      
+
+    const fetchProducts = async () => {
+        const data = await callApi({
+          path: "/products",
+        });
+        setProducts(data);
+      };
+
+      useEffect(() => {
+        fetchProducts();
+    }, []);
     
     const addProductToCart = async (e, productId, token) => {
         e.preventDefault();
@@ -34,6 +60,12 @@ const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantit
             console.log(error)
         }
     }
+
+    function onProductEdited() {
+        console.log("product was updated");
+        fetchProducts();
+        handleClose();
+      }
     return (
 
     <>
@@ -46,7 +78,19 @@ const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantit
                     <h3 className='productName'>{product.name}</h3>
                     {/* <h4>Inventory: {product.inventory}</h4> */}
                     <h4 className='productPrice'>{`$${product.priceInCents / 100}.00`}</h4>
-                    {isAdmin ? <button onClick={()=>{deleteProduct(product.id)}}>Delete</button> : null}
+                    {isAdmin ? <Button variant="secondary" onClick={()=>{deleteProduct(product.id)}}>Delete</Button> : null}
+                    {isAdmin ? (
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    setSelectedProduct(product);
+                    setShow(true);
+                  }}
+                >
+                  Edit Product
+                </Button>
+              ) : null}
+
                     <form className='productButtonsContainer'>
                         <select className="productButtons" onChange={ e => setQuantity(e.target.value)}>
                             <option>0</option>
@@ -64,6 +108,27 @@ const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantit
                 </div>
                 );
             })}
+
+    <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Update Product</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <EditProductForm
+              product={selectedProduct}
+              isAdmin={isAdmin}
+              token={token}
+              setProducts={setProducts}
+              productToEdit={productToEdit}
+              onProductEditedHandler={onProductEdited}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
         </div>
     </>
 

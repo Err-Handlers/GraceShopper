@@ -19,6 +19,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.1.0",
+    "bootstrap": "^5.2.2",
     "concurrently": "^7.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -29,7 +30,9 @@
     "morgan": "^1.10.0",
     "pg": "^8.8.0",
     "react": "^18.2.0",
+    "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1"
   },

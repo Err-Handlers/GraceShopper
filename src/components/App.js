@@ -20,13 +20,17 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState(
-    window.localStorage.getItem("token") || ""
-  );
+
   const [quantity, setQuantity] = useState(0);
   const [products, setProducts] = useState([]);
-  const userToken = localStorage.getItem("token");
   const [cart, setCart] = useState([]);
+
+  const [token, setToken] = useState(window.localStorage.getItem("token") || "");
+  const userToken = localStorage.getItem("token");
+  // console.log(userToken)
+  // console.log('token :>> ', token);
+
+  const [productToEdit, setProductToEdit] = useState("")
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
@@ -79,6 +83,9 @@ console.log('token :>> ', token);
     fetchCart();
   }, []);
 
+  
+  console.log('error :>> ', error);
+  
   return (
     <div className="app-container">
       <nav className="navbarContainer">
@@ -178,6 +185,10 @@ console.log('token :>> ', token);
               setCart={setCart}
               quantity={quantity}
               setQuantity={setQuantity}
+            <Products 
+              token={token}
+              isAdmin={isAdmin}
+              productToEdit={productToEdit}
             />
           }
         ></Route>
@@ -185,8 +196,6 @@ console.log('token :>> ', token);
           path="/admin"
           element={
             <CreateForm
-              products={products}
-              setProducts={setProducts}
               token={token}
               navigate={navigate}
             />

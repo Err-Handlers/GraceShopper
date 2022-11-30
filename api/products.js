@@ -4,6 +4,7 @@ const {
     getAllProducts,
     createProduct,
     deleteProduct,
+    updateProduct
 } = require('../db/models/products');
 
 
@@ -53,10 +54,10 @@ productsRouter.post('/', requireAdmin, async (req,res, next) => {
 } )
 
 productsRouter.patch('/:productId', requireAdmin, async(req, res, next) => {
-    const {id} = req.params;
+    const {productId:id} = req.params;
     const {name, description, imageURL, inventory, priceInCents} = req.body;
 
-    const updatedProduct = await updatedProduct({ 
+    const updatedProduct = await updateProduct({ 
         id: id,
         name: name,
         description: description,
