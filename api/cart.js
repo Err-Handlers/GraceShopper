@@ -23,6 +23,15 @@ cartRouter.get("/", async (req, res, next) => {
   }
 });
 
+cartRouter.patch("/", async (req, res, next) => {
+  try {
+    const { quantity, productId, orderId} = req.body;
+    const newQuantity = await updateOrderQuantity(quantity, productId, orderId)
+    res.send(newQuantity)
+  } catch ({ name, message }) {
+    next({ name, message })
+  }
+})
 
 cartRouter.post("/", async (req, res, next) => {
   try {
@@ -35,13 +44,15 @@ cartRouter.post("/", async (req, res, next) => {
         result = await addProductToOrderProducts({quantity, orderId: cart.id, productId, priceInCents: product.priceInCents})
     } else {
         const newQuantity = productInCart.quantity + Number(quantity)
-        result = await updateOrderQuantity(newQuantity, productInCart.id)
+        result = await updateOrderQuantity(newQuantity, productInCart.id, productInCart.orderId)
     }
     res.send(result)
   } catch ({ name, message }) {
     next({ name, message });
   }
 });
+
+
 
 cartRouter.delete("/", async (req, res, next) => {
   try {

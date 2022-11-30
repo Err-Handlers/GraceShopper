@@ -21,6 +21,22 @@ function Cart({ token, cart }) {
   useEffect(() => {
     fetchCart();
   }, []);
+
+  const quantityUpdateHandler = async (token, quantity, productId, orderId) => {
+    console.log('quantity :>> ', quantity);
+    try {
+      const updateQuantity = await callApi({
+        method: "PATCH",
+        path: "/cart",
+        token,
+        body: {quantity, productId, orderId}
+      });
+      console.log('updateQuantity :>> ', updateQuantity);
+      return updateQuantity;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   
   console.log('cartProducts :>> ', cartProducts);
   const deleteHandler = async (token, productId, orderId) => {
@@ -53,7 +69,6 @@ function Cart({ token, cart }) {
             </div>
             <div className="cartProducts">
               {cartProducts.map((cartProduct) => {
-                console.log('product :>> ', cartProduct);
                 return (
                   <div key={cartProduct.id} className="singularCartProduct">
                     <div className="nameAndPhoto">
@@ -64,7 +79,8 @@ function Cart({ token, cart }) {
                       ></img>
                       <h4 className="cartProductName">{cartProduct.name}</h4>
                     </div>
-                    <select defaultValue={cartProduct.quantity} className="productQuantity">
+                    <select defaultValue={cartProduct.quantity} className="productQuantity" onChange={ (e) => quantityUpdateHandler(token, e.target.value, cartProduct.productId, cart[0].orderId )}>
+                      <option>0</option>
                       <option>1</option>
                       <option>2</option>
                       <option>3</option>
@@ -73,7 +89,7 @@ function Cart({ token, cart }) {
                       <option>6</option>
                     </select>
                     <p className="cartProductPrice">
-                      ${cartProduct.priceInCents / 100}.00
+                      ${(cartProduct.priceInCents / 100) * cartProduct.quantity}.00 <span className="pricePerQuantity">(${cartProduct.priceInCents / 100}.00 each)</span>
                     </p>
                     <p
                       className="cartDeleteButton"

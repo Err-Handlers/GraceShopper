@@ -49,6 +49,7 @@ const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantit
                     {isAdmin ? <button onClick={()=>{deleteProduct(product.id)}}>Delete</button> : null}
                     <form className='productButtonsContainer'>
                         <select className="productButtons" onChange={ e => setQuantity(e.target.value)}>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
