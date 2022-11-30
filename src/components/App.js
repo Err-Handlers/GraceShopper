@@ -20,8 +20,6 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const [quantity, setQuantity] = useState(0);
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
@@ -183,11 +181,6 @@ console.log('token :>> ', token);
               isAdmin={isAdmin}
               cart={cart}
               setCart={setCart}
-              quantity={quantity}
-              setQuantity={setQuantity}
-            <Products 
-              token={token}
-              isAdmin={isAdmin}
               productToEdit={productToEdit}
             />
           }
