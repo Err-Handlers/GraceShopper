@@ -6,10 +6,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import EditProductForm from "./EditProductForm";
 
 
-const Products = ({token, isAdmin, productToEdit, products, setProducts, cart, setCart}) => {
+const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
     const [show, setShow] = useState(false)
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [products, setProducts] = useState([]);
     const handleClose = () => {
         setShow(false);
       };
