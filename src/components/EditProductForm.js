@@ -1,22 +1,20 @@
 import { callApi, updateApi } from "../api/utils";
 import { useEffect, useState } from "react";
-import Pastries from "./Pastries";
+import Products from "./Products";
 
 const EditProductForm = ({
-  pastry,
+  product,
   token,
-  setPastries,
+  setProducts,
   isAdmin,
-  pastryToEdit,
-  onPastryEditedHandler,
+  productToEdit,
+  onProductEditedHandler,
 }) => {
-  const [name, setName] = useState(pastry.name);
-  const [description, setDescription] = useState(pastry.description);
-  const [isGlutenFree, setIsGlutenFree] = useState(null);
-  const [isSweet, setIsSweet] = useState(null);
-  const [imageURL, setImageURL] = useState(pastry.imageURL);
-  const [inventory, setInventory] = useState(pastry.inventory);
-  const [priceInCents, setPriceInCents] = useState(pastry.priceInCents);
+  const [name, setName] = useState(product.name);
+  const [description, setDescription] = useState(product.description);
+  const [imageURL, setImageURL] = useState(product.imageURL);
+  const [inventory, setInventory] = useState(product.inventory);
+  const [priceInCents, setPriceInCents] = useState(product.priceInCents);
 
   // const updatedProduct = {name, description, isGlutenFree, isSweet, imageURL, inventory, priceInCents}
 
@@ -27,34 +25,21 @@ const EditProductForm = ({
       const response = await callApi({
         token,
         method: "PATCH",
-        path: `/pastries/${pastry.id}`,
+        path: `/products/${product.id}`,
         body: {
           name: name,
           description: description,
-          isGlutenFree: isGlutenFree,
-          isSweet: isSweet,
           imageURL: imageURL,
           inventory: inventory,
           priceInCents: priceInCents,
         },
       });
 
-      onPastryEditedHandler();
+      onProductEditedHandler();
     } catch (error) {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //     setName(localStorage.getItem('Name'))
-  //     setDescription(localStorage.getItem('Description'))
-  //     setIsGlutenFree(localStorage.getItem('isGlutenFree'))
-  //     setIsSweet(localStorage.getItem('isSweet'))
-  //     setImageURL(localStorage.getItem('imageURL'))
-  //     setInventory(localStorage.getItem('Inventory'))
-  //     setPriceInCents(localStorage.getItem('priceInCents'))
-  //     setId(localStorage.getItem("Id"))
-  // }, [])
 
   return (
     <div>

@@ -4,8 +4,8 @@ const {
   // for example, User
 } = require("./");
 const { createUser } = require("./models/user");
-const { createPastry, updatePastry, deletePastry, getAllPastries, getPastryById } = require("./models/pastries")
-const { getOrderByUserId, addPastryToOrderPastries, createOrder } = require("./models/cart")
+const { createProduct, updateProduct, getAllProducts, getProductById } = require("./models/products")
+const { getOrderByUserId, addProductToOrderProducts, createOrder, getProductInCartDetails } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -13,11 +13,11 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
-      DROP TABLE IF EXISTS order_pastries;
+      DROP TABLE IF EXISTS order_products;
       DROP TABLE IF EXISTS orders;
       DROP TYPE IF EXISTS status;
       DROP TABLE IF EXISTS reviews;
-      DROP TABLE IF EXISTS pastries;
+      DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
     `);
 
@@ -29,12 +29,10 @@ async function buildTables() {
         password VARCHAR(255) NOT NULL,
         "isAdmin" BOOLEAN DEFAULT false
       );
-      CREATE TABLE pastries(
+      CREATE TABLE products(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
         description TEXT NOT NULL,
-        "isGlutenFree" BOOLEAN DEFAULT false,
-        "isSweet" BOOLEAN DEFAULT false,
         "imageURL" VARCHAR(255),
         inventory INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL
@@ -42,9 +40,9 @@ async function buildTables() {
       CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "pastryId" INTEGER REFERENCES pastries(id),
+        "productId" INTEGER REFERENCES products(id),
         "reviewDescription" TEXT NOT NULL,
-        UNIQUE ("userId", "pastryId")
+        UNIQUE ("userId", "productId")
       );
       
       CREATE TYPE status AS ENUM (
@@ -55,13 +53,13 @@ async function buildTables() {
         "userId" INTEGER REFERENCES users(id),
         status STATUS
       );
-      CREATE TABLE order_pastries(
+      CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         quantity INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL,
-        "pastryId" INTEGER REFERENCES pastries(id),
+        "productId" INTEGER REFERENCES products(id),
         "orderId" INTEGER REFERENCES orders(id),
-        UNIQUE ("orderId", "pastryId")
+        UNIQUE ("orderId", "productId")
       );
     `);
   } catch (error) {
@@ -97,21 +95,17 @@ async function populateInitialData() {
     console.log(createdUsers);
 
     //initial pastries data
-    const pastries = [
+    const products = [
       {
-      name: "Croissant",
-      description: "Buttery and Flakey",
-      isGlutenFree: false,
-      isSweet: false,
+      name: "Plant Trees",
+      description: "Arms wrapped around a tree",
       imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
       inventory: 23,
       priceInCents: 100
     },
     {
-      name: "Bacon Maple Bar",
-      description: "Sugary Savory Goodness",
-      isGlutenFree: false,
-      isSweet: true,
+      name: "Koi Fish",
+      description: "Minimal Koi Art",
       imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
       inventory: 10,
       priceInCents: 500
@@ -132,40 +126,43 @@ async function populateInitialData() {
       status: 'cart'
     }
   ]
-
-
-    const createdPastries = await Promise.all(pastries.map(createPastry));
-    console.log("Pastries being created");
-    console.log(createdPastries);
-
-    const createdOrders = await Promise.all(initialOrders.map(createOrder));
-    console.log('createdOrders :>> ', createdOrders);
-
-
-    // const addProductToOrderProducts = await addPastryToCartPastries({})
-
-    
-
-    // const getPastriesInCart = await getPastriesByCartId(createCarts[1].id)
-    // console.log('getPastriesInCart :>> ', getPastriesInCart);
-
-    // const updatedPastry = await updatePastry(createdPastries[0].id, {description: "updated description"})
-    // console.log('updatedPastry :>> ', updatedPastry);
-
-    // const deletedPastry = await deletePastry(createdPastries[0].id)
-    // console.log('deletedPastry :>> ', deletedPastry);
-
-    // const gettingAllPastries = await getAllPastries();
-    // console.log('gettingAllPastries :>> ', gettingAllPastries);
-
-    // const pastryById = await getPastryById(createdPastries[0].id)
-    // console.log("pastry:", pastryById);
-
-  } catch (error) {
-    throw error;
-  }
+  
+      const createdProducts = await Promise.all(products.map(createProduct));
+      console.log("Products being created");
+      console.log(createdProducts);
+  
+      const createdOrders = await Promise.all(initialOrders.map(createOrder));
+      console.log('createdOrders :>> ', createdOrders);
+  
+      // const test = await getProductInCartDetails(1);
+      // console.log('test :>> ', test);
+  
+  
+  // const addProductToOrderProducts = await addPastryToCartPastries({})
+  
+  
+  
+  // const getProductsInCart = await getProductsByCartId(createCarts[1].id)
+  // console.log('getPastriesInCart :>> ', getProductsInCart);
+  
+  // const updatedPastry = await updateProduct(createdProducts[0].id, {description: "updated description"})
+  // console.log('updatedPastry :>> ', updatedPastry);
+  
+  // const deletedPastry = await updateProduct(createdProducts[0].id)
+  // console.log('deletedPastry :>> ', deletedPastry);
+  
+  // const gettingAllPastries = await getAllProducts();
+  // console.log('gettingAllPastries :>> ', gettingAllPastries);
+  
+  // const pastryById = await getProductById(createdProducts[0].id)
+  // console.log("pastry:", pastryById);
+  
 }
-
+catch (error){
+  console.log(error);
+}
+}
+  
 buildTables()
   .then(populateInitialData)
   .catch(console.error)

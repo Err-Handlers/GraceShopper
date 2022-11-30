@@ -6,7 +6,8 @@ import { getAPIHealth } from "../axios-services";
 import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
-import Pastries from "./Pastries";
+import Products from "./Products";
+import Cart from "./Cart";
 import { callApi } from "../api/utils";
 import Login from "./Login";
 import CreateForm from "./CreateForm";
@@ -17,16 +18,21 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [token, setToken] = useState("");
-  
+  const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token")
-  console.log(userToken)
+  // console.log(userToken)
+  // console.log('token :>> ', token);
 
-  const [pastryToEdit, setPastryToEdit] = useState("")
+  const [productToEdit, setProductToEdit] = useState("")
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
   // const [currentUser, setCurrentUser] = useState(undefined);
+
+  
+  useEffect(() => {
+    window.localStorage.setItem("token", token);
+  }, [token]);
 
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -51,40 +57,42 @@ const App = () => {
   const navigate = useNavigate();
   
   console.log('error :>> ', error);
-
-  // const fetchPastries = async () => {
-  //   const data = await callApi({
-  //     path: "/pastries"
-  //   })
-  //   setPastries(data);
-  // };
-  
-  // useEffect(() => {
-  //   fetchPastries();
-  // }, []);
   
   return (
       <div className="app-container">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
+        <nav className="navbarContainer">
+          <h2 className="logoName">StickySituations</h2>
+          <input className="searchBar" type="text" placeholder="Sift through stickers..."></input>
+          <ul className="navbar">
+          <li>
+            <Link className="navbarLinks" to="/products">Home</Link>
+          </li>
             <li>
             {!userToken ? 
-              ( <Link to="login">Login</Link> ) : 
-              (<Link to="/pastries" onClick={() => {
+              (
+                <div>
+                    <Link className="navbarLinks" to="/register">Register</Link>
+                      <Link className="navbarLinks" to="login">Login</Link> 
+                  </div>
+                ) : 
+              (
+              <div>
+                <Link className="navbarLinks">Account</Link>
+              
+              <Link className="navbarLinks" to="/products" onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
-                    navigate("/pastries");
-                  }}>Log Out</Link>
+                    navigate("/products");
+                  }}>Logout</Link>
+
+              </div>
               )}
             </li>
             <li>
-            <Link to="/pastries">Pastries</Link>
-          </li>
+              <Link className="navbarLinks" to="/cart">Cart</Link>
+            </li>
           <li>
-          {isAdmin ? <Link to="/admin">Admin</Link> : null}
+          {isAdmin ? <Link className="navbarLinks" to="/admin">Admin</Link> : null}
           </li>
           </ul>
         </nav>
@@ -119,12 +127,12 @@ const App = () => {
             }
           ></Route>
           <Route
-          path="/pastries"
+          path="/products"
           element={
-            <Pastries 
+            <Products 
               token={token}
               isAdmin={isAdmin}
-              pastryToEdit={pastryToEdit}
+              productToEdit={productToEdit}
             />
           }
       ></Route>
@@ -132,12 +140,13 @@ const App = () => {
           path="/admin"
           element={
             <CreateForm
-              
               token={token}
               navigate={navigate}
             />
           }
       ></Route>
+      <Route path="/cart" element={<Cart token={token}/>}>
+      </Route>
         </Routes>
       </div>
 
