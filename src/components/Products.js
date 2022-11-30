@@ -63,7 +63,7 @@ const Products = ({token, isAdmin, productToEdit}) => {
         console.log("product was updated");
         fetchProducts();
         handleClose();
-      }
+    }
     return (
 
     <>
