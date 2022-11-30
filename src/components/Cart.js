@@ -52,19 +52,19 @@ function Cart({ token, cart }) {
               <h3>PRICE</h3>
             </div>
             <div className="cartProducts">
-              {cartProducts.map((product) => {
-                console.log('product :>> ', product);
+              {cartProducts.map((cartProduct) => {
+                console.log('product :>> ', cartProduct);
                 return (
-                  <div key={product.id} className="singularCartProduct">
+                  <div key={cartProduct.id} className="singularCartProduct">
                     <div className="nameAndPhoto">
                       <img
-                        src={product.imageURL}
+                        src={cartProduct.imageURL}
                         width="100"
                         height="100"
                       ></img>
-                      <h4 className="cartProductName">{product.name}</h4>
+                      <h4 className="cartProductName">{cartProduct.name}</h4>
                     </div>
-                    <select className="productQuantity">
+                    <select defaultValue={cartProduct.quantity} className="productQuantity">
                       <option>1</option>
                       <option>2</option>
                       <option>3</option>
@@ -73,12 +73,12 @@ function Cart({ token, cart }) {
                       <option>6</option>
                     </select>
                     <p className="cartProductPrice">
-                      ${product.priceInCents / 100}.00
+                      ${cartProduct.priceInCents / 100}.00
                     </p>
                     <p
                       className="cartDeleteButton"
                       onClick={() =>
-                        deleteHandler(token, product.productId, cart[0].orderId)
+                        deleteHandler(token, cartProduct.productId, cart[0].orderId)
                       }
                     >
                       X
