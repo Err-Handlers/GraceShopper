@@ -2,41 +2,45 @@ import { callApi } from "../api/utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Cart({ token }) {
+function Cart({ token, cart }) {
   //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
-
-  try {
-    const fetchCart = async () => {
-      const data = await callApi({ path: "/cart", token });
+ 
+  
+  const fetchCart = async () => {
+    try {
+      const data = await callApi({ 
+        path: "/cart",
+        token });
       setCartProducts(data);
-      console.log("data :>> ", data);
-    };
-    useEffect(() => {
-      fetchCart();
-    }, []);
-  } catch (error) {
-    setError(error);
-    console.log(error);
-  }
-
-    const deleteHandler = async (productId) => {
-      try {
-          const deleteProduct = await callApi({
-          method: "DELETE",
-          path: "/cart",
-          token,
-          body: { productId, orderId },
-        });
-        if (deleteProduct) {
-          setCartProducts(deleteProduct);
-        }
-      } catch (error) {
-        console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchCart();
+  }, []);
+  
+  console.log('cartProducts :>> ', cartProducts);
+  const deleteHandler = async (token, productId, orderId) => {
+    try {
+      const deleteProduct = await callApi({
+        method: "DELETE",
+        path: "/cart",
+        token,
+        body: { productId, orderId }
+      });
+      if (deleteProduct) {
+        const filteredCart = cartProducts.filter( p => p.productId !== productId )
+        setCartProducts(filteredCart)
       }
-    };
-
+      return cartProducts;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   return (
     <div>
       {cartProducts ? (
@@ -49,8 +53,9 @@ function Cart({ token }) {
             </div>
             <div className="cartProducts">
               {cartProducts.map((product) => {
+                console.log('product :>> ', product);
                 return (
-                  <div className="singularCartProduct">
+                  <div key={product.id} className="singularCartProduct">
                     <div className="nameAndPhoto">
                       <img
                         src={product.imageURL}
@@ -72,7 +77,9 @@ function Cart({ token }) {
                     </p>
                     <p
                       className="cartDeleteButton"
-                      onClick={() => deleteHandler(token, product.id)}
+                      onClick={() =>
+                        deleteHandler(token, product.productId, cart[0].orderId)
+                      }
                     >
                       X
                     </p>
@@ -87,7 +94,7 @@ function Cart({ token }) {
               >
                 I WANT MORE
               </button>
-              <button className="cartButton">CHECKOUT</button>
+              <button className="cartButton">SUBMIT ORDER</button>
             </div>
           </div>
         </div>

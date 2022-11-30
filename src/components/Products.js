@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
 import { callApi } from '../api/utils'
 
-const Products = ({products, setProducts, token, isAdmin}) => {
+const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantity, setQuantity}) => {
     
-    const [cart, setCart] = useState([]);
-    const [quantity, setQuantity] = useState(0);
     
-    const submitHandler = async (e, productId, token) => {
+    const addProductToCart = async (e, productId, token) => {
         e.preventDefault();
         try {
+            //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
+            //cart is an array of all of these order_products that share the same orderId
             const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
             console.log('data :>> ', data);
             setCart( prev => [ data, ...prev])
-            console.log('cart :>> ', cart);
         } catch (error) {
             console.log(error)
         }
@@ -38,7 +37,7 @@ const Products = ({products, setProducts, token, isAdmin}) => {
     return (
 
     <>
-        <img src="../assets/product_imgs/koiYellow.png" width="250" height ="250"></img>
+        <img src="/assets/product_imgs/plantTrees.png" width="250" height ="250"></img>
         <div className="productsContainer">
             {products.map((product) => {
                 return (
@@ -57,7 +56,7 @@ const Products = ({products, setProducts, token, isAdmin}) => {
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="productButtons" onClick={(e) => submitHandler(e, product.id, token)}>Add to cart</button>
+                        <button className="productButtons" onClick={ e => addProductToCart(e, product.id, token)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>

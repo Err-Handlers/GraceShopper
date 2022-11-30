@@ -200,16 +200,22 @@
 
 .cartButton{
   margin-left: 8px;
-  padding: 15px;
   border-radius: 25px;
-  background-color: white;
-  border: solid 1.5px rgb(104, 182, 188);
-  color: rgb(98, 98, 98);
-  font-weight: 400;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid white;
+  background-color: rgb(104, 182, 188);
+  color: white;
+  
 }
 
 .cartButton:hover{
   background-color: rgba(104, 182, 188, 0.389);
+  border: 2px solid rgb(104, 182, 188);
+  color: rgb(134, 134, 134);
+  background-color: white;
 }
 
 .cartDeleteButton{

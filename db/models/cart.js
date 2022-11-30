@@ -187,10 +187,9 @@ async function getProductInCartDetails(orderId){
 
 async function deleteProductFromCart(productId, orderId){
   try {
-    const { rows: [product] } = await client.query(`
+    await client.query(`
       DELETE FROM order_products
       WHERE "productId" = $1 AND "orderId" = $2
-      RETURNING *
     `, [productId, orderId])
   } catch (error) {
     console.log(error);
