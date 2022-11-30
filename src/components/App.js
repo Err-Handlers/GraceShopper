@@ -10,16 +10,23 @@ import Products from "./Products";
 import Cart from "./Cart";
 import { callApi } from "../api/utils";
 import Login from "./Login";
+import Account from "./Account";
 import CreateForm from "./CreateForm";
 import { useNavigate } from "react-router-dom";
+
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [quantity, setQuantity] = useState(0);
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
-  const userToken = localStorage.getItem("token")
+  const userToken = localStorage.getItem("token");
   // console.log(userToken)
   // console.log('token :>> ', token);
 
@@ -29,7 +36,6 @@ const App = () => {
   // console.log(isAdmin)
   // const [currentUser, setCurrentUser] = useState(undefined);
 
-  
   useEffect(() => {
     window.localStorage.setItem("token", token);
   }, [token]);
@@ -37,106 +43,156 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-      const admin = localStorage.getItem("isAdmin");
-      console.log(admin, "isAdmin")
+    const admin = localStorage.getItem("isAdmin");
+    console.log(admin, "isAdmin");
 
-      if (admin === "false"){
-        return setIsAdmin(false);
-      }
+    if (admin === "false") {
+      return setIsAdmin(false);
+    }
 
-      if (admin === "true"){
-        return setIsAdmin(true)
-      }
-
-    }, []);
-
-    //watch for a user change
-    //if user changes, set admin to this
-    //add a logout function
+    if (admin === "true") {
+      return setIsAdmin(true);
+    }
+  }, []);
+console.log('token :>> ', token);
+  //watch for a user change
+  //if user changes, set admin to this
+  //add a logout function
 
   const navigate = useNavigate();
+
+  const fetchProducts = async () => {
+    const data = await callApi({
+      path: "/products",
+    });
+    setProducts(data);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchCart = async () => {
+    const data = await callApi({
+      path: "/cart/products",
+      token
+    });
+    setCart(data)
+  };
+  useEffect( () => {
+    fetchCart();
+  }, []);
+
   
   console.log('error :>> ', error);
   
   return (
-      <div className="app-container">
-        <nav className="navbarContainer">
-          <h2 className="logoName">StickySituations</h2>
-          <input className="searchBar" type="text" placeholder="Sift through stickers..."></input>
-          <ul className="navbar">
+    <div className="app-container">
+      <nav className="navbarContainer">
+        <h2 className="logoName">StickySituations</h2>
+        <input
+          className="searchBar"
+          type="text"
+          placeholder="Sift through stickers..."
+        ></input>
+        <ul className="navbar">
           <li>
-            <Link className="navbarLinks" to="/products">Home</Link>
+            <Link className="navbarLinks" to="/products">
+              Home
+            </Link>
           </li>
-            <li>
-            {!userToken ? 
-              (
-                <div>
-                    <Link className="navbarLinks" to="/register">Register</Link>
-                      <Link className="navbarLinks" to="login">Login</Link> 
-                  </div>
-                ) : 
-              (
+          <li>
+            {!userToken ? (
               <div>
-                <Link className="navbarLinks">Account</Link>
-              
-              <Link className="navbarLinks" to="/products" onClick={() => {
+                <Link className="navbarLinks" to="/register">
+                  Register
+                </Link>
+                <Link className="navbarLinks" to="login">
+                  Login
+                </Link>
+              </div>
+            ) : (
+              <div>
+                <Link className="navbarLinks" to="/account">Account</Link>
+
+                <Link
+                  className="navbarLinks"
+                  to="/products"
+                  onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
                     navigate("/products");
-                  }}>Logout</Link>
-
+                  }}
+                >
+                  Logout
+                </Link>
               </div>
-              )}
-            </li>
-            <li>
-              <Link className="navbarLinks" to="/cart">Cart</Link>
-            </li>
-          <li>
-          {isAdmin ? <Link className="navbarLinks" to="/admin">Admin</Link> : null}
+            )}
           </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route
-            path="/register"
-            element={
-              <Register
-                setError={setError}
-                error={error}
-                email={email}
-                setEmail={setEmail}
-                password={password}
-                setPassword={setPassword}
-                setToken={setToken}
-              />
-            }
-          ></Route>
-          <Route
-            path="/login"
-            element={
-              <Login
-                setError={setError}
-                error={error}
-                setEmail={setEmail}
-                email={email}
-                setPassword={setPassword}
-                password={password}
-                setToken={setToken}
-                setIsAdmin={setIsAdmin}
-              />
-            }
-          ></Route>
-          <Route
+          <li>
+            <Link className="navbarLinks" to="/cart">
+              Cart
+            </Link>
+          </li>
+          <li>
+            {isAdmin ? (
+              <Link className="navbarLinks" to="/admin">
+                Admin
+              </Link>
+            ) : null}
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route
+          path="/register"
+          element={
+            <Register
+              setError={setError}
+              error={error}
+              email={email}
+              setEmail={setEmail}
+              password={password}
+              setPassword={setPassword}
+              setToken={setToken}
+            />
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <Login
+              setError={setError}
+              error={error}
+              setEmail={setEmail}
+              email={email}
+              setPassword={setPassword}
+              password={password}
+              setToken={setToken}
+              setIsAdmin={setIsAdmin}
+            />
+          }
+        ></Route>
+        <Route
           path="/products"
           element={
+            <Products
+              products={products}
+              setProducts={setProducts}
+              token={token}
+              isAdmin={isAdmin}
+              cart={cart}
+              setCart={setCart}
+              quantity={quantity}
+              setQuantity={setQuantity}
             <Products 
               token={token}
               isAdmin={isAdmin}
               productToEdit={productToEdit}
             />
           }
-      ></Route>
-      <Route
+        ></Route>
+        <Route
           path="/admin"
           element={
             <CreateForm
@@ -144,12 +200,14 @@ const App = () => {
               navigate={navigate}
             />
           }
-      ></Route>
-      <Route path="/cart" element={<Cart token={token}/>}>
-      </Route>
-        </Routes>
-      </div>
-
+        ></Route>
+        <Route
+          path="/cart"
+          element={<Cart token={token} cart={cart}/>}
+        ></Route>
+        <Route path="/account" element={<Account></Account>}></Route>
+      </Routes>
+    </div>
   );
 };
 

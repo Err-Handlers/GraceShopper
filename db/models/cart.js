@@ -73,16 +73,16 @@ async function addProductToCart({
   }
 }
 
-async function updateOrderQuantity(quantity, productId) {
+async function updateOrderQuantity(quantity, productId, orderId) {
   try {
     const {
       rows: [order],
     } = await client.query(`
         UPDATE order_products
-        SET quantity = ${quantity}
-        WHERE id = ${productId}
+        SET quantity = $1
+        WHERE "productId" = $2 AND "orderId" = $3
         RETURNING *
-      `);
+      `, [quantity, productId, orderId] );
     return order;
   } catch (err) {
     console.log(err);
@@ -187,10 +187,9 @@ async function getProductInCartDetails(orderId){
 
 async function deleteProductFromCart(productId, orderId){
   try {
-    const { rows: [product] } = await client.query(`
+    await client.query(`
       DELETE FROM order_products
       WHERE "productId" = $1 AND "orderId" = $2
-      RETURNING *
     `, [productId, orderId])
   } catch (error) {
     console.log(error);

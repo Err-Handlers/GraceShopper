@@ -34,6 +34,18 @@ async function getProductById(id){
   }
 }
 
+async function getProductAndOrderProductById(orderId, productId){
+  try {
+    const { rows: [product] } = await client.query(`
+      SELECT products.*, order_products.* FROM products
+      JOIN order_products ON products.id = order_products."productId"
+      WHERE order_products."orderId" = $1 AND order_products."productId" = $2
+    `, [orderId, productId])
+    return product;
+  } catch (error) {
+    console.log("product not found", error);
+  }
+}
 async function updateProduct({id, ...fields}){
   const setString = Object.keys(fields).map(
     (key, index) => `"${key}"= $${index + 1}`
@@ -71,4 +83,5 @@ module.exports = {
     createProduct,
     updateProduct,
     deleteProduct,
+    getProductAndOrderProductById
 };

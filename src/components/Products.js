@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditProductForm from "./EditProductForm";
 
+const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantity, setQuantity}) => {
+
 const Products = ({token, isAdmin, productToEdit}) => {
     const [show, setShow] = useState(false)
     const [products, setProducts] = useState([]);
@@ -28,14 +30,14 @@ const Products = ({token, isAdmin, productToEdit}) => {
         fetchProducts();
     }, []);
     
-    
-    const submitHandler = async (e, productId, token) => {
+    const addProductToCart = async (e, productId, token) => {
         e.preventDefault();
         try {
+            //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
+            //cart is an array of all of these order_products that share the same orderId
             const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
             console.log('data :>> ', data);
             setCart( prev => [ data, ...prev])
-            console.log('cart :>> ', cart);
         } catch (error) {
             console.log(error)
         }
@@ -67,7 +69,7 @@ const Products = ({token, isAdmin, productToEdit}) => {
     return (
 
     <>
-        <img src="../assets/product_imgs/koiYellow.png" width="250" height ="250"></img>
+        <img src="/assets/product_imgs/plantTrees.png" width="250" height ="250"></img>
         <div className="productsContainer">
             {products.map((product) => {
                 return (
@@ -91,6 +93,7 @@ const Products = ({token, isAdmin, productToEdit}) => {
 
                     <form className='productButtonsContainer'>
                         <select className="productButtons" onChange={ e => setQuantity(e.target.value)}>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -98,7 +101,7 @@ const Products = ({token, isAdmin, productToEdit}) => {
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="productButtons" onClick={(e) => submitHandler(e, product.id, token)}>Add to cart</button>
+                        <button className="productButtons" onClick={ e => addProductToCart(e, product.id, token)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>
