@@ -5,14 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import EditProductForm from "./EditProductForm";
 
-const Products = ({products, setProducts, token, isAdmin, cart, setCart, quantity, setQuantity}) => {
 
-const Products = ({token, isAdmin, productToEdit}) => {
+const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
     const [show, setShow] = useState(false)
-    const [products, setProducts] = useState([]);
-    const [cart, setCart] = useState([]);
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [products, setProducts] = useState([]);
     const handleClose = () => {
         setShow(false);
       };

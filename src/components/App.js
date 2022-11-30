@@ -20,9 +20,6 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const [quantity, setQuantity] = useState(0);
-  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
@@ -61,16 +58,6 @@ console.log('token :>> ', token);
 
   const navigate = useNavigate();
 
-  const fetchProducts = async () => {
-    const data = await callApi({
-      path: "/products",
-    });
-    setProducts(data);
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   const fetchCart = async () => {
     const data = await callApi({
@@ -177,17 +164,10 @@ console.log('token :>> ', token);
           path="/products"
           element={
             <Products
-              products={products}
-              setProducts={setProducts}
               token={token}
               isAdmin={isAdmin}
               cart={cart}
               setCart={setCart}
-              quantity={quantity}
-              setQuantity={setQuantity}
-            <Products 
-              token={token}
-              isAdmin={isAdmin}
               productToEdit={productToEdit}
             />
           }
