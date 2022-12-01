@@ -11,23 +11,40 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [products, setProducts] = useState([]);
+
+    const [product, setProduct] = useState([]);
+    const [searchValue, setSearchValue] = useState("");
+
+    const fetchProducts = async () => {
+      const data = await callApi({
+        path: "/products",
+      });
+      setProducts(data);
+    };
+
+    useEffect(() => {
+      fetchProducts();
+    }, []);
+
+    const productMatches = (product) => {
+      const textToCheck = (
+        product.name + product.description
+      ).toLowerCase();
+      return textToCheck.includes(searchValue.toLowerCase());
+    };
+  
+    const filteredProducts = products.filter((product) => {
+      return productMatches(product);
+    });
+
+
     const handleClose = () => {
         setShow(false);
       };
       const handleShow = () => setShow(true);
       
 
-    const fetchProducts = async () => {
-        const data = await callApi({
-          path: "/products",
-        });
-        setProducts(data);
-      };
 
-      useEffect(() => {
-        fetchProducts();
-    }, []);
-    
     const addProductToCart = async (e, productId, token) => {
         e.preventDefault();
         try {
@@ -67,11 +84,26 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
     return (
 
     <>
-        <img src="/assets/product_imgs/plantTrees.png" width="250" height ="250"></img>
-        <div className="productsContainer">
-            {products.map((product) => {
-                return (
-                <div className="singleProduct" key={product.id}>
+        <br></br>
+            <input
+              className="searchBar mx-auto"
+              type="text"
+              placeholder="Sift through stickers..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            ></input>
+            
+        
+
+        <br></br>
+        {/* <img src="/assets/product_imgs/plantTrees.png" width="250" height ="250"></img> */}
+
+        {filteredProducts.map(product => (
+
+        <div key={product.id} className="productsContainer mx-auto">
+            {/* {products.map((product) => {
+                return ( */}
+                <div className="singleProduct card" key={product.id}>
                     <img src={product.imageURL} width="300" height="300"></img>
                     <h3 className='productName'>{product.name}</h3>
                     {/* <h4>Inventory: {product.inventory}</h4> */}
@@ -104,8 +136,8 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
                     <br></br>
                     <br></br>
                 </div>
-                );
-            })}
+                {/* ); */}
+            {/* })} */}
 
     <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -128,6 +160,8 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
           </Modal.Footer>
         </Modal>
         </div>
+
+        ))}
     </>
 
     )

@@ -22,6 +22,8 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [cart, setCart] = useState([]);
 
+  
+
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");
   // console.log(userToken)
@@ -77,11 +79,7 @@ console.log('token :>> ', token);
     <div className="app-container">
       <nav className="navbarContainer">
         <h2 className="logoName">StickySituations</h2>
-        <input
-          className="searchBar"
-          type="text"
-          placeholder="Sift through stickers..."
-        ></input>
+        
         <ul className="navbar">
           <li>
             <Link className="navbarLinks" to="/products">
