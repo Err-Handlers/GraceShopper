@@ -61,16 +61,21 @@ console.log('token :>> ', token);
   const navigate = useNavigate();
 
 
-  // const fetchCart = async () => {
-  //   const data = await callApi({
-  //     path: "/cart/products",
-  //     token
-  //   });
-  //   setCart(data)
-  // };
-  // useEffect( () => {
-  //   fetchCart();
-  // }, []);
+  const fetchCart = async () => {
+    try {
+      const data = await callApi({
+        path: "/cart/products",
+        token
+      });
+      setCart(data)
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+  };
+  
+  useEffect( () => {
+    fetchCart();
+  }, []);
 
   
   console.log('error :>> ', error);

@@ -11,7 +11,7 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [products, setProducts] = useState([]);
-
+    const [inCartLabel, setInCartLabel] = useState(false);
     const [product, setProduct] = useState([]);
     const [searchValue, setSearchValue] = useState("");
 
@@ -21,11 +21,11 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
       });
       setProducts(data);
     };
-
+    
     useEffect(() => {
-      fetchProducts();
+        fetchProducts();
     }, []);
-
+    
     const productMatches = (product) => {
       const textToCheck = (
         product.name + product.description
@@ -43,18 +43,14 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
       };
       const handleShow = () => setShow(true);
       
-
-
     const addProductToCart = async ( e, token, quantity, productId,) => {
         e.preventDefault();
         console.log('quantity :>> ', quantity);
         console.log('productId :>> ', productId);
-        console.log('cart :>> ', cart);
         try {
             //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
             //cart is an array of all of these order_products that share the same orderId
             const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
-            console.log('cart2 :>> ', cart);
             console.log('data :>> ', data);
             setCart( prev => [ data, ...prev])
         } catch (error) {

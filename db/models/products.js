@@ -22,7 +22,6 @@ async function createProduct({name, description, imageURL, inventory, priceInCen
 
 
 async function getProductById(id){
-  console.log(id);
   try {
     const { rows: [product] } = await client.query(`
       SELECT * FROM products
