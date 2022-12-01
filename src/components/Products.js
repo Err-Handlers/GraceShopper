@@ -100,7 +100,7 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
 
         {filteredProducts.map(product => (
 
-        <div key={product.id} className="productsContainer mx-auto">
+        <div key={product.id} className="mx-auto">
             {/* {products.map((product) => {
                 return ( */}
                 <div className="singleProduct card" key={product.id}>

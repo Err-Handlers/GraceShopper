@@ -99,14 +99,49 @@ async function populateInitialData() {
       {
       name: "Plant Trees",
       description: "Arms wrapped around a tree",
-      imageURL: "https://www.theflavorbender.com/wp-content/uploads/2020/05/French-Croissants-SM-2363.jpg",
-      inventory: 23,
-      priceInCents: 100
+      imageURL: "https://www.linkpicture.com/q/plantTrees.png",
+      inventory: 10,
+      priceInCents: 500
     },
     {
       name: "Koi Fish",
       description: "Minimal Koi Art",
-      imageURL: "https://upload.wikimedia.org/wikipedia/commons/3/34/Bacon_maple_bar.jpg",
+      imageURL: "https://www.linkpicture.com/q/koiYellow.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Ghost Photographer",
+      description: "Ghost taking photo",
+      imageURL: "https://www.linkpicture.com/q/ghostPhoto1.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Ghost with Balloon",
+      description: "Ghost playing with balloon",
+      imageURL: "https://www.linkpicture.com/q/ghostWithBalloon.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Ghost Underwater",
+      description: "Ghost playing underwater",
+      imageURL: "https://www.linkpicture.com/q/ghostUnderwater.jpeg",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Black Cat",
+      description: "Black cat chilling",
+      imageURL: "https://www.linkpicture.com/q/sittingBlackCat.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Popsicle",
+      description: "Eaten popsicle",
+      imageURL: "https://www.linkpicture.com/q/popsicle.png",
       inventory: 10,
       priceInCents: 500
     },
