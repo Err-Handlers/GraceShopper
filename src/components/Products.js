@@ -92,9 +92,6 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             ></input>
-            
-        
-
         <br></br>
         <div className='productsContainer'>
         {filteredProducts.map(product => (
@@ -118,24 +115,27 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
                   Edit Product
                 </Button>
               ) : null}
-
+                    { inCartLabel ? (
+                        <p>Item is in cart</p>
+                    ) : ( 
+                    <div>
                     <form className='productButtonsContainer'>
-                        <select className="productButtons" onChange={ (e) => setQuantity(e.target.value)}>
-                            <option>0</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                            <option>6</option>
-                        </select>
-                        <button className="productButtons" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
-                    </form>
-                    <br></br>
-                    <br></br>
+                    <select className="productButtons" onChange={ (e) => setQuantity(e.target.value)}>
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                    </select>
+                    <button className="productButtons" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
+                </form>
+                <br></br>
+                <br></br>
+                </div>) }
+                   
                 </div>
-                {/* ); */}
-            {/* })} */}
 
     <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
