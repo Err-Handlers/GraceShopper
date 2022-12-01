@@ -45,12 +45,16 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
       
 
 
-    const addProductToCart = async (e, productId, token) => {
+    const addProductToCart = async ( e, token, quantity, productId,) => {
         e.preventDefault();
+        console.log('quantity :>> ', quantity);
+        console.log('productId :>> ', productId);
+        console.log('cart :>> ', cart);
         try {
             //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
             //cart is an array of all of these order_products that share the same orderId
             const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
+            console.log('cart2 :>> ', cart);
             console.log('data :>> ', data);
             setCart( prev => [ data, ...prev])
         } catch (error) {
@@ -96,10 +100,8 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
         
 
         <br></br>
-        {/* <img src="/assets/product_imgs/plantTrees.png" width="250" height ="250"></img> */}
-
+        <div className='productsContainer'>
         {filteredProducts.map(product => (
-
         <div key={product.id} className="mx-auto">
             {/* {products.map((product) => {
                 return ( */}
@@ -122,7 +124,7 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
               ) : null}
 
                     <form className='productButtonsContainer'>
-                        <select className="productButtons" onChange={ e => setQuantity(e.target.value)}>
+                        <select className="productButtons" onChange={ (e) => setQuantity(e.target.value)}>
                             <option>0</option>
                             <option>1</option>
                             <option>2</option>
@@ -131,7 +133,7 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="productButtons" onClick={ e => addProductToCart(e, product.id, token)}>Add to cart</button>
+                        <button className="productButtons" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>
@@ -162,6 +164,8 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart}) => {
         </div>
 
         ))}
+            
+        </div>
     </>
 
     )

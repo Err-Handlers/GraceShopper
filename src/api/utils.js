@@ -24,27 +24,27 @@ export const callApi = async ({ method, path, token, body }) => {
   return data;
 };
 
-export const updateApi = async ({ method, path, token, body }) => {
-  const options = {
-    method: method ? method : "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+// export const updateApi = async ({ method, path, token, body }) => {
+//   const options = {
+//     method: method ? method : "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   };
 
-  if (token) {
-    options.headers.Authorization = `Bearer ${token}`;
-  }
+//   if (token) {
+//     options.headers.Authorization = `Bearer ${token}`;
+//   }
 
-  if (body) {
-    options.body = JSON.stringify(body);
-  }
+//   if (body) {
+//     options.body = JSON.stringify(body);
+//   }
 
-  const result = await fetch(baseUrl + path, options);
-  const data = await result.json();
+//   const result = await fetch(baseUrl + path, options);
+//   const data = await result.json();
   
-  if (data.error) {
-    throw data.error;
-  }
-  return data;
-};
+//   if (data.error) {
+//     throw data.error;
+//   }
+//   return data;
+// };
