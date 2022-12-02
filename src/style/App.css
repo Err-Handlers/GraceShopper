@@ -135,6 +135,8 @@
   border-radius: 20%;
   padding: 10px;
   margin: 10px;
+  border: solid 2px rgb(104, 182, 188);
+  font-size: small;
 }
 
 .addToCartButton{
@@ -143,12 +145,22 @@
   color: white;
   padding-left: 12px;
   padding-right: 12px;
-  padding-top: -5px;
-  padding-bottom: 5px;
   font-weight: bold;
   font-size: 13px;
   height: 35px;
-  border: 1px solid rgb(155, 220, 226);
+  border: 2px solid rgb(155, 220, 226);
+}
+
+.addToCartButton:hover{
+  border-radius: 20px;
+  background-color: white;
+  color: rgb(104, 182, 188);
+  padding-left: 12px;
+  padding-right: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  height: 35px;
+  border: 2px solid rgb(155, 220, 226);
 }
 
 .cartContainer{

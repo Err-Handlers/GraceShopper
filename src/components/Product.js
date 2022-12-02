@@ -1,7 +1,7 @@
 import EditProductForm from "./EditProductForm";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { callApi } from "../api/utils";
 
 const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setProducts, fetchProducts, product}) => {
@@ -9,7 +9,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [inCartLabel, setInCartLabel] = useState(false);
-   
+
     const addProductToCart = async ( e, token, quantity, productId,) => {
         e.preventDefault();
         console.log('quantity :>> ', quantity);
@@ -24,6 +24,16 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
             console.log(error)
         }
     }
+
+    useEffect( () => {
+        cart.map( cartItem => {
+            if(product.id === cartItem.productId){
+                setInCartLabel(true)
+            }
+
+        })
+    }, [])
+
     
     // const token = localStorage.getItem("token");
     const deleteProduct = async (productId) => {
@@ -85,7 +95,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="addToCartButton" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
+                        <button className="addToCartButton" onClick={ e => addProductToCart(e, token, quantity, product.id)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>
