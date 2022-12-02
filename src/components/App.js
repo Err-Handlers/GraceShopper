@@ -21,6 +21,7 @@ const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cart, setCart] = useState([]);
+  const [products, setProducts] = useState([]);
 
   
 
@@ -60,6 +61,16 @@ console.log('token :>> ', token);
 
   const navigate = useNavigate();
 
+  const fetchProducts = async () => {
+    const data = await callApi({
+      path: "/products",
+    });
+    setProducts(data);
+  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+  
 
   const fetchCart = async () => {
     try {
@@ -172,6 +183,9 @@ console.log('token :>> ', token);
               cart={cart}
               setCart={setCart}
               productToEdit={productToEdit}
+              products={products}
+              setProducts={setProducts}
+              fetchProducts={fetchProducts}
             />
           }
         ></Route>
