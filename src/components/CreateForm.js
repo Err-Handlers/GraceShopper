@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 // import Products from "./Products";
 
     
-const CreateForm = ({token, navigate}) => {
-    const [products, setProducts] = useState([])
+const CreateForm = ({token, navigate, setProducts}) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [imageURL, setImageURL] = useState("");
@@ -43,6 +42,7 @@ const CreateForm = ({token, navigate}) => {
                         }
                     }
             });
+
 
             setProducts((prev) => [product, ...prev]);
             setName("");
