@@ -37,14 +37,13 @@ cartRouter.post("/", async (req, res, next) => {
   try {
     const { quantity, productId } = req.body;
     const cart = await findOrCreateCart(req.user.id)
+    console.log('cart :>> ', cart);
     const product = await getProductById(productId)
+    console.log('product :>> ', product);
     const productInCart = await getProductInCart({orderId: cart.id, productId})
     let result;
     if (!productInCart) {
         result = await addProductToOrderProducts({quantity, orderId: cart.id, productId, priceInCents: product.priceInCents})
-    } else {
-        const newQuantity = productInCart.quantity + Number(quantity)
-        result = await updateOrderQuantity(newQuantity, productInCart.id, productInCart.orderId)
     }
     res.send(result)
   } catch ({ name, message }) {
