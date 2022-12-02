@@ -69,7 +69,7 @@ console.log('token :>> ', token);
   };
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [cart]);
   
 
   const fetchCart = async () => {
