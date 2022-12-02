@@ -72,6 +72,16 @@
   height: 30px;
   border: 2px solid rgb(190, 190, 190);
   border-radius: 5px;
+  font-size: 15px;
+}
+
+.registerForm{
+  display: flex;
+  flex-direction: column;
+}
+
+.passwordLength{
+  font-size: small;
 }
 
 .loginButton{

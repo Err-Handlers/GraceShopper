@@ -34,18 +34,17 @@ export default function Register({
   return (
     <div className="loginpage">
       <div className= "loginContainer">
+      <br></br>
+      <br></br>
       <h2 className="registerTitle">REGISTER</h2>
       <br></br>
-      <form>
+      <form className="registerForm">
         <label className="loginHeaders">EMAIL ADDRESS</label>
-        <br></br>
         <input className="loginInput" type="text" onChange={(e) => setEmail(e.target.value)} />
         <br></br>
-        <br></br>
         <label className="loginHeaders">PASSWORD</label>
-        <br></br>
         <input className="loginInput" type="password" onChange={(e) => setPassword(e.target.value)} />
-        <br></br>
+        <p className="passwordLength">(Must be at least 8 characters long)</p>
         <center><input className="loginButton" type="submit" value="Sign up" onClick={handleRegisterSubmit} /></center>
       </form>
       <p className="registerLink" onClick={ () => navigate("/login")}>Already have an account? Sign in!</p>
