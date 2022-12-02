@@ -14,6 +14,7 @@
 
 .logoName{
   color: rgb(104, 182, 188);
+  font-weight: bold;
 }
 
 .navbarContainer{
@@ -49,6 +50,11 @@
 .navbarLinks:hover{
   text-decoration: underline solid 1.5px rgb(104, 182, 188);
 }
+
+.registerTitle{
+  font-weight: bold;
+}
+
 
 .loginpage{
   display: flex;

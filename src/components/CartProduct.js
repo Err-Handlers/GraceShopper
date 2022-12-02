@@ -14,7 +14,6 @@ const CartProduct = ({
   
     console.log('guestCart :>> ', guestCart);
     
-  console.log('productInCart :>> ', productInCart);
     const [quantity, setQuantity] = useState(productInCart.quantity);
   const quantityUpdateHandler = async (token, quantity, productId, orderId) => {
     try {

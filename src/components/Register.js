@@ -1,4 +1,5 @@
 import { callApi } from "../api/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function Register({
   email,
@@ -9,6 +10,8 @@ export default function Register({
   setToken,
   error,
 }) {
+
+  const navigate = useNavigate();
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,7 +34,7 @@ export default function Register({
   return (
     <div className="loginpage">
       <div className= "loginContainer">
-      <h2>REGISTER</h2>
+      <h2 className="registerTitle">REGISTER</h2>
       <br></br>
       <form>
         <label className="loginHeaders">EMAIL ADDRESS</label>
@@ -45,7 +48,7 @@ export default function Register({
         <br></br>
         <center><input className="loginButton" type="submit" value="Sign up" onClick={handleRegisterSubmit} /></center>
       </form>
-      <p className="registerLink">Already have an account? Sign in!</p>
+      <p className="registerLink" onClick={ () => navigate("/login")}>Already have an account? Sign in!</p>
       {error && <p>{error}</p>}
     </div>
       </div>

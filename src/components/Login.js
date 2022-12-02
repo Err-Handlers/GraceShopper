@@ -43,7 +43,7 @@ export default function Login({ setEmail, email, setPassword, password, setToken
   return (
     <div className="loginpage">
     <div className= "loginContainer">
-      <h2>SIGN IN</h2>
+      <h2 className="registerTitle">SIGN IN</h2>
       <br></br>
       <form >
         <label className="loginHeaders">EMAIL ADDRESS</label>
@@ -63,7 +63,7 @@ export default function Login({ setEmail, email, setPassword, password, setToken
           required
         ></input>
         <br></br>
-        <center><button className="loginButton" onClick={submitHandler}>SIGN IN</button></center>
+        <center><button className="loginButton" onClick={submitHandler}>Sign in</button></center>
       </form>
       <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? Click me!</p>
     </div>
