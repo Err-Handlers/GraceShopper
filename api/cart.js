@@ -1,6 +1,6 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, updateOrderStatus, getOrders } = require("../db/models");
+const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, updateOrderStatus, getOrderByUserId, getOrdersByUserId } = require("../db/models");
 
 
 cartRouter.get("/products", async (req, res, next) => {
@@ -73,12 +73,12 @@ cartRouter.patch("/checkout", async (req, res, next) => {
   }
 })
 
-
+// cartRouter.get("")
 
 
 cartRouter.get("/test", async (req, res, next) => {
   try {
-    const data = await getOrders()
+    const data = await getOrdersByUserId(req.user.id)
     res.send(data)
   } catch ({name, message}) {
     next({name, message})

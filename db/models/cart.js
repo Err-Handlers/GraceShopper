@@ -228,10 +228,11 @@ async function deleteProductFromCart(productId, orderId){
   }
 }
 
-async function getOrders() {
+async function getOrdersByUserId(userId) {
   try {
     const {rows} = await client.query(`
       SELECT * FROM orders
+      WHERE userId = ${userId}
     `)
     return rows
   } catch (err) {
@@ -239,9 +240,9 @@ async function getOrders() {
   }
 }
 
+
 module.exports = {
-  getOrders,
-  getOrderByUserId,
+  getOrdersByUserId,
   addProductToCart,
   createOrder,
   findOrCreateCart,

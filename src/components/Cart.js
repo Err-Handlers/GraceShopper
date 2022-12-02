@@ -119,7 +119,7 @@ function Cart({ token, cart }) {
               >
                 I WANT MORE
               </button>
-              <button className="cartButton" onClick={handleShowPayment}>Checkout</button>
+              <button className="cartButton" onClick={handleShowPayment}>CHECKOUT</button>
             </div>
             {showPayment && <div>
             <h1>Cart</h1>
@@ -139,7 +139,7 @@ function Cart({ token, cart }) {
                 <label>Name On Card: </label>
                 <input type="text" placeholder="Credit Card Holders Name"/>
                 <label htmlFor="ccn">Card Number: </label>
-                <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" maxLength="19" placeholder="xxxx xxxx xxxx xxxx"/>
+                <input id="ccn" type="tel" inputMode="numeric" pattern="[0-9\s]{13,19}" maxLength="19" placeholder="xxxx xxxx xxxx xxxx"/>
                 <label>City: </label>
                 <input type="text" placeholder="City"/>
                 <label>State: </label>
