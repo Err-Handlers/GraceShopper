@@ -58,8 +58,11 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                         <img className="picBorder" src={product.imageURL} width="300" height="300"></img>
                         <h3 className='productName'>{product.name}</h3>
                         {/* <h4>Inventory: {product.inventory}</h4> */}
+                        
                         <h4 className='productPrice'>{`$${product.priceInCents / 100}.00`}</h4>
-                        {isAdmin ? <Button variant="secondary" onClick={()=>{deleteProduct(product.id)}}>Delete</Button> : null}
+
+                        <div className="btn-toolbar">
+                        {isAdmin ? <Button variant="secondary mx-2" onClick={()=>{deleteProduct(product.id)}}>Delete</Button> : null}
                         {isAdmin ? (
                     <Button
                       variant="primary"
@@ -68,9 +71,12 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                         setShow(true);
                       }}
                     >
-                      Edit Product
+                      Edit
                     </Button>
+                    
+
                   ) : null}
+                  </div>
                         { inCartLabel ? (
                             <p>Item is in cart</p>
                         ) : ( 
@@ -95,7 +101,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
     
         <Modal show={show} onHide={handleClose}>
               <Modal.Header closeButton>
-                <Modal.Title>Update Product</Modal.Title>
+                <Modal.Title>Update Sticker</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <EditProductForm

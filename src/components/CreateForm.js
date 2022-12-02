@@ -59,49 +59,64 @@ const CreateForm = ({token, navigate, setProducts}) => {
 
     return (
         <div>
+        <br></br>
             <form onSubmit={createProduct}>
+                <center><h1 className="text-success">Add a sticker!</h1></center>
+                <br></br>
+                <center><h5>Title</h5></center>
                 <input
+                className="form-control w-75 mx-auto"
                 type="text"
                 name="title"
                 value={name}
-                placeholder="product title"
+                placeholder="Input product title..."
                 onChange={(event) => setName(event.target.value)}
                 />
-                
+                <br></br>
+                <center><h5>Description</h5></center>
                 <input
+                className="form-control w-75 mx-auto"
                 type="text"
                 name="description"
                 value={description}
-                placeholder="product description"
+                placeholder="Input product description..."
                 onChange={(event) => setDescription(event.target.value)}
                 />
-
+                <br></br>
+                <center><h5>Image URL</h5></center>
                 <input
+                className="form-control w-75 mx-auto"
                 type="text"
                 name="description"
                 value={imageURL}
-                placeholder="product url"
+                placeholder="Input image url..."
                 onChange={(event) => setImageURL(event.target.value)}
                 />
-
+                <br></br>
+                <center><h5>Price - In Cents</h5></center>
                 <input
+                className="form-control w-75 mx-auto"
                 type="text"
                 name="price"
                 value={priceInCents}
-                placeholder="priceincents"
+                placeholder="Input price in cents..."
                 onChange={(event) =>setPriceInCents(event.target.value)}
                 />
-
+                <br></br>
+                <center><h5>Inventory</h5></center>
                 <input
+                className="form-control w-75 mx-auto"
                 type="text"
                 name="inventory"
                 value={inventory}
-                placeholder="inventory"
+                placeholder="Set inventory..."
                 onChange={(event) =>setInventory(event.target.value)}
                 />
-                
-                <button type="submit">Add Product
+                <br></br>
+                <center>
+                <button type="submit" className="btn btn-primary w-25">Add Sticker
                 </button>
+                </center>
             </form>
         </div>
     )
