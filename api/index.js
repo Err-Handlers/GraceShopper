@@ -44,6 +44,8 @@ router.use("/products", productsRouter);
 
 // const adminRouter = require("./admin")
 // router.use("/admin", adminRouter);
+const orderHistoryRouter = require("./order_history")
+router.use("/order_history", orderHistoryRouter)
 
 router.get('/health', (req, res, next) => {
   res.send({

@@ -73,21 +73,8 @@ cartRouter.patch("/checkout", async (req, res, next) => {
   }
 })
 
-async function updateOrderStatus(orderId) {
-  try {
-    const {
-      rows: [order],
-    } = await client.query(`
-        UPDATE orders
-        SET status = 'completed'
-        WHERE id = $1 AND status = 'cart'
-        RETURNING *
-      `, [orderId])
-    return order;
-  } catch (err) {
-    console.log(err);
-  }
-}
+
+
 
 cartRouter.get("/test", async (req, res, next) => {
   try {
