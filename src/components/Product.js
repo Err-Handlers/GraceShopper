@@ -30,9 +30,8 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
             if(product.id === cartItem.productId){
                 setInCartLabel(true)
             }
-
         })
-    }, [])
+    }, []);
 
     
     // const token = localStorage.getItem("token");
