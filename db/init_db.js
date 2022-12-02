@@ -51,6 +51,7 @@ async function buildTables() {
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
+        "orderDate" INTEGER
         status STATUS
       );
       CREATE TABLE order_products(

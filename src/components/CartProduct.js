@@ -8,8 +8,11 @@ const CartProduct = ({
   setCart,
   cartProducts,
   setCartProducts,
+  guestCart,
+  setGuestCart
 }) => {
   
+    console.log('guestCart :>> ', guestCart);
     
   console.log('productInCart :>> ', productInCart);
     const [quantity, setQuantity] = useState(productInCart.quantity);
