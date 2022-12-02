@@ -118,6 +118,10 @@
   color: rgb(75, 132, 136);
 }
 
+.picBorder{
+  box-shadow: 0 0 4px rgb(75, 132, 136);
+}
+
 .productPrice{
   margin-top: -10px;
 }
@@ -146,7 +150,7 @@
   padding-left: 18px;
   padding-right: 135px;
   border-bottom: solid 1px rgb(75, 132, 136);
-  color: rgb(104, 182, 188)
+  color: rgb(104, 182, 188);
 }
 
 .nameAndPhoto{
@@ -173,6 +177,18 @@
   margin-left: 5px;
   width: 150px;
   color: rgb(98, 98, 98);
+}
+
+.productName{
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: large;
+}
+
+.productPrice{
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 .cartProductPrice {

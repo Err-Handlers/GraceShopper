@@ -55,7 +55,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
     return (
                 <div className="mx-auto">
                     <div className="singleProduct card">
-                        <img src={product.imageURL} width="300" height="300"></img>
+                        <img className="picBorder" src={product.imageURL} width="300" height="300"></img>
                         <h3 className='productName'>{product.name}</h3>
                         {/* <h4>Inventory: {product.inventory}</h4> */}
                         <h4 className='productPrice'>{`$${product.priceInCents / 100}.00`}</h4>
