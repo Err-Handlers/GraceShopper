@@ -2,7 +2,6 @@ import { callApi } from "../api/utils";
 import { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
 // import e from "cors";
-// import Products from "./Products";
 
     
 const CreateForm = ({token, navigate, setProducts}) => {
