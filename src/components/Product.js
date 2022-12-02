@@ -9,7 +9,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [inCartLabel, setInCartLabel] = useState(false);
-
+  
     const addProductToCart = async ( e, token, quantity, productId,) => {
         e.preventDefault();
         console.log('quantity :>> ', quantity);
@@ -31,7 +31,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                 setInCartLabel(true)
             }
         })
-    }, []);
+    }, [cart]);
 
     
     // const token = localStorage.getItem("token");

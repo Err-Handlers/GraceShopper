@@ -27,6 +27,7 @@ cartRouter.patch("/", async (req, res, next) => {
   try {
     const { quantity, productId, orderId} = req.body;
     const newQuantity = await updateOrderQuantity(quantity, productId, orderId)
+    console.log('newQuantity :>> ', newQuantity);
     res.send(newQuantity)
   } catch ({ name, message }) {
     next({ name, message })

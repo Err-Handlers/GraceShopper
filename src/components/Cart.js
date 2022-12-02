@@ -7,22 +7,21 @@ function Cart({ token, cart }) {
   //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
-  // console.log('cartProducts :>> ', cartProducts);
-  
   const fetchCart = async () => {
     try {
       const data = await callApi({ 
         path: "/cart",
         token });
-      setCartProducts(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
+        setCartProducts(data);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    useEffect(() => {
+      fetchCart();
+    }, []);
+    
   
   return (
     <div>
@@ -48,12 +47,16 @@ function Cart({ token, cart }) {
               >
                 I WANT MORE
               </button>
-              <button className="cartButton">SUBMIT ORDER</button>
+              <button className="cartButton">CHECKOUT</button>
             </div>
           </div>
         </div>
       ) : (
-        <p>Uh oh, look's like you have some shopping to do!</p>
+        <div className="mainContainer">
+        <div className="cartContainer">
+          <p className="emptyCart">Uh oh, look's like you have some shopping to do!</p>
+          </div>
+          </div>
       )}
     </div>
   );

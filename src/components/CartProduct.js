@@ -8,7 +8,10 @@ const CartProduct = ({
   cartProducts,
   setCartProducts,
 }) => {
-  const [quantity, setQuantity] = useState(productInCart.quantity);
+  
+    
+  console.log('productInCart :>> ', productInCart);
+    const [quantity, setQuantity] = useState(productInCart.quantity);
   const quantityUpdateHandler = async (token, quantity, productId, orderId) => {
     try {
       const updateQuantity = await callApi({
@@ -23,10 +26,7 @@ const CartProduct = ({
       console.log(error);
     }
   };
-  useEffect(() => {
-    quantityUpdateHandler();
-  }, [quantity]);
-
+ 
   const deleteHandler = async (token, productId, orderId) => {
     try {
       const deleteProduct = await callApi({
