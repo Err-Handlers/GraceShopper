@@ -1,6 +1,6 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById } = require("../db/models");
+const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, updateOrderStatus, getOrders } = require("../db/models");
 
 
 cartRouter.get("/products", async (req, res, next) => {
@@ -53,7 +53,6 @@ cartRouter.post("/", async (req, res, next) => {
 });
 
 
-
 cartRouter.delete("/", async (req, res, next) => {
   try {
     const { productId, orderId } = req.body
@@ -61,6 +60,41 @@ cartRouter.delete("/", async (req, res, next) => {
     res.send({message: "deleted product"})
   } catch ({ name, message }) {
     next({ name, message });
+  }
+})
+
+cartRouter.patch("/checkout", async (req, res, next) => {
+  try {
+    const updateStatus = await updateOrderStatus(req.body.orderId)
+    console.log('updateStatus :>> ', updateStatus);
+    res.send(updateStatus)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+async function updateOrderStatus(orderId) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(`
+        UPDATE orders
+        SET status = 'completed'
+        WHERE id = $1 AND status = 'cart'
+        RETURNING *
+      `, [orderId])
+    return order;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+cartRouter.get("/test", async (req, res, next) => {
+  try {
+    const data = await getOrders()
+    res.send(data)
+  } catch ({name, message}) {
+    next({name, message})
   }
 })
 

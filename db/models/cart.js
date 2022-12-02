@@ -89,6 +89,38 @@ async function updateOrderQuantity(quantity, productId, orderId) {
   }
 }
 
+async function updateOrderStatus(orderId) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(`
+        UPDATE orders
+        SET status = 'completed'
+        WHERE id = $1 AND status = 'cart'
+        RETURNING *
+      `, [orderId])
+    return order;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getOrdersIfCompleted(userId) {
+  try {
+    const {rows} = await client.query(`
+        SELECT orders.*, order_products FROM orders
+        JOIN order_products 
+        ON orders.id = order_products."orderId"
+        WHERE orders."userId" = $1 AND status = 'completed'
+        RETURNING *
+      `, [userId])
+    return rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 
 async function findOrCreateCart(userId) {
   try {
@@ -196,7 +228,19 @@ async function deleteProductFromCart(productId, orderId){
   }
 }
 
+async function getOrders() {
+  try {
+    const {rows} = await client.query(`
+      SELECT * FROM orders
+    `)
+    return rows
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 module.exports = {
+  getOrders,
   getOrderByUserId,
   addProductToCart,
   createOrder,
@@ -207,5 +251,7 @@ module.exports = {
   getOrderProductsByUserId,
   getProductInCartDetails,
   deleteProductFromCart,
-  addProductToOrderProducts
+  addProductToOrderProducts,
+  updateOrderStatus,
+  getOrdersIfCompleted
 };

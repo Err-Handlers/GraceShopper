@@ -1,12 +1,13 @@
 import { callApi } from "../api/utils";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 function Cart({ token, cart }) {
   //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
- 
+  const [showPayment, setShowPayment] = useState(false);
+  console.log('showPayment :>> ', showPayment);
   
   const fetchCart = async () => {
     try {
@@ -56,6 +57,14 @@ function Cart({ token, cart }) {
       console.log(error);
     }
   };
+
+  const handleShowPayment = () => {
+    setShowPayment(p => !p)
+  }
+
+  const handleSubmit = () => {
+    console.log('Payment');
+  }  
   
   return (
     <div>
@@ -110,8 +119,38 @@ function Cart({ token, cart }) {
               >
                 I WANT MORE
               </button>
-              <button className="cartButton">SUBMIT ORDER</button>
+              <button className="cartButton" onClick={handleShowPayment}>Checkout</button>
             </div>
+            {showPayment && <div>
+            <h1>Cart</h1>
+            <form>
+              <p>Shipping Details</p>
+                <label>Full Name: </label>
+                <input type="text" placeholder="Full Name"/>
+                <label>City: </label>
+                <input type="text" placeholder="City"/>
+                <label>State: </label>
+                <input type="text" placeholder="State"/>
+                <label>Street: </label>
+                <input type="text" placeholder="Street"/>
+                <label>Zipcode: </label>
+                <input type="text" placeholder="Zipcode"/>
+                <p>Payment Details</p>
+                <label>Name On Card: </label>
+                <input type="text" placeholder="Credit Card Holders Name"/>
+                <label htmlFor="ccn">Card Number: </label>
+                <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" maxLength="19" placeholder="xxxx xxxx xxxx xxxx"/>
+                <label>City: </label>
+                <input type="text" placeholder="City"/>
+                <label>State: </label>
+                <input type="text" placeholder="State"/>
+                <label>Street: </label>
+                <input type="text" placeholder="Street"/>
+                <label>Zipcode: </label>
+                <input type="text" placeholder="Zipcode"/>
+                <input type="submit" onClick={handleSubmit}/>
+            </form>
+        </div>}
           </div>
         </div>
       ) : (
