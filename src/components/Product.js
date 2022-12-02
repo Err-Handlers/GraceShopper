@@ -72,7 +72,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                     </Button>
                   ) : null}
                         { inCartLabel ? (
-                            <p>Item is in cart</p>
+                            <p className="inCartLabel">Item is in cart</p>
                         ) : ( 
                         <div>
                         <form className='productButtonsContainer'>
@@ -85,7 +85,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="productButtons" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
+                        <button className="addToCartButton" onClick={ e => addProductToCart(e, token, quantity, product.id,)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>
