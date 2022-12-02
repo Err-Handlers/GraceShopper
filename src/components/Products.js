@@ -32,10 +32,10 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart, setProducts, pr
             ></input>
         <br></br>
         <div className='productsContainer'>
-        {filteredProducts.map( product => {
+        {filteredProducts.map( product => { 
             return(
                 <Product token={token} isAdmin={isAdmin} productToEdit={productToEdit} cart={cart} setCart={setCart} products={products}
-                setProducts={setProducts} fetchProducts={fetchProducts} product={product} />
+                setProducts={setProducts} fetchProducts={fetchProducts} product={product} key={product.id}/>
             )
         } 
         )}

@@ -195,6 +195,8 @@ console.log('token :>> ', token);
             <CreateForm
               token={token}
               navigate={navigate}
+              setProducts={setProducts}
+
             />
           }
         ></Route>
