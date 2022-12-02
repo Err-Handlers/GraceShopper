@@ -26,6 +26,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
     }
 
     useEffect( () => {
+        console.log("cart:", cart);
         cart.map( cartItem => {
             if(product.id === cartItem.productId){
                 setInCartLabel(true)

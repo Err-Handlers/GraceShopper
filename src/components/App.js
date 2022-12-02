@@ -202,7 +202,7 @@ console.log('token :>> ', token);
         ></Route>
         <Route
           path="/cart"
-          element={<Cart token={token} cart={cart}/>}
+          element={<Cart token={token} cart={cart} setCart={setCart}/>}
         ></Route>
         <Route path="/account" element={<Account></Account>}></Route>
       </Routes>

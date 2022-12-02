@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
 
-function Cart({ token, cart }) {
+
+//guest items add to cart using state, no API call and when they checkout is when they actually get added to the database using the email and a null password
+//create order with status completed
+
+function Cart({ token, cart, setCart }) {
   //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
@@ -36,7 +40,7 @@ function Cart({ token, cart }) {
             <div className="cartProducts">
               {cartProducts.map((productInCart) => {
                 return (
-                 <CartProduct productInCart={productInCart} token={token} cart={cart} cartProducts={cartProducts} setCartProducts={setCartProducts}/>
+                 <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}/>
                 );
               })}
             </div>

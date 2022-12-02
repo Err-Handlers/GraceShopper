@@ -5,6 +5,7 @@ const CartProduct = ({
   productInCart,
   token,
   cart,
+  setCart,
   cartProducts,
   setCartProducts,
 }) => {
@@ -36,10 +37,8 @@ const CartProduct = ({
         body: { productId, orderId },
       });
       if (deleteProduct) {
-        const filteredCart = cartProducts.filter(
-          (p) => p.productId !== productId
-        );
-        setCartProducts(filteredCart);
+        setCartProducts( prev => prev.filter(p => p.productId !== productId));
+        setCart( prev => prev.filter( p => p.productId !== productId ))
       }
       return cartProducts;
     } catch (error) {
