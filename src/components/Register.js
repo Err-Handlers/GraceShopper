@@ -35,7 +35,6 @@ export default function Register({
     <div className="loginpage">
       <div className= "loginContainer">
       <br></br>
-      <br></br>
       <h2 className="registerTitle">REGISTER</h2>
       <br></br>
       <form className="registerForm">

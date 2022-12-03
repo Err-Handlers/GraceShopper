@@ -107,7 +107,7 @@ async function populateInitialData() {
     {
       name: "Koi Fish",
       description: "Minimal Koi Art",
-      imageURL: "https://www.linkpicture.com/q/koiYellow.png",
+      imageURL: "https://www.linkpicture.com/q/koiYellow.jpeg",
       inventory: 10,
       priceInCents: 500
     },
