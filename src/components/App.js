@@ -23,6 +23,7 @@ const App = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([]);
+  const [success, setSuccess] = useState("")
 
   
 
@@ -125,6 +126,9 @@ console.log('token :>> ', token);
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
+                    swal({
+                      text: "Thank you for shopping with us!",
+                    });
                     navigate("/products");
                   }}
                 >
@@ -174,6 +178,8 @@ console.log('token :>> ', token);
               password={password}
               setToken={setToken}
               setIsAdmin={setIsAdmin}
+              success={success}
+              setSuccess={setSuccess}
             />
           }
         ></Route>
@@ -191,6 +197,7 @@ console.log('token :>> ', token);
               fetchProducts={fetchProducts}
               guestCart={guestCart}
               setGuestCart={setGuestCart}
+              error={error}
             />
           }
         ></Route>
@@ -201,7 +208,7 @@ console.log('token :>> ', token);
               token={token}
               navigate={navigate}
               setProducts={setProducts}
-
+              error={error}
             />
           }
         ></Route>

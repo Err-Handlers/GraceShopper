@@ -3,8 +3,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import { callApi } from "../api/utils";
+import swal from "sweetalert";
 
-const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setProducts, fetchProducts, product, guestCart, setGuestCart}) => {
+const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setProducts, fetchProducts, product, guestCart, setGuestCart, error}) => {
     const [show, setShow] = useState(false)
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
@@ -26,7 +27,6 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                 console.log("guestCart:", guestCart);
                 setInCartLabel( prev => !prev)
             }
-
         } catch (error) {
             console.log(error)
         }
@@ -53,6 +53,11 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                 token
         })
         setProducts( prev => prev.filter((product) => productId !== product.id))
+        if(!error) {
+          swal({
+            text: "Sticker has been deleted!",
+          });
+        }
         }
         catch (error) {
             console.log(error)
@@ -130,6 +135,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                   setProducts={setProducts}
                   productToEdit={productToEdit}
                   onProductEditedHandler={onProductEdited}
+                  error={error}
                 />
               </Modal.Body>
               <Modal.Footer>
