@@ -14,6 +14,7 @@
 
 .logoName{
   color: rgb(104, 182, 188);
+  font-weight: bold;
 }
 
 .navbarContainer{
@@ -50,6 +51,11 @@
   text-decoration: underline solid 1.5px rgb(104, 182, 188);
 }
 
+.registerTitle{
+  font-weight: bold;
+}
+
+
 .loginpage{
   display: flex;
   justify-content: center;
@@ -66,6 +72,16 @@
   height: 30px;
   border: 2px solid rgb(190, 190, 190);
   border-radius: 5px;
+  font-size: 15px;
+}
+
+.registerForm{
+  display: flex;
+  flex-direction: column;
+}
+
+.passwordLength{
+  font-size: small;
 }
 
 .loginButton{
@@ -107,6 +123,8 @@
 
 .productsContainer{
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .singleProduct{

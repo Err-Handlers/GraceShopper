@@ -4,22 +4,29 @@ import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import { callApi } from "../api/utils";
 
-const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setProducts, fetchProducts, product}) => {
+const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setProducts, fetchProducts, product, guestCart, setGuestCart}) => {
     const [show, setShow] = useState(false)
     const [quantity, setQuantity] = useState(0);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [inCartLabel, setInCartLabel] = useState(false);
   
-    const addProductToCart = async ( e, token, quantity, productId,) => {
+    const addProductToCart = async ( e, token, quantity, productId, product) => {
         e.preventDefault();
-        console.log('quantity :>> ', quantity);
-        console.log('productId :>> ', productId);
+       console.log("productInfo:", product);
         try {
             //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
             //cart is an array of all of these order_products that share the same orderId
-            const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
-            setCart( prev => [ data, ...prev])
-            setInCartLabel( prev => !prev)
+            if(token){
+                const data = await callApi({method: "POST", path: '/cart', token, body: {quantity, productId}})
+                setCart( prev => [ data, ...prev])
+                setInCartLabel( prev => !prev)
+            } else {
+                console.log(productId, quantity);
+                setGuestCart( prev => [...prev, {quantity, productId}])
+                console.log("guestCart:", guestCart);
+                setInCartLabel( prev => !prev)
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -30,8 +37,11 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
             if(product.id === cartItem.productId){
                 setInCartLabel(true)
             }
+            if(product.id === guestCart.productId){
+                setInCartLabel(true)
+            }
         })
-    }, [cart]);
+    }, [cart, guestCart]);
 
     
     // const token = localStorage.getItem("token");
@@ -100,7 +110,7 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                             <option>5</option>
                             <option>6</option>
                         </select>
-                        <button className="addToCartButton" onClick={ e => addProductToCart(e, token, quantity, product.id)}>Add to cart</button>
+                        <button className="addToCartButton" onClick={ e => addProductToCart(e, token, quantity, product.id, product)}>Add to cart</button>
                     </form>
                     <br></br>
                     <br></br>

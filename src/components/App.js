@@ -22,6 +22,7 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
+  const [guestCart, setGuestCart] = useState([]);
 
   
 
@@ -74,11 +75,13 @@ console.log('token :>> ', token);
 
   const fetchCart = async () => {
     try {
-      const data = await callApi({
-        path: "/cart/products",
-        token
-      });
-      setCart(data)
+      if(token){
+        const data = await callApi({
+          path: "/cart/products",
+          token
+        });
+        setCart(data)
+      }
     } catch (error) {
       console.log('error :>> ', error);
     }
@@ -186,6 +189,8 @@ console.log('token :>> ', token);
               products={products}
               setProducts={setProducts}
               fetchProducts={fetchProducts}
+              guestCart={guestCart}
+              setGuestCart={setGuestCart}
             />
           }
         ></Route>
@@ -202,7 +207,8 @@ console.log('token :>> ', token);
         ></Route>
         <Route
           path="/cart"
-          element={<Cart token={token} cart={cart}/>}
+          element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart}
+          setGuestCart={setGuestCart}/>}
         ></Route>
         <Route path="/account" element={<Account></Account>}></Route>
       </Routes>

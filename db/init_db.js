@@ -26,7 +26,7 @@ async function buildTables() {
       CREATE TABLE users(
         id SERIAL PRIMARY KEY,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        password VARCHAR(255),
         "isAdmin" BOOLEAN DEFAULT false
       );
       CREATE TABLE products(
@@ -51,6 +51,7 @@ async function buildTables() {
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
+        "orderDate" INTEGER
         status STATUS
       );
       CREATE TABLE order_products(
@@ -106,7 +107,7 @@ async function populateInitialData() {
     {
       name: "Koi Fish",
       description: "Minimal Koi Art",
-      imageURL: "https://www.linkpicture.com/q/koiYellow.png",
+      imageURL: "https://www.linkpicture.com/q/koiYellow.jpeg",
       inventory: 10,
       priceInCents: 500
     },

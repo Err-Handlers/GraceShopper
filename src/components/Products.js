@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Product from './Product';
 
 
-const Products = ({token, isAdmin, productToEdit, cart, setCart, setProducts, products, fetchProducts}) => {
+const Products = ({token, isAdmin, productToEdit, cart, setCart, setProducts, products, fetchProducts, guestCart, setGuestCart}) => {
   
     const [searchValue, setSearchValue] = useState("");
 
@@ -35,7 +35,7 @@ const Products = ({token, isAdmin, productToEdit, cart, setCart, setProducts, pr
         {filteredProducts.map( product => { 
             return(
                 <Product token={token} isAdmin={isAdmin} productToEdit={productToEdit} cart={cart} setCart={setCart} products={products}
-                setProducts={setProducts} fetchProducts={fetchProducts} product={product} key={product.id}/>
+                setProducts={setProducts} fetchProducts={fetchProducts} product={product} key={product.id} guestCart={guestCart} setGuestCart={setGuestCart}/>
             )
         } 
         )}

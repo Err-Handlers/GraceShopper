@@ -5,12 +5,15 @@ const CartProduct = ({
   productInCart,
   token,
   cart,
+  setCart,
   cartProducts,
   setCartProducts,
+  guestCart,
+  setGuestCart
 }) => {
   
+    console.log('guestCart :>> ', guestCart);
     
-  console.log('productInCart :>> ', productInCart);
     const [quantity, setQuantity] = useState(productInCart.quantity);
   const quantityUpdateHandler = async (token, quantity, productId, orderId) => {
     try {
@@ -36,10 +39,8 @@ const CartProduct = ({
         body: { productId, orderId },
       });
       if (deleteProduct) {
-        const filteredCart = cartProducts.filter(
-          (p) => p.productId !== productId
-        );
-        setCartProducts(filteredCart);
+        setCartProducts( prev => prev.filter(p => p.productId !== productId));
+        setCart( prev => prev.filter( p => p.productId !== productId ))
       }
       return cartProducts;
     } catch (error) {
