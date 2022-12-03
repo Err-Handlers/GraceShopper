@@ -1,6 +1,6 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById } = require("../db/models");
+const { addProductToOrderProducts, findOrCreateCart, getProductById, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, getOrdersByUserId, updateOrderStatus } = require("../db/models");
 
 
 cartRouter.get("/products", async (req, res, next) => {
@@ -58,6 +58,28 @@ cartRouter.delete("/", async (req, res, next) => {
     res.send({message: "deleted product"})
   } catch ({ name, message }) {
     next({ name, message });
+  }
+})
+
+cartRouter.patch("/checkout", async (req, res, next) => {
+  try {
+    const updateStatus = await updateOrderStatus(req.body.orderId)
+    console.log('updateStatus :>> ', updateStatus);
+    res.send(updateStatus)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+// cartRouter.get("")
+
+
+cartRouter.get("/test", async (req, res, next) => {
+  try {
+    const data = await getOrdersByUserId(req.user.id)
+    res.send(data)
+  } catch ({name, message}) {
+    next({name, message})
   }
 })
 

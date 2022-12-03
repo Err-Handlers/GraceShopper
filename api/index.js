@@ -42,6 +42,9 @@ router.use("/cart", cartRouter)
 const productsRouter = require("./products")
 router.use("/products", productsRouter);
 
+const orderHistoryRouter = require("./order_history")
+router.use("/order_history", orderHistoryRouter)
+
 // const adminRouter = require("./admin")
 // router.use("/admin", adminRouter);
 
