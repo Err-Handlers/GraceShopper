@@ -1,10 +1,11 @@
 import { callApi } from "../api/utils";
 import { useState, useEffect} from 'react'
 import { useNavigate } from "react-router-dom";
+import swal from "sweetalert";
 // import e from "cors";
 
     
-const CreateForm = ({token, navigate, setProducts}) => {
+const CreateForm = ({token, navigate, setProducts, error}) => {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [imageURL, setImageURL] = useState("");
@@ -49,7 +50,11 @@ const CreateForm = ({token, navigate, setProducts}) => {
             setImageURL("");
             setInventory("");   
             setPriceInCents("")
-
+            if (!error){
+                swal({
+                    text: "Sticker has been added!",
+                });
+            }
             navigate("/products");
         } catch (error) {
         console.log(error)
@@ -60,7 +65,7 @@ const CreateForm = ({token, navigate, setProducts}) => {
         <div>
         <br></br>
             <form onSubmit={createProduct}>
-                <center><h1 className="text-success">Add a sticker!</h1></center>
+                <center><h1 className="text-info">Add a sticker!</h1></center>
                 <br></br>
                 <center><h5>Title</h5></center>
                 <input
