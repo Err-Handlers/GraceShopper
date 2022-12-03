@@ -174,6 +174,76 @@ async function populateInitialData() {
       inventory: 10,
       priceInCents: 500
     },
+    {
+      name: "Strawberry Cat",
+      description: "Pretty pink cat",
+      imageURL: "https://i.postimg.cc/GpwcMJ68/2022-12-03-12-15-18.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Strawberry Frog",
+      description: "Frog Holding Strawberry",
+      imageURL: "https://i.postimg.cc/QCHGNHRZ/2022-12-03-12-15-46.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Turtle",
+      description: "Awkward turtle",
+      imageURL: "https://i.postimg.cc/rmh2LSZ9/2022-12-03-12-16-10.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Stacking Turtle",
+      description: "Turtles on top of each other",
+      imageURL: "https://i.postimg.cc/3wTTjrD2/2022-12-03-12-16-19.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Sleeping Bee",
+      description: "Tired bee",
+      imageURL: "https://i.postimg.cc/xTBYC3fx/2022-12-03-12-16-33.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Dinosaur Mushroom Hat",
+      description: "White dinosaur hat on top of head",
+      imageURL: "https://i.postimg.cc/26jNJHG6/2022-12-03-12-16-56.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Dinosaur Watermelon Hat",
+      description: "Green dinosaur hat on top of head",
+      imageURL: "https://i.postimg.cc/xj4Vx3zf/2022-12-03-12-17-09.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Axolotl",
+      description: "Pink Axolotl",
+      imageURL: "https://i.postimg.cc/MGm89kyN/2022-12-03-12-17-27.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Panda",
+      description: "Panda with bamboo",
+      imageURL: "https://i.postimg.cc/gkxmmTWL/2022-12-03-12-17-39.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Otter",
+      description: "Otter with clam",
+      imageURL: "https://i.postimg.cc/Pf3dGkBk/2022-12-03-12-17-49.png",
+      inventory: 10,
+      priceInCents: 500
+    },
   ];
 
   const initialOrders = [
