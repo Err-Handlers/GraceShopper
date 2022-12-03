@@ -8,12 +8,8 @@ import CartProduct from "./CartProduct";
 //create order with status completed
 
 function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
-  //render empty cart visuals
-console.log('Cart Page guestCart :>> ', guestCart);
-
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
-  const [guestCartProducts, setGuestCartProducts] = useState([]);
   const fetchCart = async () => {
     try {
       if(token){
@@ -29,29 +25,12 @@ console.log('Cart Page guestCart :>> ', guestCart);
     useEffect(() => {
       fetchCart();
     }, []);
+    
+  const cartProductsToDisplay = token ? cartProducts : guestCart 
 
-    const fetchProductsById = async (productId) => {
-      try {
-        const products = await callApi({
-          path: `/cart/guest/products/${productId}`,
-        })
-        setGuestCartProducts(prev => [...prev, products])
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    
-    useEffect( () => {
-      if(guestCart){
-        guestCart.map( guestCartProduct => fetchProductsById(guestCartProduct.productId))
-      }
-    }, [guestCart])
-    
-    console.log('guestCartProducts :>> ', guestCartProducts);
-  
   return (
     <div>
-      {cartProducts.length > 0 ? (
+      {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
           <div className="cartContainer">
             <div className="cartHeaders">
@@ -68,14 +47,14 @@ console.log('Cart Page guestCart :>> ', guestCart);
                   );
                 }))
                 : (
-                  guestCart.map((productInCart) => {
+                  guestCart.map((productInGuestCart) => {
                     return (
-                     <CartProduct productInCart={productInCart} guestCart={guestCart}
-                     setGuestCart={setGuestCart} setGuestCartProducts={setGuestCartProducts} guestCartProducts={guestCartProducts}/>
+                     <CartProduct productInGuestCart={productInGuestCart}
+                     setGuestCart={setGuestCart} guestCart={guestCart}/>
                     );
                   }
                 )
-              )}
+                )}
             </div>
             <div className="cartButtons">
               <button

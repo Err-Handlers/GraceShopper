@@ -3,26 +3,48 @@ import { callApi } from "../api/utils";
 
 const CartProduct = ({
   productInCart,
+  productInGuestCart,
   token,
   cart,
   setCart,
   cartProducts,
   setCartProducts,
-  guestCart,
-  setGuestCart
+  setGuestCart,
+  guestCart
 }) => {
-    
-    const [quantity, setQuantity] = useState(productInCart.quantity);
-  const quantityUpdateHandler = async (token, quantity, productId, orderId) => {
+  console.log('productInGuestCart :>> ', productInGuestCart);
+  const quantityUpdateHandler = async ({token, quantity, productId, orderId}) => {
     try {
-      const updateQuantity = await callApi({
-        method: "PATCH",
-        path: "/cart",
-        token,
-        body: { quantity, productId, orderId },
-      });
-      setQuantity(updateQuantity.quantity);
-      return updateQuantity;
+      if(token){
+        const updateQuantity = await callApi({
+          method: "PATCH",
+          path: "/cart",
+          token,
+          body: { quantity, productId, orderId },
+        });
+        setCartProducts( prev => prev.map( p => {
+          if(p.id === productId){
+            return(
+              {...p, quantity}
+            )
+          }
+          return p
+        }));
+        return updateQuantity;
+      } else {
+        console.log("quantity change!");
+        setGuestCart( prev => prev.map ( p => {
+          console.log('p.id :>> ', p.id);
+          console.log('productId :>> ', productId);
+          if (p.id === productId){
+            return(
+              {...p, quantity}
+            )
+          }
+          return p
+        }))
+        console.log('guestCart :>> ', guestCart);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -47,6 +69,8 @@ const CartProduct = ({
   };
 
   return (
+    <div>
+      {token ? (
     <div key={productInCart.id} className="singularCartProduct">
       <div className="nameAndPhoto">
         <img src={productInCart.imageURL} width="100" height="100"></img>
@@ -57,10 +81,11 @@ const CartProduct = ({
         className="productQuantity"
         onChange={(e) =>
           quantityUpdateHandler(
-            token,
-            e.target.value,
-            productInCart.productId,
-            cart[0].orderId
+            {token,
+            quantity: e.target.value,
+            productId: productInCart.productId,
+            orderId: cart[0].orderId
+            }
           )
         }
       >
@@ -73,7 +98,7 @@ const CartProduct = ({
         <option>6</option>
       </select>
       <p className="cartProductPrice">
-        ${(productInCart.priceInCents / 100) * quantity}.00{" "}
+        ${(productInCart.priceInCents / 100) * productInCart.quantity}.00{" "}
         <span className="pricePerQuantity">
           (${productInCart.priceInCents / 100}.00 each)
         </span>
@@ -86,6 +111,39 @@ const CartProduct = ({
       >
         X
       </p>
+    </div>
+      ) : (
+        <div key={productInGuestCart.id} className="singularCartProduct">
+      <div className="nameAndPhoto">
+        <img src={productInGuestCart.imageURL} width="100" height="100"></img>
+        <h4 className="cartProductName">{productInGuestCart.name}</h4>
+      </div>
+      <select
+        className="productQuantity"
+        defaultValue={productInGuestCart.quantity}
+        onChange={ (e) => quantityUpdateHandler({quantity: e.target.value, productId: productInGuestCart.id})}
+      >
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+      </select>
+      <p className="cartProductPrice">
+        ${(productInGuestCart.priceInCents / 100) * productInGuestCart.quantity}.00{" "}
+        <span className="pricePerQuantity">
+          (${productInGuestCart.priceInCents / 100}.00 each)
+        </span>
+      </p>
+      <p
+        className="cartDeleteButton"
+      >
+        X
+      </p>
+    </div>
+      ) }
     </div>
   );
 };

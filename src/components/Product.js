@@ -12,7 +12,6 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
   
     const addProductToCart = async ( e, token, quantity, productId, product) => {
         e.preventDefault();
-       console.log("productInfo:", product);
         try {
             //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
             //cart is an array of all of these order_products that share the same orderId
@@ -21,8 +20,10 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
                 setCart( prev => [ data, ...prev])
                 setInCartLabel( prev => !prev)
             } else {
-                console.log(productId, quantity);
-                setGuestCart( prev => [...prev, {quantity, productId}])
+                    const product = await callApi({
+                      path: `/cart/guest/products/${productId}`,
+                    })
+                setGuestCart( prev => [...prev, {...product, quantity}])
                 setInCartLabel( prev => !prev)
               }
               
@@ -30,7 +31,6 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
               console.log(error)
             }
           }
-          console.log("guestCart:", guestCart);
 
     useEffect( () => {
         cart.map( cartItem => {
@@ -70,7 +70,6 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
       };
       const handleShow = () => setShow(true);
       
-    
     return (
                 <div className="mx-auto">
                     <div className="singleProduct card">
