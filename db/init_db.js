@@ -100,49 +100,77 @@ async function populateInitialData() {
       {
       name: "Plant Trees",
       description: "Arms wrapped around a tree",
-      imageURL: "https://www.linkpicture.com/q/plantTrees.png",
+      imageURL: "https://i.postimg.cc/65PHYcpV/plant-Trees.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Koi Fish",
       description: "Minimal Koi Art",
-      imageURL: "https://www.linkpicture.com/q/koiYellow.jpeg",
+      imageURL: "https://i.postimg.cc/B6d6mRR9/koi-Yellow.jpg",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost Photographer",
       description: "Ghost taking photo",
-      imageURL: "https://www.linkpicture.com/q/ghostPhoto1.png",
+      imageURL: "https://i.postimg.cc/yYxQmtsY/ghost-Photo1.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost with Balloon",
       description: "Ghost playing with balloon",
-      imageURL: "https://www.linkpicture.com/q/ghostWithBalloon.png",
+      imageURL: "https://i.postimg.cc/25Q2jfFT/ghost-With-Balloon.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost Underwater",
       description: "Ghost playing underwater",
-      imageURL: "https://www.linkpicture.com/q/ghostUnderwater.jpeg",
+      imageURL: "https://i.postimg.cc/3R91pCqv/ghost-Underwater.jpg",
       inventory: 10,
       priceInCents: 500
     },
     {
-      name: "Black Cat",
+      name: "Cat",
       description: "Black cat chilling",
-      imageURL: "https://www.linkpicture.com/q/sittingBlackCat.png",
+      imageURL: "https://i.postimg.cc/Y9t8hyd7/sitting-Black-Cat.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Popsicle",
       description: "Eaten popsicle",
-      imageURL: "https://www.linkpicture.com/q/popsicle.png",
+      imageURL: "https://i.postimg.cc/XvSs0vFp/popsicle.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Meerkat",
+      description: "Meerkat standing guard",
+      imageURL: "https://i.postimg.cc/HnZSG44g/meerakat.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Sunny Side Up",
+      description: "Yummy egg",
+      imageURL: "https://i.postimg.cc/NFfNPPXD/sunny-Side-Up.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Penguin",
+      description: "Fluffy penguin",
+      imageURL: "https://i.postimg.cc/RCXpn4rD/penguin.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Cow",
+      description: "Moo",
+      imageURL: "https://i.postimg.cc/XYysh5rR/cow.png",
       inventory: 10,
       priceInCents: 500
     },
