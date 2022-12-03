@@ -22,9 +22,13 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [guestCart, setGuestCart] = useState([]);
-
+  const [guestCart, setGuestCart] = useState([])
+  // const [guestCart, setGuestCart] = useState(JSON.parse(window.localStorage.getItem("guestCart")) || []);
+  console.log('guestCart :>> ', guestCart);
   
+  // useEffect( () => {
+  //   window.localStorage.setItem("guestCart", JSON.stringify(guestCart))
+  // }, [guestCart])
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");

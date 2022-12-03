@@ -32,10 +32,7 @@ const CartProduct = ({
         }));
         return updateQuantity;
       } else {
-        console.log("quantity change!");
         setGuestCart( prev => prev.map ( p => {
-          console.log('p.id :>> ', p.id);
-          console.log('productId :>> ', productId);
           if (p.id === productId){
             return(
               {...p, quantity}
@@ -43,30 +40,35 @@ const CartProduct = ({
           }
           return p
         }))
-        console.log('guestCart :>> ', guestCart);
       }
     } catch (error) {
       console.log(error);
     }
   };
  
-  const deleteHandler = async (token, productId, orderId) => {
+  const deleteHandler = async ({token, productId, orderId}) => {
     try {
-      const deleteProduct = await callApi({
-        method: "DELETE",
-        path: "/cart",
-        token,
-        body: { productId, orderId },
-      });
-      if (deleteProduct) {
-        setCartProducts( prev => prev.filter(p => p.productId !== productId));
-        setCart( prev => prev.filter( p => p.productId !== productId ))
+      if(token){
+        const deleteProduct = await callApi({
+          method: "DELETE",
+          path: "/cart",
+          token,
+          body: { productId, orderId },
+        });
+        if (deleteProduct) {
+          setCartProducts( prev => prev.filter(p => p.productId !== productId));
+          setCart( prev => prev.filter( p => p.productId !== productId ))
+        }
+        return cartProducts;
+      } else {
+        setGuestCart( prev => prev.filter( p => p.productId !== productId ))
       }
-      return cartProducts;
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log('guestCart :>> ', guestCart);
 
   return (
     <div>
@@ -106,7 +108,7 @@ const CartProduct = ({
       <p
         className="cartDeleteButton"
         onClick={() =>
-          deleteHandler(token, productInCart.productId, cart[0].orderId)
+          deleteHandler({token, productId: productInCart.productId, orderId:cart[0].orderId})
         }
       >
         X
@@ -138,7 +140,7 @@ const CartProduct = ({
         </span>
       </p>
       <p
-        className="cartDeleteButton"
+        className="cartDeleteButton" onClick={ () => deleteHandler ({productId: productInGuestCart.id})}
       >
         X
       </p>
