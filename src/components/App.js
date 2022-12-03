@@ -12,6 +12,7 @@ import { callApi } from "../api/utils";
 import Login from "./Login";
 import Account from "./Account";
 import CreateForm from "./CreateForm";
+import Users from "./Users";
 import { useNavigate } from "react-router-dom";
 
 
@@ -143,11 +144,14 @@ console.log('token :>> ', token);
             </Link>
           </li>
           <li>
-            {isAdmin ? (
+            {isAdmin ? (<>
               <Link className="navbarLinks" to="/admin">
                 Admin
               </Link>
-            ) : null}
+              <Link className="navbarLinks" to="/users">
+                Users
+              </Link>
+            </>) : null}
           </li>
         </ul>
       </nav>
@@ -212,6 +216,11 @@ console.log('token :>> ', token);
             />
           }
         ></Route>
+        <Route
+          path="/users"
+          element={<Users />}
+        ></Route>
+
         <Route
           path="/cart"
           element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart}
