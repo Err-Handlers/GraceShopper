@@ -10,12 +10,15 @@ export default function Register({
   setError,
   setToken,
   error,
+  confirmPassword,
+  setConfirmPassword
 }) {
   const navigate = useNavigate();
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     
     try {
+      if(password === confirmPassword) {
       const result = await callApi({
         method: "POST",
         body: { email, password },
@@ -25,12 +28,20 @@ export default function Register({
       console.log("result :>> ", result);
       setToken(result.token);
       console.log("User Registered");
+
       if (!error){
         swal({
           icon: "success",
         });
       }
+
       navigate("/login");
+
+      } else (
+        swal({
+          text: "passwords do not match"
+        })
+      )
       
     } catch (err) {
       
@@ -50,6 +61,7 @@ export default function Register({
           <input
             className="loginInput"
             type="text"
+            name="name"
             onChange={(e) => setEmail(e.target.value)}
           />
           <br></br>
@@ -57,8 +69,20 @@ export default function Register({
           <input
             className="loginInput"
             type="password"
+            name="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+          <br></br>
+          <label className="loginHeaders">CONFIRM PASSWORD</label>
+          <input
+            className="loginInput"
+            type="password"
+            name="confirmPassword"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+
+
+
           <p className="passwordLength">(Must be at least 8 characters long)</p>
           <center>
             <input

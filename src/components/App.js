@@ -21,6 +21,7 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([]);
@@ -167,6 +168,8 @@ console.log('token :>> ', token);
               password={password}
               setPassword={setPassword}
               setToken={setToken}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
             />
           }
         ></Route>
