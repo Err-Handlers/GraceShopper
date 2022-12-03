@@ -39,7 +39,7 @@ export default function Register({
 
       } else (
         swal({
-          text: "passwords do not match"
+          text: "Passwords do not match, try again."
         })
       )
       
