@@ -13,6 +13,7 @@ console.log('Cart Page guestCart :>> ', guestCart);
 
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
+  const [guestCartProducts, setGuestCartProducts] = useState([]);
   const fetchCart = async () => {
     try {
       if(token){
@@ -28,7 +29,25 @@ console.log('Cart Page guestCart :>> ', guestCart);
     useEffect(() => {
       fetchCart();
     }, []);
+
+    const fetchProductsById = async (productId) => {
+      try {
+        const products = await callApi({
+          path: `/cart/guest/products/${productId}`,
+        })
+        setGuestCartProducts(prev => [...prev, products])
+      } catch (error) {
+        console.log(error);
+      }
+    }
     
+    useEffect( () => {
+      if(guestCart){
+        guestCart.map( guestCartProduct => fetchProductsById(guestCartProduct.productId))
+      }
+    }, [guestCart])
+    
+    console.log('guestCartProducts :>> ', guestCartProducts);
   
   return (
     <div>
@@ -52,7 +71,7 @@ console.log('Cart Page guestCart :>> ', guestCart);
                   guestCart.map((productInCart) => {
                     return (
                      <CartProduct productInCart={productInCart} guestCart={guestCart}
-                     setGuestCart={setGuestCart}/>
+                     setGuestCart={setGuestCart} setGuestCartProducts={setGuestCartProducts} guestCartProducts={guestCartProducts}/>
                     );
                   }
                 )
