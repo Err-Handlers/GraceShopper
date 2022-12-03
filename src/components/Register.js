@@ -22,9 +22,10 @@ export default function Register({
       });
 
       console.log("result :>> ", result);
-
       setToken(result.token);
       console.log("User Registered");
+      navigate('/login');
+      
     } catch (err) {
       setError(err);
       console.error(err);
@@ -46,8 +47,9 @@ export default function Register({
         <p className="passwordLength">(Must be at least 8 characters long)</p>
         <center><input className="loginButton" type="submit" value="Sign up" onClick={handleRegisterSubmit} /></center>
       </form>
-      <p className="registerLink" onClick={ () => navigate("/login")}>Already have an account? Sign in!</p>
-      {error && <p>{error}</p>}
+      <p className="registerLink" onClick={() => navigate("/login")}>
+          Already have an account? <a href="/login">Sign in!</a></p>
+      {error && <p className="text-danger">{error}</p>}
     </div>
       </div>
   );
