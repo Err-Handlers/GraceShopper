@@ -9,6 +9,8 @@ import CartProduct from "./CartProduct";
 
 function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
   //render empty cart visuals
+console.log('Cart Page guestCart :>> ', guestCart);
+
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
   const fetchCart = async () => {
@@ -39,12 +41,22 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
               <h3>PRICE</h3>
             </div>
             <div className="cartProducts">
-              {cartProducts.map((productInCart) => {
-                return (
-                 <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts} guestCart={guestCart}
-                 setGuestCart={setGuestCart}/>
-                );
-              })}
+              { token ? (
+                cartProducts.map((productInCart) => {
+                  return (
+                   <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}
+                  />
+                  );
+                }))
+                : (
+                  guestCart.map((productInCart) => {
+                    return (
+                     <CartProduct productInCart={productInCart} guestCart={guestCart}
+                     setGuestCart={setGuestCart}/>
+                    );
+                  }
+                )
+              )}
             </div>
             <div className="cartButtons">
               <button

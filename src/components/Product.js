@@ -23,14 +23,14 @@ const Product = ({token, isAdmin, productToEdit, cart, setCart, products, setPro
             } else {
                 console.log(productId, quantity);
                 setGuestCart( prev => [...prev, {quantity, productId}])
-                console.log("guestCart:", guestCart);
                 setInCartLabel( prev => !prev)
+              }
+              
+            } catch (error) {
+              console.log(error)
             }
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
+          }
+          console.log("guestCart:", guestCart);
 
     useEffect( () => {
         cart.map( cartItem => {

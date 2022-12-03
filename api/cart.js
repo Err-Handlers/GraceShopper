@@ -2,6 +2,14 @@ const express = require("express");
 const cartRouter = express.Router();
 const { addProductToOrderProducts, findOrCreateCart, getProductById, getProductInCart, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById } = require("../db/models");
 
+cartRouter.get("/guest/products", async (req, res, next) => {
+  try {
+    const productById = await getProductById(id)
+    res.send(productById)
+  } catch ({ name, message }) {
+    next({ name, message })
+  }
+} )
 
 cartRouter.get("/products", async (req, res, next) => {
   try {

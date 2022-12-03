@@ -23,6 +23,7 @@ const App = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([]);
+  console.log("App page guest cart", guestCart);
 
   
 
