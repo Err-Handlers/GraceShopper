@@ -8,7 +8,6 @@ import CartProduct from "./CartProduct";
 //create order with status completed
 
 function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
-  //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
   const fetchCart = async () => {
@@ -27,10 +26,11 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
       fetchCart();
     }, []);
     
-  
+  const cartProductsToDisplay = token ? cartProducts : guestCart 
+
   return (
     <div>
-      {cartProducts.length > 0 ? (
+      {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
           <div className="cartContainer">
             <div className="cartHeaders">
@@ -39,12 +39,22 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart}) {
               <h3>PRICE</h3>
             </div>
             <div className="cartProducts">
-              {cartProducts.map((productInCart) => {
-                return (
-                 <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts} guestCart={guestCart}
-                 setGuestCart={setGuestCart}/>
-                );
-              })}
+              { token ? (
+                cartProducts.map((productInCart) => {
+                  return (
+                   <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}
+                  />
+                  );
+                }))
+                : (
+                  guestCart.map((productInGuestCart) => {
+                    return (
+                     <CartProduct productInGuestCart={productInGuestCart}
+                     setGuestCart={setGuestCart} guestCart={guestCart}/>
+                    );
+                  }
+                )
+                )}
             </div>
             <div className="cartButtons">
               <button

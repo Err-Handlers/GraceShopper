@@ -24,10 +24,8 @@ const App = () => {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [guestCart, setGuestCart] = useState([]);
+  const [guestCart, setGuestCart] = useState([])
   const [success, setSuccess] = useState("")
-
-  
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");
