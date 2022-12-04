@@ -1,6 +1,7 @@
 import { callApi, updateApi } from "../api/utils";
 import { useEffect, useState } from "react";
 import Products from "./Products";
+import swal from "sweetalert";
 
 const EditProductForm = ({
   product,
@@ -9,6 +10,7 @@ const EditProductForm = ({
   isAdmin,
   productToEdit,
   onProductEditedHandler,
+  error
 }) => {
   const [name, setName] = useState(product.name);
   const [description, setDescription] = useState(product.description);
@@ -36,6 +38,10 @@ const EditProductForm = ({
       });
 
       onProductEditedHandler();
+      swal({
+        text:"Sticker has been edited!",
+      });
+      
     } catch (error) {
       console.log(error);
     }

@@ -12,6 +12,7 @@ import { callApi } from "../api/utils";
 import Login from "./Login";
 import Account from "./Account";
 import CreateForm from "./CreateForm";
+import Users from "./Users";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,15 +21,11 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([])
-  // const [guestCart, setGuestCart] = useState(JSON.parse(window.localStorage.getItem("guestCart")) || []);
-  console.log('guestCart :>> ', guestCart);
-  
-  // useEffect( () => {
-  //   window.localStorage.setItem("guestCart", JSON.stringify(guestCart))
-  // }, [guestCart])
+  const [success, setSuccess] = useState("")
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");
@@ -129,6 +126,9 @@ console.log('token :>> ', token);
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
+                    swal({
+                      text: "Thank you for shopping with us!",
+                    });
                     navigate("/products");
                   }}
                 >
@@ -143,11 +143,14 @@ console.log('token :>> ', token);
             </Link>
           </li>
           <li>
-            {isAdmin ? (
+            {isAdmin ? (<>
               <Link className="navbarLinks" to="/admin">
                 Admin
               </Link>
-            ) : null}
+              <Link className="navbarLinks" to="/users">
+                Users
+              </Link>
+            </>) : null}
           </li>
         </ul>
       </nav>
@@ -163,6 +166,8 @@ console.log('token :>> ', token);
               password={password}
               setPassword={setPassword}
               setToken={setToken}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
             />
           }
         ></Route>
@@ -178,6 +183,8 @@ console.log('token :>> ', token);
               password={password}
               setToken={setToken}
               setIsAdmin={setIsAdmin}
+              success={success}
+              setSuccess={setSuccess}
             />
           }
         ></Route>
@@ -195,6 +202,7 @@ console.log('token :>> ', token);
               fetchProducts={fetchProducts}
               guestCart={guestCart}
               setGuestCart={setGuestCart}
+              error={error}
             />
           }
         ></Route>
@@ -205,10 +213,15 @@ console.log('token :>> ', token);
               token={token}
               navigate={navigate}
               setProducts={setProducts}
-
+              error={error}
             />
           }
         ></Route>
+        <Route
+          path="/users"
+          element={<Users />}
+        ></Route>
+
         <Route
           path="/cart"
           element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart}

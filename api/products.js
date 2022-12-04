@@ -41,7 +41,7 @@ productsRouter.post('/', requireAdmin, async (req,res, next) => {
         imageURL: imageURL,
         inventory: inventory,
         priceInCents: priceInCents
-    } )
+    })
     console.log(req.user, "hfkshfksa")
     if (!req.user.isAdmin) {
         throw "must be admin"

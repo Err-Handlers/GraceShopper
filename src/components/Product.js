@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import { callApi } from "../api/utils";
+import swal from "sweetalert";
 
 const Product = ({
   token,
@@ -47,7 +48,7 @@ const Product = ({
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     if (token) {
       cart.map((cartItem) => {
@@ -63,20 +64,26 @@ const Product = ({
       });
     }
   }, [cart, guestCart]);
-
-  // const token = localStorage.getItem("token");
-  const deleteProduct = async (productId) => {
-    try {
-      await callApi({
-        method: "DELETE",
-        path: `/products/${productId}`,
-        token,
+    
+    // const token = localStorage.getItem("token");
+    const deleteProduct = async (productId) => {
+        try {
+            await callApi({
+                method: "DELETE",
+                path: `/products/${productId}`,
+                token
+        })
+        setProducts( prev => prev.filter((product) => productId !== product.id))
+        if(!error) {
+          swal({
+            text: "Sticker has been deleted!",
+          });
+        } 
+        } catch (error) {
+          console.log(error
+          }
       });
-      setProducts((prev) => prev.filter((product) => productId !== product.id));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   function onProductEdited() {
     console.log("product was updated");
@@ -157,29 +164,31 @@ const Product = ({
           </div>
         )}
       </div>
+    
+        <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Update Sticker</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <EditProductForm
+                  product={selectedProduct}
+                  isAdmin={isAdmin}
+                  token={token}
+                  setProducts={setProducts}
+                  productToEdit={productToEdit}
+                  onProductEditedHandler={onProductEdited}
+                  error={error}
+                />
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                  Close
+                </Button>
+              </Modal.Footer>
+            </Modal>
+            </div>
+    )
+}
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Update Sticker</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <EditProductForm
-            product={selectedProduct}
-            isAdmin={isAdmin}
-            token={token}
-            setProducts={setProducts}
-            productToEdit={productToEdit}
-            onProductEditedHandler={onProductEdited}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-};
 
 export default Product;
