@@ -80,9 +80,9 @@ const Product = ({
           });
         } 
         } catch (error) {
-          console.log(error
-          }
-      });
+          console.log(error)
+        }
+      };
 
 
   function onProductEdited() {
