@@ -17,6 +17,7 @@ const Product = ({
   product,
   guestCart,
   setGuestCart,
+  error
 }) => {
   const [show, setShow] = useState(false);
   const [quantity, setQuantity] = useState(0);
