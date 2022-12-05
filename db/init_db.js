@@ -14,11 +14,11 @@ async function buildTables() {
     // drop tables in correct order
     await client.query(`
       DROP TABLE IF EXISTS order_products;
-      DROP TABLE IF EXISTS orders;
       DROP TYPE IF EXISTS status;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS orders;
     `);
 
     // build tables in correct order
