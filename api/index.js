@@ -40,8 +40,13 @@ router.use("/cart", cartRouter)
 const productsRouter = require("./products")
 router.use("/products", productsRouter);
 
+
 const orderHistoryRouter = require("./order_history")
 router.use("/order_history", orderHistoryRouter)
+
+const allUsersRouter = require("./allusers")
+router.use("/allusers", allUsersRouter);
+
 
 // const adminRouter = require("./admin")
 // router.use("/admin", adminRouter);

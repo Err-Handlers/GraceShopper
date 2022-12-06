@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
+import swal from 'sweetalert';
 
-export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin }) {
+export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin, success, setSuccess }) {
   const navigate = useNavigate();
   console.log(password);
 
@@ -33,7 +34,13 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         setToken(result.token);
         setIsAdmin(true)
       }
-      
+
+      if (!error){
+        swal({
+          icon: "success",
+        });
+      }
+
     } catch (error) {
       setError(error)  
       console.error(error);
@@ -66,9 +73,10 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         <br></br>
         <center><button className="loginButton" onClick={submitHandler}>Sign in</button></center>
       </form>
-      <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? Click me!</p>
+      <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? <a href="/register">Register here!</a></p>
+      {error && <p className="text-danger">{error}</p>}
     </div>
-
+    
     </div>
   );
 }

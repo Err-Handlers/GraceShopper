@@ -16,11 +16,11 @@ async function buildTables() {
       DROP TABLE IF EXISTS shipping_details;
       DROP TABLE IF EXISTS payment_details;
       DROP TABLE IF EXISTS order_products;
-      DROP TABLE IF EXISTS orders;
       DROP TYPE IF EXISTS status;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS products;
       DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS orders;
     `);
 
     // build tables in correct order
@@ -129,49 +129,147 @@ async function populateInitialData() {
       {
       name: "Plant Trees",
       description: "Arms wrapped around a tree",
-      imageURL: "https://www.linkpicture.com/q/plantTrees.png",
+      imageURL: "https://i.postimg.cc/65PHYcpV/plant-Trees.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Koi Fish",
       description: "Minimal Koi Art",
-      imageURL: "https://www.linkpicture.com/q/koiYellow.jpeg",
+      imageURL: "https://i.postimg.cc/B6d6mRR9/koi-Yellow.jpg",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost Photographer",
       description: "Ghost taking photo",
-      imageURL: "https://www.linkpicture.com/q/ghostPhoto1.png",
+      imageURL: "https://i.postimg.cc/yYxQmtsY/ghost-Photo1.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost with Balloon",
       description: "Ghost playing with balloon",
-      imageURL: "https://www.linkpicture.com/q/ghostWithBalloon.png",
+      imageURL: "https://i.postimg.cc/25Q2jfFT/ghost-With-Balloon.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Ghost Underwater",
       description: "Ghost playing underwater",
-      imageURL: "https://www.linkpicture.com/q/ghostUnderwater.jpeg",
+      imageURL: "https://i.postimg.cc/3R91pCqv/ghost-Underwater.jpg",
       inventory: 10,
       priceInCents: 500
     },
     {
-      name: "Black Cat",
+      name: "Cat",
       description: "Black cat chilling",
-      imageURL: "https://www.linkpicture.com/q/sittingBlackCat.png",
+      imageURL: "https://i.postimg.cc/Y9t8hyd7/sitting-Black-Cat.png",
       inventory: 10,
       priceInCents: 500
     },
     {
       name: "Popsicle",
       description: "Eaten popsicle",
-      imageURL: "https://www.linkpicture.com/q/popsicle.png",
+      imageURL: "https://i.postimg.cc/XvSs0vFp/popsicle.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Meerkat",
+      description: "Meerkat standing guard",
+      imageURL: "https://i.postimg.cc/HnZSG44g/meerakat.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Sunny Side Up",
+      description: "Yummy egg",
+      imageURL: "https://i.postimg.cc/NFfNPPXD/sunny-Side-Up.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Penguin",
+      description: "Fluffy penguin",
+      imageURL: "https://i.postimg.cc/RCXpn4rD/penguin.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Cow",
+      description: "Moo",
+      imageURL: "https://i.postimg.cc/XYysh5rR/cow.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Strawberry Cat",
+      description: "Pretty pink cat",
+      imageURL: "https://i.postimg.cc/GpwcMJ68/2022-12-03-12-15-18.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Strawberry Frog",
+      description: "Frog Holding Strawberry",
+      imageURL: "https://i.postimg.cc/QCHGNHRZ/2022-12-03-12-15-46.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Turtle",
+      description: "Awkward turtle",
+      imageURL: "https://i.postimg.cc/rmh2LSZ9/2022-12-03-12-16-10.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Stacking Turtle",
+      description: "Turtles on top of each other",
+      imageURL: "https://i.postimg.cc/3wTTjrD2/2022-12-03-12-16-19.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Sleeping Bee",
+      description: "Tired bee",
+      imageURL: "https://i.postimg.cc/xTBYC3fx/2022-12-03-12-16-33.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Dinosaur Mushroom Hat",
+      description: "White dinosaur hat on top of head",
+      imageURL: "https://i.postimg.cc/26jNJHG6/2022-12-03-12-16-56.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Dinosaur Watermelon Hat",
+      description: "Green dinosaur hat on top of head",
+      imageURL: "https://i.postimg.cc/xj4Vx3zf/2022-12-03-12-17-09.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Axolotl",
+      description: "Pink Axolotl",
+      imageURL: "https://i.postimg.cc/MGm89kyN/2022-12-03-12-17-27.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Panda",
+      description: "Panda with bamboo",
+      imageURL: "https://i.postimg.cc/gkxmmTWL/2022-12-03-12-17-39.png",
+      inventory: 10,
+      priceInCents: 500
+    },
+    {
+      name: "Otter",
+      description: "Otter with clam",
+      imageURL: "https://i.postimg.cc/Pf3dGkBk/2022-12-03-12-17-49.png",
       inventory: 10,
       priceInCents: 500
     },

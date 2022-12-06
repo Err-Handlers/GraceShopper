@@ -12,7 +12,6 @@ let year = new Date().getFullYear();
 const date = `${month}/${day}/${year}`
 console.log('date :>> ', date);
 function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName, setShippingFirstName, shippingLastName, setShippingLastName, shippingState, setShippingState, shippingZipcode, setShippingZipcode, shippingCity, setShippingCity, shippingStreet, setShippingStreet}) {
-  //render empty cart visuals
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
   const [showPayment, setShowPayment] = useState(false);
@@ -118,10 +117,11 @@ console.log('shippingFirstName :>> ', shippingFirstName);
 
 
     
-  
+  const cartProductsToDisplay = token ? cartProducts : guestCart 
+
   return (
     <div>
-      {cartProducts.length > 0 ? (
+      {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
           <div className="cartContainer">
             <div className="cartHeaders">
@@ -130,12 +130,22 @@ console.log('shippingFirstName :>> ', shippingFirstName);
               <h3>PRICE</h3>
             </div>
             <div className="cartProducts">
-              {cartProducts.map((productInCart) => {
-                return (
-                 <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts} guestCart={guestCart}
-                 setGuestCart={setGuestCart}/>
-                );
-              })}
+              { token ? (
+                cartProducts.map((productInCart) => {
+                  return (
+                   <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}
+                  />
+                  );
+                }))
+                : (
+                  guestCart.map((productInGuestCart) => {
+                    return (
+                     <CartProduct productInGuestCart={productInGuestCart}
+                     setGuestCart={setGuestCart} guestCart={guestCart}/>
+                    );
+                  }
+                )
+                )}
             </div>
             <div className="cartButtons">
               <button

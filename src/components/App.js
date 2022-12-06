@@ -12,6 +12,7 @@ import { callApi } from "../api/utils";
 import Login from "./Login";
 import Account from "./Account";
 import CreateForm from "./CreateForm";
+import Users from "./Users";
 import { useNavigate } from "react-router-dom";
 
 
@@ -20,15 +21,17 @@ const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [guestCart, setGuestCart] = useState([]);
   const [shippingFirstName, setShippingFirstName] = useState("");
   const [shippingLastName, setShippingLastName] = useState("");
   const [shippingState, setShippingState] = useState("");
   const [shippingZipcode, setShippingZipcode] = useState("");
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
+  const [guestCart, setGuestCart] = useState([])
+  const [success, setSuccess] = useState("")
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");
@@ -126,6 +129,9 @@ const App = () => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
+                    swal({
+                      text: "Thank you for shopping with us!",
+                    });
                     navigate("/products");
                   }}
                 >
@@ -140,11 +146,14 @@ const App = () => {
             </Link>
           </li>
           <li>
-            {isAdmin ? (
+            {isAdmin ? (<>
               <Link className="navbarLinks" to="/admin">
                 Admin
               </Link>
-            ) : null}
+              <Link className="navbarLinks" to="/users">
+                Users
+              </Link>
+            </>) : null}
           </li>
         </ul>
       </nav>
@@ -160,6 +169,8 @@ const App = () => {
               password={password}
               setPassword={setPassword}
               setToken={setToken}
+              confirmPassword={confirmPassword}
+              setConfirmPassword={setConfirmPassword}
             />
           }
         ></Route>
@@ -175,6 +186,8 @@ const App = () => {
               password={password}
               setToken={setToken}
               setIsAdmin={setIsAdmin}
+              success={success}
+              setSuccess={setSuccess}
             />
           }
         ></Route>
@@ -192,6 +205,7 @@ const App = () => {
               fetchProducts={fetchProducts}
               guestCart={guestCart}
               setGuestCart={setGuestCart}
+              error={error}
             />
           }
         ></Route>
@@ -202,10 +216,15 @@ const App = () => {
               token={token}
               navigate={navigate}
               setProducts={setProducts}
-
+              error={error}
             />
           }
         ></Route>
+        <Route
+          path="/users"
+          element={<Users />}
+        ></Route>
+
         <Route
           path="/cart"
           element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}
