@@ -83,12 +83,13 @@ async function buildTables() {
       CREATE TABLE payment_details(
         id SERIAL PRIMARY KEY,
         "orderId" INTEGER REFERENCES orders(id),
-        "firstName" VARCHAR(255) NOT NULL,
-        "lastName" VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
         city VARCHAR(255) NOT NULL,
         state VARCHAR(255) NOT NULL,
         street text NOT NULL,
-        zipcode INTEGER NOT NULL
+        zipcode INTEGER NOT NULL,
+        "cardNumber" INTEGER NOT NULL,
+        "cardCvc" INTEGER NOT NULL
       );
     `);
   } catch (error) {

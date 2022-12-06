@@ -23,8 +23,12 @@ const App = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([]);
-
-  
+  const [shippingFirstName, setShippingFirstName] = useState("");
+  const [shippingLastName, setShippingLastName] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingZipcode, setShippingZipcode] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingStreet, setShippingStreet] = useState("");
 
   const [token, setToken] = useState(window.localStorage.getItem("token") || "");
   const userToken = localStorage.getItem("token");
@@ -55,7 +59,6 @@ const App = () => {
       return setIsAdmin(true);
     }
   }, []);
-console.log('token :>> ', token);
   //watch for a user change
   //if user changes, set admin to this
   //add a logout function
@@ -91,8 +94,6 @@ console.log('token :>> ', token);
     fetchCart();
   }, []);
 
-  
-  console.log('error :>> ', error);
   
   return (
     <div className="app-container">
@@ -207,10 +208,10 @@ console.log('token :>> ', token);
         ></Route>
         <Route
           path="/cart"
-          element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart}
+          element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}
           setGuestCart={setGuestCart}/>}
         ></Route>
-        <Route path="/account" element={<Account></Account>}></Route>
+        <Route path="/account" element={<Account token={token} cart={cart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}/>}></Route>
       </Routes>
     </div>
   );

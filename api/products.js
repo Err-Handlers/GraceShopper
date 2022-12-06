@@ -15,8 +15,13 @@ productsRouter.use((req, res, next) => {
 }); 
 
 productsRouter.get('/', async (req, res, next) => {
-    const products = await getAllProducts();
-    res.send(products);
+    try {
+        const products = await getAllProducts();
+        res.send(products);
+    } catch ({name, message}) {
+        next({name, message})
+    }
+   
 });
 
 //admin routes

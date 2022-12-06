@@ -224,24 +224,10 @@ async function updateOrderStatus(orderId) {
   }
 }
 
-async function getCompletedOrders(userId) {
-  try {
-    const {rows} = await client.query(`
-        SELECT orders.*, order_products FROM orders
-        JOIN order_products 
-        ON orders.id = order_products."orderId"
-        WHERE orders."userId" = $1 AND status = 'completed'
-        RETURNING *
-      `, [userId])
-    return rows;
-  } catch (err) {
-    console.log(err);
-  }
-}
+
 module.exports = {
   getOrdersByUserId,
   updateOrderStatus,
-  getCompletedOrders,
   getOrderByUserId,
   addProductToCart,
   createOrder,
