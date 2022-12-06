@@ -23,8 +23,7 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
   const [paymentState, setPaymentState] = useState("");
   const [paymentStreet, setPaymentStreet] = useState("");
   const [paymentZipcode, setPaymentZipcode] = useState("");
-console.log('shippingFirstName :>> ', shippingFirstName);
-  console.log('cart :>> ', cart[0].orderId);
+
   const fetchCart = async () => {
     try {
       if(token){
