@@ -35,6 +35,18 @@ async function getOrderByUserId({ id }) {
   }
 }
 
+async function getOrdersByUserId(userId) {
+  try {
+    const {rows} = await client.query(`
+      SELECT * FROM orders
+      WHERE userId = ${userId}
+    `)
+    return rows
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 async function getProductInCart({ orderId, productId }) {
   const {
     rows: [product],
@@ -196,7 +208,26 @@ async function deleteProductFromCart(productId, orderId){
   }
 }
 
+async function updateOrderStatus(orderId) {
+  try {
+    const {
+      rows: [order],
+    } = await client.query(`
+        UPDATE orders
+        SET status = 'completed'
+        WHERE id = $1 AND status = 'cart'
+        RETURNING *
+      `, [orderId])
+    return order;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 module.exports = {
+  getOrdersByUserId,
+  updateOrderStatus,
   getOrderByUserId,
   addProductToCart,
   createOrder,

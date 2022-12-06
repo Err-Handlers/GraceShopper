@@ -24,7 +24,6 @@ export default function Register({
         body: { email, password },
         path: "/users/register",
       });
-
       console.log("result :>> ", result);
       setToken(result.token);
       console.log("User Registered");

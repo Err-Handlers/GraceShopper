@@ -13,6 +13,8 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+      DROP TABLE IF EXISTS shipping_details;
+      DROP TABLE IF EXISTS payment_details;
       DROP TABLE IF EXISTS order_products;
       DROP TYPE IF EXISTS status;
       DROP TABLE IF EXISTS reviews;
@@ -29,6 +31,7 @@ async function buildTables() {
         password VARCHAR(255),
         "isAdmin" BOOLEAN DEFAULT false
       );
+
       CREATE TABLE products(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) UNIQUE NOT NULL,
@@ -37,6 +40,7 @@ async function buildTables() {
         inventory INTEGER NOT NULL,
         "priceInCents" INTEGER NOT NULL
       );
+
       CREATE TABLE reviews(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
@@ -48,12 +52,14 @@ async function buildTables() {
       CREATE TYPE status AS ENUM (
         'cart', 'completed'
       );
+
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "orderDate" INTEGER,
         status STATUS
       );
+
       CREATE TABLE order_products(
         id SERIAL PRIMARY KEY,
         quantity INTEGER NOT NULL,
@@ -61,6 +67,29 @@ async function buildTables() {
         "productId" INTEGER REFERENCES products(id),
         "orderId" INTEGER REFERENCES orders(id),
         UNIQUE ("orderId", "productId")
+      );
+
+      CREATE TABLE shipping_details(
+        id SERIAL PRIMARY KEY,
+        "orderId" INTEGER REFERENCES orders(id),
+        "firstName" VARCHAR(255) NOT NULL,
+        "lastName" VARCHAR(255) NOT NULL,
+        city VARCHAR(255) NOT NULL,
+        state VARCHAR(255) NOT NULL,
+        street text NOT NULL,
+        zipcode INTEGER NOT NULL
+      );
+
+      CREATE TABLE payment_details(
+        id SERIAL PRIMARY KEY,
+        "orderId" INTEGER REFERENCES orders(id),
+        name VARCHAR(255) NOT NULL,
+        city VARCHAR(255) NOT NULL,
+        state VARCHAR(255) NOT NULL,
+        street text NOT NULL,
+        zipcode INTEGER NOT NULL,
+        "cardNumber" INTEGER NOT NULL,
+        "cardCvc" INTEGER NOT NULL
       );
     `);
   } catch (error) {
