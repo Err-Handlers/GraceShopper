@@ -44,7 +44,7 @@ const Product = ({
         setCartTotal( prev => prev + ((price/100) * quantity))
       } else {
         const product = await callApi({
-          path: `/cart/guest/products/${productId}`,
+          path: `/guest/products/${productId}`,
         });
         setGuestCart((prev) => [...prev, { ...product, quantity }]);
         setInCartLabel((prev) => !prev);
