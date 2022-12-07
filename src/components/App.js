@@ -102,8 +102,7 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <h2 className="logoName">StickySituations</h2>
-
+        <h2 className="logoName"><img src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="80" height="50"></img>StickySituations</h2>
         <ul className="navbar">
           <li>
             <Link className="navbarLinks" to="/products">
@@ -274,6 +273,7 @@ const App = () => {
           }
         ></Route>
       </Routes>
+          
     </div>
   );
 };

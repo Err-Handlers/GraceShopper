@@ -72,7 +72,8 @@ cartRouter.delete("/", async (req, res, next) => {
 
 cartRouter.patch("/checkout", async (req, res, next) => {
   try {
-    const updateStatus = await updateOrderStatus(req.body.orderId)
+    const {cartTotal, orderId} = req.body
+    const updateStatus = await updateOrderStatus(orderId, cartTotal)
     console.log('updateStatus :>> ', updateStatus);
     res.send(updateStatus)
   } catch ({name, message}) {

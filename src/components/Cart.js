@@ -41,7 +41,7 @@ function Cart({
   const [paymentState, setPaymentState] = useState("");
   const [paymentStreet, setPaymentStreet] = useState("");
   const [paymentZipcode, setPaymentZipcode] = useState("");
-  console.log("cart :>> ", cart);
+  const [cartTotal, setCartTotal] = useState(0);
 
   const fetchCart = async () => {
     try {
@@ -65,6 +65,22 @@ function Cart({
   const handleShowPayment = () => {
     setShowPayment((p) => !p);
   };
+    
+    const calculateTotal = () => {
+      const initialValue = 0;
+      const orderTotal = cartProducts.reduce( (acccumulator, product) => {
+        return(
+          acccumulator + ((product.priceInCents * product.quantity) / 100)
+        )
+      }, initialValue);
+      return orderTotal;
+    }
+
+    useEffect( () => {
+      console.log("updating!!!!");
+      console.log("new total = ", calculateTotal());
+      setCartTotal(calculateTotal())
+    }, [cartProducts])
 
   const addPaymentInfo = async () => {
     try {
@@ -116,41 +132,26 @@ function Cart({
     }
   };
 
-  const addOrderDate = async () => {
-    try {
-      const data = await callApi({
-        method: "PATCH",
-        body: { orderId: cart[0].orderId, orderDate: date },
-        path: "/order_history/order_date",
-        token,
-      });
-      setOrderDetails(data);
-      return data;
-    } catch (err) {
-      console.log(err);
+    const handlePurchase = async (e) => {
+      e.preventDefault();
+      try {
+        await addShippingInfo()
+        await addPaymentInfo();
+        const data = await callApi({
+          path: "/cart/checkout",
+          method: "PATCH",
+          body: {orderId: cart[0].orderId, cartTotal: cartTotal*100},
+          token
+        })
+        
+        console.log("update status", data);
+        navigate("/account")
+      } catch (err) {
+        console.log(err);
+      }
     }
-  };
-
-  const handlePurchase = async (e) => {
-    e.preventDefault();
-    try {
-      await addOrderDate();
-      await addShippingInfo();
-      await addPaymentInfo();
-      const data = await callApi({
-        path: "/cart/checkout",
-        method: "PATCH",
-        body: { orderId: cart[0].orderId, orderDate: date },
-        token,
-      });
-
-      navigate("/account");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const cartProductsToDisplay = token ? cartProducts : guestCart;
+    
+  const cartProductsToDisplay = token ? cartProducts : guestCart 
 
   return (
     <div>
@@ -163,20 +164,19 @@ function Cart({
               <h3>PRICE</h3>
             </div>
             <div className="cartProducts">
-              {token
-                ? cartProducts.map((productInCart) => {
-                    return (
-                      <CartProduct
-                        productInCart={productInCart}
-                        token={token}
-                        cart={cart}
-                        setCart={setCart}
-                        cartProducts={cartProducts}
-                        setCartProducts={setCartProducts}
-                      />
-                    );
-                  })
-                : guestCart.map((productInGuestCart) => {
+              { token ? (
+                <div>
+                {cartProducts.map((productInCart) => {
+                  return (
+                   <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}
+                  />
+                  );
+                })}
+                <p>Total: ${cartTotal}.00</p>
+                </div>
+                )
+                : (
+                  guestCart.map((productInGuestCart) => {
                     return (
                       <CartProduct
                         productInGuestCart={productInGuestCart}
@@ -184,7 +184,7 @@ function Cart({
                         guestCart={guestCart}
                       />
                     );
-                  })}
+                  }))}
             </div>
             <div className="cartButtons">
               <button
