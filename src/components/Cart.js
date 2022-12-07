@@ -23,6 +23,7 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
   const [paymentState, setPaymentState] = useState("");
   const [paymentStreet, setPaymentStreet] = useState("");
   const [paymentZipcode, setPaymentZipcode] = useState("");
+  const [cartTotal, setCartTotal] = useState(0);
 
   const fetchCart = async () => {
     try {
@@ -45,6 +46,22 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
     const handleShowPayment = () => {
       setShowPayment(p => !p)
     }
+    
+    const calculateTotal = () => {
+      const initialValue = 0;
+      const orderTotal = cartProducts.reduce( (acccumulator, product) => {
+        return(
+          acccumulator + ((product.priceInCents * product.quantity) / 100)
+        )
+      }, initialValue);
+      return orderTotal;
+    }
+
+    useEffect( () => {
+      console.log("updating!!!!");
+      console.log("new total = ", calculateTotal());
+      setCartTotal(calculateTotal())
+    }, [cartProducts])
 
     const addPaymentInfo = async () => {
       try {
@@ -104,7 +121,7 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
         const data = await callApi({
           path: "/cart/checkout",
           method: "PATCH",
-          body: {orderId: cart[0].orderId},
+          body: {orderId: cart[0].orderId, cartTotal},
           token
         })
         
@@ -130,12 +147,16 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
             </div>
             <div className="cartProducts">
               { token ? (
-                cartProducts.map((productInCart) => {
+                <div>
+                {cartProducts.map((productInCart) => {
                   return (
                    <CartProduct productInCart={productInCart} token={token} cart={cart} setCart={setCart} cartProducts={cartProducts} setCartProducts={setCartProducts}
                   />
                   );
-                }))
+                })}
+                <p>Total: ${cartTotal}.00</p>
+                </div>
+                )
                 : (
                   guestCart.map((productInGuestCart) => {
                     return (

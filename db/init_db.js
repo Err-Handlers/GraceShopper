@@ -57,6 +57,7 @@ async function buildTables() {
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
         "orderDate" INTEGER,
+        "totalPriceInCents" INTEGER,
         status STATUS
       );
 

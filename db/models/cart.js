@@ -208,13 +208,13 @@ async function deleteProductFromCart(productId, orderId){
   }
 }
 
-async function updateOrderStatus(orderId) {
+async function updateOrderStatus(orderId, cartTotal) {
   try {
     const {
       rows: [order],
     } = await client.query(`
         UPDATE orders
-        SET status = 'completed'
+        SET status = 'completed', "totalPriceInCents" = ${cartTotal}
         WHERE id = $1 AND status = 'cart'
         RETURNING *
       `, [orderId])
