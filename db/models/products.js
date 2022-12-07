@@ -27,6 +27,7 @@ async function getProductById(id){
       SELECT * FROM products
       WHERE id = $1
     `, [id])
+    console.log('product :>> ', product);
     return product;
   } catch (error) {
     console.log("product not found", error);
