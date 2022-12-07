@@ -101,7 +101,7 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <h2 className="logoName">StickySituations</h2>
+        <h2 className="logoName"><img src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="80" height="50"></img>StickySituations</h2>
         
         <ul className="navbar">
           <li>
@@ -232,6 +232,7 @@ const App = () => {
         ></Route>
         <Route path="/account" element={<Account token={token} cart={cart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}/>}></Route>
       </Routes>
+      
     </div>
   );
 };
