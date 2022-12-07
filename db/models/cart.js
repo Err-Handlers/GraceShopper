@@ -1,16 +1,17 @@
 const client = require("../client");
+const { getProductById } = require("./products");
 
-async function createOrder({ userId, status }) {
+async function createOrder({ userId, status, orderDate }) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-    INSERT INTO orders("userId", status)
-    VALUES ($1, $2)
+    INSERT INTO orders("userId", status, "orderDate")
+    VALUES ($1, $2, $3)
     RETURNING *;
   `,
-      [userId, status]
+      [userId, status, orderDate]
     );
     return order;
   } catch (err) {
@@ -18,32 +19,28 @@ async function createOrder({ userId, status }) {
   }
 }
 
-async function getOrderByUserId({ id }) {
+async function getOrdersByUserId(id) {
   try {
     const {
-      rows: [order],
+      rows: orders
     } = await client.query(
       `
             SELECT * FROM orders
-            WHERE "userId" = $1
+            WHERE "userId" = $1 AND status = 'completed'
         `,
       [id]
     );
-    return order;
+    
+    for (let i = 0; i < orders.length; i++) {
+      const order = orders[i]
+      const orderProducts = await getOrderProductsByOrderId(order.id)
+      const products = await Promise.all(orderProducts.map(p => getProductById(p.productId)))
+      order.products = products
+    }
+
+    return orders;
   } catch (error) {
     console.log(error);
-  }
-}
-
-async function getOrdersByUserId(userId) {
-  try {
-    const {rows} = await client.query(`
-      SELECT * FROM orders
-      WHERE userId = ${userId}
-    `)
-    return rows
-  } catch (err) {
-    console.log(err);
   }
 }
 
@@ -127,7 +124,7 @@ async function findOrCreateCart(userId) {
   }
 }
 
-async function getOrderProductByOrderId(orderId) {
+async function getOrderProductsByOrderId(orderId) {
   try {
     const { rows } = await client.query(
       `
@@ -136,6 +133,7 @@ async function getOrderProductByOrderId(orderId) {
     `,
       [orderId]
     );
+    console.log('getOrderProductsByOrderId :>> ', rows);
     return rows;
   } catch (error) {
    console.log(error); 
@@ -228,13 +226,13 @@ async function updateOrderStatus(orderId, cartTotal) {
 module.exports = {
   getOrdersByUserId,
   updateOrderStatus,
-  getOrderByUserId,
+  getOrdersByUserId,
   addProductToCart,
   createOrder,
   findOrCreateCart,
   updateOrderQuantity,
   getProductInCart,
-  getOrderProductByOrderId,
+  getOrderProductsByOrderId,
   getOrderProductsByUserId,
   getProductInCartDetails,
   deleteProductFromCart,

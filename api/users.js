@@ -81,7 +81,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/users', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const users = await getAllUsers();
   res.send(users);
 });
