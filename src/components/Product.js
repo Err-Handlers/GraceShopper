@@ -17,14 +17,17 @@ const Product = ({
   product,
   guestCart,
   setGuestCart,
-  error
+  error,
+  setCartTotal,
+  cartTotal
 }) => {
   const [show, setShow] = useState(false);
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inCartLabel, setInCartLabel] = useState(false);
 
-  const addProductToCart = async (e, token, quantity, productId, product) => {
+  
+  const addProductToCart = async ({e, token, quantity, productId, price}) => {
     e.preventDefault();
     try {
       //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
@@ -38,6 +41,7 @@ const Product = ({
         });
         setCart((prev) => [data, ...prev]);
         setInCartLabel((prev) => !prev);
+        setCartTotal( prev => prev + ((price/100) * quantity))
       } else {
         const product = await callApi({
           path: `/cart/guest/products/${productId}`,
@@ -65,6 +69,8 @@ const Product = ({
       });
     }
   }, [cart, guestCart]);
+
+  console.log("cartTotal:", cartTotal);
     
     // const token = localStorage.getItem("token");
     const deleteProduct = async (productId) => {
@@ -154,7 +160,7 @@ const Product = ({
               <button
                 className="addToCartButton"
                 onClick={(e) =>
-                  addProductToCart(e, token, quantity, product.id, product)
+                  addProductToCart({e, token, quantity, productId: product.id, price: product.priceInCents})
                 }
               >
                 Add to cart

@@ -26,10 +26,12 @@ const CartProduct = ({
           body: { quantity, productId, orderId },
         });
         setCartProducts( prev => prev.map( p => {
-          if(p.id === productId){
-            return(
-              {...p, quantity}
-            )
+          console.log('prev :>> ', prev);
+          if(p.productId === productId){
+              console.log('updating :>> ', productId);
+              const test = {...p, quantity: Number(quantity)}
+              console.log(test);
+              return test
           }
           return p
         }));
@@ -70,6 +72,7 @@ const CartProduct = ({
       console.log(error);
     }
   };
+
 
   console.log('guestCart :>> ', guestCart);
 
