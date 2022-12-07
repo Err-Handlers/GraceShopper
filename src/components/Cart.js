@@ -121,17 +121,16 @@ function Cart({ token, cart, setCart, guestCart, setGuestCart, shippingFirstName
         const data = await callApi({
           path: "/cart/checkout",
           method: "PATCH",
-          body: {orderId: cart[0].orderId, cartTotal},
+          body: {orderId: cart[0].orderId, cartTotal: cartTotal*100},
           token
         })
         
         console.log("update status", data);
+        navigate("/account")
       } catch (err) {
         console.log(err);
       }
     }
-
-
     
   const cartProductsToDisplay = token ? cartProducts : guestCart 
 
