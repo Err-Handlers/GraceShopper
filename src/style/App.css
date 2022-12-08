@@ -357,8 +357,26 @@
   margin-bottom: 50px;
 }
 
+.adminHeader{
+  color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
 .addStickerTitle {
   color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.addStickerTitle:hover {
+  color:white;
+  background-color: rgb(104, 182, 188);
 }
 
 .contactTitle {

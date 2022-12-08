@@ -20,7 +20,7 @@ const Account = ({token, shippingFirstName, shippingLastName, shippingState, shi
         <>
         <div className="mainContainer">
         <div className="cartContainer">
-            {history.map((h) => {
+            {/* {history.map((h) => {
                 return (
                 <div key={h.id}>
                     <p>{h.name}</p>
@@ -31,7 +31,7 @@ const Account = ({token, shippingFirstName, shippingLastName, shippingState, shi
                     <p>{shippingStreet}</p>
                     <p>{shippingZipcode}</p>
                 </div>
-           ) })}
+           ) })} */}
         </div>
         </div>
         </>
