@@ -101,23 +101,23 @@ function Cart({
         body: {email: guestEmail}
       })
       setGuestUserId(data.id)
-      console.log("USER DATA", data);
-      return data;
+      console.log("USER DATA", data.id);
+      return data.id;
     } catch (error) {
       console.log(error);
     }
   }
 
-  const addGuestOrder = async ({userId}) => {
+  const addGuestOrder = async (guestUserId) => {
     try {
       const data = await callApi({
         method: "POST",
         path: "/guest/order",
-        body: {userId, totalPriceInCents: (guestCartTotal * 100)}
+        body: {userId: guestUserId, totalPriceInCents: (guestCartTotal * 100)}
       })
         setGuestOrderId(data.id)
-        console.log("ORDER DATA", data);
-        return data;
+        console.log("ORDER DATA", data.id);
+        return data.id;
     } catch (error) {
       console.log(error);
     }
@@ -220,14 +220,14 @@ function Cart({
       console.log(err);
     }
   };
-const addGuestOrderProduct = async (quantity, price, productId) => {
+const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) => {
   try {
     const data = await callApi({
       path: "/guest/orderProducts",
       method: "POST",
       body: {
         quantity,
-        price,
+        priceInCents: price,
         productId,
         orderId: guestOrderId
       }
@@ -254,16 +254,16 @@ const addGuestOrderProduct = async (quantity, price, productId) => {
         console.log("update status", data);
         navigate("/account");
       } else{
-        await addGuestEmail();
-        await addGuestOrder();
-        await addGuestShippingInfo();
-        await addGuestPaymentInfo();
+        const guestUserId = await addGuestEmail();
+        const guestOrderId = await addGuestOrder(guestUserId);
+        await addGuestShippingInfo(guestOrderId);
+        await addGuestPaymentInfo(guestOrderId);
         
-
-        const orderProducts = await guestCart.map( async (p) => {
-          return await Promise.all(addGuestOrderProduct({quantity: p.quantity, price: p.priceInCents, productId: p.id}))
+        const addOrderProducts = guestCart.map( async (p) => {
+          return addGuestOrderProduct(guestOrderId, p.quantity, p.priceInCents, p.id)
         })
-        console.log("orderProducts", orderProducts);
+        const guestOrderProducts = await Promise.all(addOrderProducts)
+        console.log("guestOrderProducts", guestOrderProducts);
       }
     } catch (err) {
       console.log(err);
