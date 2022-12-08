@@ -86,7 +86,7 @@ router.get('/', async (req, res, next) => {
   res.send(users);
 });
 
-router.post('/users', async (req,res, next) => {
+router.post('/', async (req,res, next) => {
   try {
   const { email, password } = req.body.user;
   console.log("reqqqq", req.body.user)
