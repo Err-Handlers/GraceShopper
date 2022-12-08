@@ -343,3 +343,16 @@
   border-radius: 12px;
   margin-bottom: 50px;
 }
+
+.addStickerTitle {
+  color: rgb(104, 182, 188);
+}
+
+.contactTitle {
+  color: rgb(104, 182, 188);
+}
+
+.usersTitle {
+  color: rgb(104, 182, 188);
+  margin-top: auto;
+}

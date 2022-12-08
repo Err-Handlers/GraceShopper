@@ -3,13 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CartProduct from "./CartProduct";
 
-//guest items add to cart using state, no API call and when they checkout is when they actually get added to the database using the email and a null password
-//create order with status completed
-let day = new Date().getDate();
-let month = new Date().getMonth() + 1;
-let year = new Date().getFullYear();
-const date = `${month}/${day}/${year}`;
-console.log("date :>> ", date);
 function Cart({
   token,
   cart,
@@ -186,6 +179,7 @@ function Cart({
           state: shippingState,
           zipcode: shippingZipcode,
           orderId: cart[0].orderId,
+          orderDate: date,
         },
         token,
         path: "/order_history/shipping",

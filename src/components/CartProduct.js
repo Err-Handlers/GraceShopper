@@ -9,13 +9,12 @@ const CartProduct = ({
   setCart,
   cartProducts,
   setCartProducts,
-  setGuestCart,
   guestCart
+  setGuestCart
 }) => {
 
   console.log('productInGuestCart :>> ', productInGuestCart);
   const quantityUpdateHandler = async ({token, quantity, productId, orderId}) => {
-
     try {
       if(token){
         const updateQuantity = await callApi({
@@ -71,10 +70,6 @@ const CartProduct = ({
       console.log(error);
     }
   };
-
-
-  console.log('guestCart :>> ', guestCart);
-
   return (
     <div>
       {token ? (

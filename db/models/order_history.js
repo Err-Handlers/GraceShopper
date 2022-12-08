@@ -4,7 +4,7 @@ const client = require("../client");
 async function getCompletedOrdersByUserId(userId) {
     try {
       const {rows} = await client.query(`
-          SELECT orders.*, order_products.* FROM orders
+          SELECT  orders
           JOIN order_products 
           ON orders.id = order_products."orderId"
           WHERE orders."userId" = $1 AND status = 'completed'
@@ -55,5 +55,37 @@ async function getCompletedOrdersByUserId(userId) {
 
   }
 
+  async function getShippingDetailsAndOrdersByOrderId(orderId) {
+    try {
+      const {rows} = await client.query(`
+        SELECT shipping_details.*, orders.* FROM shipping_details
+        JOIN orders
+        ON orders.id = shipping_details."orderId"
+        WHERE shipping_details."orderId" = $1
+      `, [orderId])
+      return rows
+    } catch(err) {
+      console.log(err);
+    }
+  }
 
-  module.exports = {getCompletedOrdersByUserId, addShippingInfo, addPaymentInfo, getPaymentAndShippingDetails}
+  async function addDateToOrder(orderDate, orderId) {
+    const { rows: [order] } = await client.query(`
+      UPDATE orders("orderDate")
+      SET "orderDate" = $1
+      WHERE id = $2
+      RETURNING *;
+    `, [orderDate, orderId])
+    return order;
+  }
+
+  async function getCompletedOrderProductsByOrderId(orderId) {
+    const { rows } = await client.query(`
+      SELECT * FROM order_products
+      WHERE "orderId" = $1 AND status = 'completed'
+    `)
+    return rows;
+  }
+
+
+  module.exports = {getCompletedOrderProductsByOrderId, getCompletedOrdersByUserId, addShippingInfo, addPaymentInfo, getPaymentAndShippingDetails, getShippingDetailsAndOrdersByOrderId, addDateToOrder}

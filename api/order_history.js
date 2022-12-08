@@ -1,19 +1,12 @@
 const express = require("express");
 const orderHistoryRouter = express.Router();
-const { getProductById } = require("../db/models");
-const { getCompletedOrdersByUserId, addPaymentInfo, addShippingInfo } = require("../db/models/order_history");
+const { getProductById, getOrdersByUserId, getOrderProductsByOrderId } = require("../db/models");
+const { getCompletedOrdersByUserId, addPaymentInfo, addShippingInfo, getShippingDetailsAndOrdersByOrderId, addDateToOrder, getCompletedOrderProductsByOrderId } = require("../db/models/order_history");
 
 orderHistoryRouter.get("/", async (req, res, next) => {
     try {
-        console.log("req.user => ", req.user);
-        const completedOrders = await getCompletedOrdersByUserId(req.user.id);
-        console.log('completedOrders :>> ', completedOrders);
-        const productdata = await Promise.all(completedOrders.map(o => getProductById(o.productId)))
-        console.log('productData :>> ', productdata);
-        const result = completedOrders.map((p, i) => {
-            return {...p, name: productdata[i].name, imageURL: productdata[i].imageURL}
-        })
-        res.send(result)
+        const completedOrders = await getOrdersByUserId(req.user.id);
+        res.send(completedOrders)
     } catch ({name, message}) {
         next({name, message})
     }
@@ -33,11 +26,33 @@ orderHistoryRouter.post("/shipping", async (req, res, next) => {
         const { firstName, lastName, city, street, state, zipcode, orderId } = req.body
         const addShippingDetails = await addShippingInfo(orderId, firstName, lastName, city, street, state, zipcode)
         console.log('addShippingDetails :>> ', addShippingDetails);
-        res.send(addShippingDetails)
+        const shippingDetails = await getShippingDetailsAndOrdersByOrderId(orderId)
+        console.log('shippingDetails :>> ', shippingDetails);
+        res.send(shippingDetails)
     } catch ({name, message}) {
         next({name, message})
     }
 })
 
+orderHistoryRouter.patch("/order_date", async (req, res, next) => {
+    try {
+        console.log('req.body :>> ', req.body);
+        const { orderDate, orderId} = req.body
+        const order = await addDateToOrder(orderDate, orderId);
+        console.log('order :>> ', order);
+        res.send(order)
+    } catch ({name, message}) {
+        next({name, message})
+    }
+})
+
+orderHistoryRouter.get("/order_products", async (req, res, next) => {
+    try {
+        const orderProducts = await getCompletedOrderProductsByOrderId(req.body.orderId);
+        res.send(orderProducts)
+    } catch ({name, message}) {
+        next({name, message})
+    }
+})
 
 module.exports = orderHistoryRouter
