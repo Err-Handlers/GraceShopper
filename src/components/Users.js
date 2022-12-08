@@ -6,7 +6,7 @@ const Users = () => {
 
     const fetchAllUsers = async () => {
     const data = await callApi({
-        path: "/allusers"
+        path: "/users"
     })
     setUsers(data);
     };

@@ -81,12 +81,12 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get('/users', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   const users = await getAllUsers();
   res.send(users);
 });
 
-router.post('/users', async (req,res, next) => {
+router.post('/', async (req,res, next) => {
   try {
   const { email, password } = req.body.user;
   console.log("reqqqq", req.body.user)
