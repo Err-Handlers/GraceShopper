@@ -369,21 +369,6 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               className="checkoutInput"
             />
             <br></br>
-            <label>City: </label>
-            <input
-              type="text"
-              placeholder="City"
-              onChange={(e) => setShippingCity(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>State: </label>
-            <input
-              type="text"
-              placeholder="State"
-              onChange={(e) => setShippingState(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
             <label>Street: </label>
             <input
               type="text"
@@ -396,6 +381,21 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               type="text"
               placeholder="Zipcode"
               onChange={(e) => setShippingZipcode(e.target.value)}
+              className="checkoutInput"
+            />
+            <br></br>
+            <label>City: </label>
+            <input
+              type="text"
+              placeholder="City"
+              onChange={(e) => setShippingCity(e.target.value)}
+              className="checkoutInput"
+            />
+            <label>State: </label>
+            <input
+              type="text"
+              placeholder="State"
+              onChange={(e) => setShippingState(e.target.value)}
               className="checkoutInput"
             />
             <br></br>
@@ -427,21 +427,6 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               className="checkoutInput"
             />
             <br></br>
-            <label>City: </label>
-            <input
-              type="text"
-              placeholder="City"
-              onChange={(e) => setPaymentCity(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>State: </label>
-            <input
-              type="text"
-              placeholder="State"
-              onChange={(e) => setPaymentState(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
             <label>Street: </label>
             <input
               type="text"
@@ -456,6 +441,22 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               onChange={(e) => setPaymentZipcode(e.target.value)}
               className="checkoutInput"
             />
+            <br></br>
+             <label>City: </label>
+            <input
+              type="text"
+              placeholder="City"
+              onChange={(e) => setPaymentCity(e.target.value)}
+              className="checkoutInput"
+            />
+            <label>State: </label>
+            <input
+              type="text"
+              placeholder="State"
+              onChange={(e) => setPaymentState(e.target.value)}
+              className="checkoutInput"
+            />
+            <br></br>
             <div className="cartButtons">
             <input className="cartButton" type="submit" onClick={handlePurchase}/>
             </div>
