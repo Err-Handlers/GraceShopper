@@ -16,13 +16,12 @@ import Users from "./Users";
 import { useNavigate } from "react-router-dom";
 import ContactPage from "./ContactPage";
 
-
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [shippingFirstName, setShippingFirstName] = useState("");
@@ -31,15 +30,19 @@ const App = () => {
   const [shippingZipcode, setShippingZipcode] = useState("");
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
-  const [guestCart, setGuestCart] = useState([])
-  const [success, setSuccess] = useState("")
-
-  const [token, setToken] = useState(window.localStorage.getItem("token") || "");
+  const [guestCart, setGuestCart] = useState([]);
+  const [success, setSuccess] = useState("");
+  const [token, setToken] = useState(
+    window.localStorage.getItem("token") || ""
+  );
+  const [orderDetails, setOrderDetails] = useState([]);
   const userToken = localStorage.getItem("token");
+  console.log('orderDetails :>> ', orderDetails);
+  console.log("token :>> ", token);
   // console.log(userToken)
   // console.log('token :>> ', token);
 
-  const [productToEdit, setProductToEdit] = useState("")
+  const [productToEdit, setProductToEdit] = useState("");
 
   // const isAdmin = localStorage.getItem("isAdmin");
   // console.log(isAdmin)
@@ -78,32 +81,29 @@ const App = () => {
   useEffect(() => {
     fetchProducts();
   }, [cart]);
-  
 
   const fetchCart = async () => {
     try {
-      if(token){
+      if (token) {
         const data = await callApi({
           path: "/cart/products",
-          token
+          token,
         });
-        setCart(data)
+        setCart(data);
       }
     } catch (error) {
-      console.log('error :>> ', error);
+      console.log("error :>> ", error);
     }
   };
-  
-  useEffect( () => {
+
+  useEffect(() => {
     fetchCart();
   }, []);
 
-  
   return (
     <div className="app-container">
       <nav className="navbarContainer">
         <h2 className="logoName"><img src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="80" height="50"></img>StickySituations</h2>
-        
         <ul className="navbar">
           <li>
             <Link className="navbarLinks" to="/products">
@@ -116,13 +116,15 @@ const App = () => {
                 <Link className="navbarLinks" to="/register">
                   Register
                 </Link>
-                <Link className="navbarLinks" to="login">
+                <Link className="navbarLinks" to="/login">
                   Login
                 </Link>
               </div>
             ) : (
               <div>
-                <Link className="navbarLinks" to="/account">Account</Link>
+                <Link className="navbarLinks" to="/account">
+                  Account
+                </Link>
 
                 <Link
                   className="navbarLinks"
@@ -226,15 +228,53 @@ const App = () => {
             />
           }
         ></Route>
-        <Route
-          path="/users"
-          element={<Users />}
-        ></Route>
+        <Route path="/users" element={<Users />}></Route>
 
         <Route
           path="/cart"
-          element={<Cart token={token} cart={cart} setCart={setCart} guestCart={guestCart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}
-          setGuestCart={setGuestCart}/>}
+          element={
+            <Cart
+              token={token}
+              cart={cart}
+              setCart={setCart}
+              guestCart={guestCart}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
+              setOrderDetails={setOrderDetails}
+              setGuestCart={setGuestCart}
+            />
+          }
+        ></Route>
+        <Route
+          path="/account"
+          element={
+            <Account
+              token={token}
+              cart={cart}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
+            />
+          }
         ></Route>
         <Route path="/account" element={<Account token={token} cart={cart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}/>}></Route>
 

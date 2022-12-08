@@ -5,7 +5,7 @@ const {
 } = require("./");
 const { createUser } = require("./models/user");
 const { createProduct, updateProduct, getAllProducts, getProductById } = require("./models/products")
-const { getOrderByUserId, addProductToOrderProducts, createOrder, getProductInCartDetails } = require("./models/cart")
+const { addProductToOrderProducts, createOrder, getProductInCartDetails } = require("./models/cart")
 
 async function buildTables() {
   try {
@@ -16,10 +16,10 @@ async function buildTables() {
       DROP TABLE IF EXISTS shipping_details;
       DROP TABLE IF EXISTS payment_details;
       DROP TABLE IF EXISTS order_products;
-      DROP TYPE IF EXISTS status;
+      DROP TYPE IF EXISTS status cascade;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS products;
-      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS users cascade;
       DROP TABLE IF EXISTS orders;
     `);
 
@@ -56,7 +56,7 @@ async function buildTables() {
       CREATE TABLE orders(
         id SERIAL PRIMARY KEY,
         "userId" INTEGER REFERENCES users(id),
-        "orderDate" INTEGER,
+        "orderDate" text,
         "totalPriceInCents" INTEGER,
         status STATUS
       );
@@ -78,7 +78,7 @@ async function buildTables() {
         city VARCHAR(255) NOT NULL,
         state VARCHAR(255) NOT NULL,
         street text NOT NULL,
-        zipcode INTEGER NOT NULL
+        zipcode text NOT NULL
       );
 
       CREATE TABLE payment_details(
@@ -88,9 +88,9 @@ async function buildTables() {
         city VARCHAR(255) NOT NULL,
         state VARCHAR(255) NOT NULL,
         street text NOT NULL,
-        zipcode INTEGER NOT NULL,
-        "cardNumber" INTEGER NOT NULL,
-        "cardCvc" INTEGER NOT NULL
+        zipcode text NOT NULL,
+        "cardNumber" text NOT NULL,
+        "cardCvc" text NOT NULL
       );
     `);
   } catch (error) {
@@ -279,15 +279,18 @@ async function populateInitialData() {
   const initialOrders = [
     {
       userId: 1,
-      status: 'cart'
+      status: 'cart',
+      orderDate: "12/6/2022"
     },
     {
       userId: 2,
-      status: 'completed'
+      status: 'completed',
+      orderDate: "12/6/2022"
     },
     {
       userId: 3,
-      status: 'cart'
+      status: 'cart',
+      orderDate: "12/6/2022"
     }
   ]
   
