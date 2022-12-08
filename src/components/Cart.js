@@ -27,7 +27,6 @@ function Cart({
   const [showPayment, setShowPayment] = useState(false);
   const [paymentName, setPaymentName] = useState("");
   const [paymentCardNumber, setPaymentCardNumber] = useState("");
-  const [paymentDate, setPaymentDate] = useState(date);
   const [paymentCardCVC, setPaymentCardCVC] = useState("");
   const [paymentCity, setPaymentCity] = useState("");
   const [paymentState, setPaymentState] = useState("");

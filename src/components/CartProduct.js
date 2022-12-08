@@ -9,7 +9,7 @@ const CartProduct = ({
   setCart,
   cartProducts,
   setCartProducts,
-  guestCart
+  guestCart,
   setGuestCart
 }) => {
 
