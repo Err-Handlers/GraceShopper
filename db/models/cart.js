@@ -236,5 +236,5 @@ module.exports = {
   getOrderProductsByUserId,
   getProductInCartDetails,
   deleteProductFromCart,
-  addProductToOrderProducts
+  addProductToOrderProducts,
 };

@@ -1,16 +1,7 @@
 const express = require("express");
 const cartRouter = express.Router();
-const { addProductToOrderProducts, findOrCreateCart, getProductById, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, getOrdersByUserId, updateOrderStatus } = require("../db/models");
+const { addProductToOrderProducts, findOrCreateCart, getProductById, updateOrderQuantity, getOrderProductsByUserId, deleteProductFromCart, getProductAndOrderProductById, getOrdersByUserId, updateOrderStatus} = require("../db/models");
 
-cartRouter.get("/guest/products/:id", async (req, res, next) => {
-  console.log('req.params.id :>> ', req.params.id);
-  try {
-    const productById = await getProductById(req.params.id)
-    res.send(productById)
-  } catch ({ name, message }) {
-    next({ name, message })
-  }
-} )
 
 cartRouter.get("/products", async (req, res, next) => {
   try {
@@ -58,8 +49,6 @@ cartRouter.post("/", async (req, res, next) => {
   }
 });
 
-
-
 cartRouter.delete("/", async (req, res, next) => {
   try {
     const { productId, orderId } = req.body
@@ -80,9 +69,6 @@ cartRouter.patch("/checkout", async (req, res, next) => {
     next({name, message})
   }
 })
-
-// cartRouter.get("")
-
 
 cartRouter.get("/test", async (req, res, next) => {
   try {
