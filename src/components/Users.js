@@ -18,7 +18,7 @@ const Users = () => {
     
     return (
         <div className="">
-            <center><h1 className="mt-4 text-primary">User Info</h1></center>
+            <center><h1 className="usersTitle">User Info</h1></center>
             {users.map((user) => {
             return (
                 <div className="card card-body w-75 mx-auto p-2 m-2" key={user.id}>

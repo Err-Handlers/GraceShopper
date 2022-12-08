@@ -65,7 +65,7 @@ const CreateForm = ({token, navigate, setProducts, error}) => {
         <div className="form-group">
         <br></br>
             <form onSubmit={createProduct}>
-                <center><h1 className="text-primary">Add a sticker!</h1></center>
+                <center><h1 className="addStickerTitle">Add a sticker!</h1></center>
                 <br></br>
                 <center><h5>Title</h5></center>
                 <input
