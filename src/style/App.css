@@ -309,5 +309,14 @@
 }
 
 .addStickerTitle {
-  color: rgb(75, 132, 136)
+  color: rgb(104, 182, 188);
+}
+
+.contactTitle {
+  color: rgb(104, 182, 188);
+}
+
+.usersTitle {
+  color: rgb(104, 182, 188);
+  margin-top: auto;
 }

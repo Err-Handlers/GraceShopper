@@ -14,6 +14,7 @@ import Account from "./Account";
 import CreateForm from "./CreateForm";
 import Users from "./Users";
 import { useNavigate } from "react-router-dom";
+import ContactPage from "./ContactPage";
 
 
 const App = () => {
@@ -146,6 +147,11 @@ const App = () => {
             </Link>
           </li>
           <li>
+            <Link className="navbarLinks" to="/contactus">
+              Contact Us
+            </Link>
+          </li>
+          <li>
             {isAdmin ? (<>
               <Link className="navbarLinks" to="/admin">
                 Admin
@@ -231,8 +237,12 @@ const App = () => {
           setGuestCart={setGuestCart}/>}
         ></Route>
         <Route path="/account" element={<Account token={token} cart={cart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}/>}></Route>
+
+        <Route path="/contactus" element={<ContactPage  navigate={navigate} />}></Route>
       </Routes>
           
+
+
     </div>
   );
 };
