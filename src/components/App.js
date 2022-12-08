@@ -103,7 +103,12 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <h2 className="logoName"><img src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="80" height="50"></img>StickySituations</h2>
+        <div className="logoContainer">
+        
+          <h2 className="logoName">St</h2>
+          <img className="logo" src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="40" height="40"></img>
+          <h2 className="logoName2">ckySituations</h2>
+        </div>
         <ul className="navbar">
           <li>
             <Link className="navbarLinks" to="/products">
