@@ -257,6 +257,7 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
         })
         const guestOrderProducts = await Promise.all(addOrderProducts)
         console.log("guestOrderProducts", guestOrderProducts);
+        //have a thanks for your purchase, a confirmation email will be sent shortly.
       }
     } catch (err) {
       console.log(err);

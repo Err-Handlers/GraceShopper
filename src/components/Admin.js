@@ -1,6 +1,5 @@
 import { callApi } from "../api/utils";
 import { useState, useEffect} from 'react'
-import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 // import e from "cors";
 
@@ -11,6 +10,7 @@ const CreateForm = ({token, navigate, setProducts, error}) => {
     const [imageURL, setImageURL] = useState("");
     const [inventory, setInventory] = useState("");
     const [priceInCents, setPriceInCents] = useState("")
+    const [show, setShow] = useState(false)
 
     const fetchProducts = async () => {
         const data = await callApi({
@@ -62,10 +62,15 @@ const CreateForm = ({token, navigate, setProducts, error}) => {
     };
 
     return (
+        <div className="mainContainer">
+            <div className="cartContainer">
         <div className="form-group">
         <br></br>
+            <h2 className="adminHeader">You are currently accessing admin capabilities...</h2>
             <form onSubmit={createProduct}>
-                <center><h1 className="addStickerTitle">Add a sticker!</h1></center>
+                <center><h2 className="addStickerTitle" onClick={ () => setShow( prev => !prev) }>ADD A NEW PRODUCT</h2></center>
+                {show &&
+                <div>
                 <br></br>
                 <center><h5>Title</h5></center>
                 <input
@@ -121,7 +126,19 @@ const CreateForm = ({token, navigate, setProducts, error}) => {
                 <button type="submit" className="btn btn-primary w-25">Add Sticker
                 </button>
                 </center>
+                <br></br>
+                <br></br>
+                </div>
+                }
             </form>
+            <div>
+                <center><h2 className="addStickerTitle" onClick={ () => navigate("/users")}>SEE ALL USERS</h2></center>
+                <br></br>
+                <br></br>
+            </div>
+        </div>
+
+            </div>
         </div>
     )
 }

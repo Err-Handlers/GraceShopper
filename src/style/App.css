@@ -6,6 +6,10 @@
   font-family: Verdana, sans-serif;
 }
 
+.logoContainer{
+  display: flex;
+}
+
 .mainContainer {
   display: flex;
   justify-content: center;
@@ -15,6 +19,15 @@
 .logoName{
   color: rgb(104, 182, 188);
   font-weight: bold;
+  padding-top: 9px;
+  margin-right: -10px;
+}
+
+.logoName2{
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+  padding-top: 9px;
+  margin-left: -10px;
 }
 
 .navbarContainer{
@@ -42,7 +55,7 @@
 }
 
 .navbarLinks{
-  padding-left: 9px;
+  padding-right: 10px;
   text-decoration: none;
   color: rgb(104, 182, 188);
 }
@@ -344,8 +357,26 @@
   margin-bottom: 50px;
 }
 
+.adminHeader{
+  color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
 .addStickerTitle {
   color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.addStickerTitle:hover {
+  color:white;
+  background-color: rgb(104, 182, 188);
 }
 
 .contactTitle {

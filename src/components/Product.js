@@ -119,6 +119,16 @@ const Product = ({
 
         <div className="btn-toolbar">
           {isAdmin ? (
+            <div>
+               <Button
+                variant="primary"
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setShow(true);
+                }}
+              >
+                Edit
+              </Button>
             <Button
               variant="secondary mx-2"
               onClick={() => {
@@ -127,19 +137,13 @@ const Product = ({
             >
               Delete
             </Button>
-          ) : null}
-          {isAdmin ? (
-            <Button
-              variant="primary"
-              onClick={() => {
-                setSelectedProduct(product);
-                setShow(true);
-              }}
-            >
-              Edit
-            </Button>
+              <br></br>
+              <br></br>
+            </div>
           ) : null}
         </div>
+        {!isAdmin && (
+          <div>
         {inCartLabel ? (
           <p className="inCartLabel">Item is in cart</p>
         ) : (
@@ -169,6 +173,8 @@ const Product = ({
             <br></br>
             <br></br>
           </div>
+        )}
+        </div>
         )}
       </div>
     
