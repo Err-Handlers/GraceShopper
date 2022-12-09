@@ -21,6 +21,7 @@ const Account = ({token, shippingFirstName, shippingLastName, shippingState, shi
         <div className="cartContainer">
         <div className="allOrderContainer">
                 <div className="adminUserContainer">
+                    <center><h2 className="cartHeader">ORDER HISTORY</h2></center>
                     <p>Order Id: 002</p>
                 </div>
                 <h4>Shipping Details</h4>

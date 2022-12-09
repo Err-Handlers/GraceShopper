@@ -20,7 +20,8 @@ function Cart({
   shippingCity,
   setShippingCity,
   shippingStreet,
-  setShippingStreet
+  setShippingStreet,
+  error
 }) {
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
@@ -133,7 +134,6 @@ function Cart({
         path: "/order_history/payment",
       });
       console.log("payment data :>> ", data);
-      setPaymentDate(() => new Date().getFullYear());
       return data;
     } catch (err) {
       console.log(err);
@@ -158,7 +158,6 @@ function Cart({
         path: "/order_history/payment",
       });
       console.log("payment data :>> ", data);
-      setPaymentDate(() => new Date().getFullYear());
       return data;
     } catch (err) {
       console.log(err);
@@ -178,7 +177,7 @@ function Cart({
           state: shippingState,
           zipcode: shippingZipcode,
           orderId: cart[0].orderId,
-          orderDate: date,
+          // orderDate: date,
         },
         token,
         path: "/order_history/shipping",
@@ -231,7 +230,7 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
   }
 }
 
-  const handlePurchase = async (e) => {
+  const handlePurchase = async (e, error) => {
     e.preventDefault();
     try {
       if(token){
@@ -245,7 +244,13 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
         });
   
         console.log("update status", data);
+        if (!error){
+          swal({
+            text: "Your order was succesfully placed!",
+          });
+        }
         navigate("/account");
+
       } else{
         const guestUserId = await addGuestEmail();
         const guestOrderId = await addGuestOrder(guestUserId);
@@ -258,6 +263,12 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
         const guestOrderProducts = await Promise.all(addOrderProducts)
         console.log("guestOrderProducts", guestOrderProducts);
         //have a thanks for your purchase, a confirmation email will be sent shortly.
+        if (!error){
+          swal({
+            text: "Your order was succesfully placed!",
+          });
+        }
+        navigate("/products")
       }
     } catch (err) {
       console.log(err);
@@ -370,13 +381,6 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               onChange={(e) => setShippingStreet(e.target.value)}
               className="checkoutInput"
             />
-            <label>Zipcode: </label>
-            <input
-              type="text"
-              placeholder="Zipcode"
-              onChange={(e) => setShippingZipcode(e.target.value)}
-              className="checkoutInput"
-            />
             <br></br>
             <label>City: </label>
             <input
@@ -390,6 +394,13 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               type="text"
               placeholder="State"
               onChange={(e) => setShippingState(e.target.value)}
+              className="checkoutInput"
+            />
+             <label>Zipcode: </label>
+            <input
+              type="text"
+              placeholder="Zipcode"
+              onChange={(e) => setShippingZipcode(e.target.value)}
               className="checkoutInput"
             />
             <br></br>
@@ -428,13 +439,6 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               onChange={(e) => setPaymentStreet(e.target.value)}
               className="checkoutInput"
             />
-            <label>Zipcode: </label>
-            <input
-              type="text"
-              placeholder="Zipcode"
-              onChange={(e) => setPaymentZipcode(e.target.value)}
-              className="checkoutInput"
-            />
             <br></br>
              <label>City: </label>
             <input
@@ -448,6 +452,13 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
               type="text"
               placeholder="State"
               onChange={(e) => setPaymentState(e.target.value)}
+              className="checkoutInput"
+            />
+             <label>Zipcode: </label>
+            <input
+              type="text"
+              placeholder="Zipcode"
+              onChange={(e) => setPaymentZipcode(e.target.value)}
               className="checkoutInput"
             />
             <br></br>

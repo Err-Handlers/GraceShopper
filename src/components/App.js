@@ -258,6 +258,7 @@ const App = () => {
               setShippingStreet={setShippingStreet}
               setOrderDetails={setOrderDetails}
               setGuestCart={setGuestCart}
+              error={error}
             />
           }
         ></Route>
