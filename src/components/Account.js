@@ -3,12 +3,6 @@ import CompletedOrder from "./CompletedOrder"
 
 const Account = ({
   token,
-  shippingFirstName,
-  shippingLastName,
-  shippingState,
-  shippingZipcode,
-  shippingCity,
-  shippingStreet,
 }) => {
   
 
@@ -18,12 +12,6 @@ const Account = ({
         <div className="cartContainer">
               <CompletedOrder
                 token={token}
-                shippingFirstName={shippingFirstName}
-                shippingLastName={shippingLastName}
-                shippingState={shippingState}
-                shippingZipcode={shippingZipcode}
-                shippingCity={shippingCity}
-                shippingStreet={shippingStreet}
               />
             
             
