@@ -18,7 +18,7 @@ async function getCompletedOrdersByUserId(userId) {
   async function addShippingInfo(orderId, firstName, lastName, city, street, state, zipcode ) {
     try {
         const {rows: [data]} = await client.query(`
-        INSERT INTO shipping_details("orderId", "firstName", "lastName", city, street, state, zipcode)
+        INSERT INTO shipping_details("orderId", "shippingFirstName", "shippingLastName", "shippingCity", "shippingStreet", "shippingState", "shippingZipcode")
         VALUES($1, $2, $3, $4, $5, $6, $7 )
         RETURNING *;
     `, [orderId, firstName, lastName, city, street, state, zipcode])
@@ -31,7 +31,7 @@ async function getCompletedOrdersByUserId(userId) {
   async function addPaymentInfo(orderId, name, city, street, state, zipcode, cardNumber, cardCvc) {
     try {
         const {rows: [info]} = await client.query(`
-        INSERT INTO payment_details("orderId", name, city, state, street, zipcode, "cardNumber", "cardCvc")
+        INSERT INTO payment_details("orderId", "paymentName", "paymentCity", "paymentState", "paymentStreet", "paymentZipcode", "cardNumber", "cardCvc")
         VALUES($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *;
     `, [orderId, name, city, state, street, zipcode, cardNumber, cardCvc])
@@ -41,14 +41,15 @@ async function getCompletedOrdersByUserId(userId) {
     }
   }
 
-  async function getPaymentAndShippingDetails() {
+  async function getPaymentAndShippingDetails(userId) {
     try {
-        const {rows} = await client.query(`
+        const { rows } = await client.query(`
             SELECT payment_details.*, shipping_details.* FROM payment_details 
             JOIN shipping_details
             ON payment_details."orderId" = shipping_details."orderId"
+            WHERE shipping_details."orderId" = ${userId} AND payment_details."orderId" = ${userId}
         `)
-        return rows
+        return details
     } catch (err) {
         console.log(err);
     }

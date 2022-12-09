@@ -13,13 +13,13 @@ async function buildTables() {
 
     // drop tables in correct order
     await client.query(`
+    DROP TABLE IF EXISTS users cascade;
       DROP TABLE IF EXISTS shipping_details;
       DROP TABLE IF EXISTS payment_details;
       DROP TABLE IF EXISTS order_products;
       DROP TYPE IF EXISTS status cascade;
       DROP TABLE IF EXISTS reviews;
       DROP TABLE IF EXISTS products;
-      DROP TABLE IF EXISTS users cascade;
       DROP TABLE IF EXISTS orders;
     `);
 
@@ -73,22 +73,22 @@ async function buildTables() {
       CREATE TABLE shipping_details(
         id SERIAL PRIMARY KEY,
         "orderId" INTEGER REFERENCES orders(id),
-        "firstName" VARCHAR(255) NOT NULL,
-        "lastName" VARCHAR(255) NOT NULL,
-        city VARCHAR(255) NOT NULL,
-        state VARCHAR(255) NOT NULL,
-        street text NOT NULL,
-        zipcode text NOT NULL
+        "shippingFirstName" VARCHAR(255) NOT NULL,
+        "shippingLastName" VARCHAR(255) NOT NULL,
+        "shippingCity" VARCHAR(255) NOT NULL,
+        "shippingState" VARCHAR(255) NOT NULL,
+        "shippingStreet" text NOT NULL,
+        "shippingZipcode" text NOT NULL
       );
 
       CREATE TABLE payment_details(
         id SERIAL PRIMARY KEY,
         "orderId" INTEGER REFERENCES orders(id),
-        name VARCHAR(255) NOT NULL,
-        city VARCHAR(255) NOT NULL,
-        state VARCHAR(255) NOT NULL,
-        street text NOT NULL,
-        zipcode text NOT NULL,
+        "paymentName" VARCHAR(255) NOT NULL,
+        "paymentCity" VARCHAR(255) NOT NULL,
+        "paymentState" VARCHAR(255) NOT NULL,
+        "paymentStreet" text NOT NULL,
+        "paymentZipcode" text NOT NULL,
         "cardNumber" text NOT NULL,
         "cardCvc" text NOT NULL
       );
