@@ -17,19 +17,12 @@ import { useNavigate } from "react-router-dom";
 import ContactPage from "./ContactPage";
 
 const App = () => {
-  const [APIHealth, setAPIHealth] = useState("");
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [shippingFirstName, setShippingFirstName] = useState("");
-  const [shippingLastName, setShippingLastName] = useState("");
-  const [shippingState, setShippingState] = useState("");
-  const [shippingZipcode, setShippingZipcode] = useState("");
-  const [shippingCity, setShippingCity] = useState("");
-  const [shippingStreet, setShippingStreet] = useState("");
   const [guestCart, setGuestCart] = useState([]);
   const [success, setSuccess] = useState("");
   const [token, setToken] = useState(
@@ -244,18 +237,6 @@ const App = () => {
               cart={cart}
               setCart={setCart}
               guestCart={guestCart}
-              shippingFirstName={shippingFirstName}
-              setShippingFirstName={setShippingFirstName}
-              shippingLastName={shippingLastName}
-              setShippingLastName={setShippingLastName}
-              shippingState={shippingState}
-              setShippingState={setShippingState}
-              shippingZipcode={shippingZipcode}
-              setShippingZipcode={setShippingZipcode}
-              shippingCity={shippingCity}
-              setShippingCity={setShippingCity}
-              shippingStreet={shippingStreet}
-              setShippingStreet={setShippingStreet}
               setOrderDetails={setOrderDetails}
               setGuestCart={setGuestCart}
               error={error}
@@ -268,18 +249,6 @@ const App = () => {
             <Account
               token={token}
               cart={cart}
-              shippingFirstName={shippingFirstName}
-              setShippingFirstName={setShippingFirstName}
-              shippingLastName={shippingLastName}
-              setShippingLastName={setShippingLastName}
-              shippingState={shippingState}
-              setShippingState={setShippingState}
-              shippingZipcode={shippingZipcode}
-              setShippingZipcode={setShippingZipcode}
-              shippingCity={shippingCity}
-              setShippingCity={setShippingCity}
-              shippingStreet={shippingStreet}
-              setShippingStreet={setShippingStreet}
             />
           }
         ></Route>

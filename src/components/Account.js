@@ -1,4 +1,3 @@
-
 import CompletedOrder from "./CompletedOrder"
 
 const Account = ({token}) => {
