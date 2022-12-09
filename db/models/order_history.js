@@ -41,20 +41,20 @@ async function getCompletedOrdersByUserId(userId) {
     }
   }
 
-  async function getPaymentAndShippingDetails(userId) {
-    try {
-        const { rows } = await client.query(`
-            SELECT payment_details.*, shipping_details.* FROM payment_details 
-            JOIN shipping_details
-            ON payment_details."orderId" = shipping_details."orderId"
-            WHERE shipping_details."orderId" = ${userId} AND payment_details."orderId" = ${userId}
-        `)
-        return details
-    } catch (err) {
-        console.log(err);
-    }
+  // async function getPaymentAndShippingDetails(userId) {
+  //   try {
+  //       const { rows } = await client.query(`
+  //           SELECT payment_details.*, shipping_details.* FROM payment_details 
+  //           JOIN shipping_details
+  //           ON payment_details."orderId" = shipping_details."orderId"
+  //           WHERE shipping_details."orderId" = ${userId} AND payment_details."orderId" = ${userId}
+  //       `)
+  //       return details
+  //   } catch (err) {
+  //       console.log(err);
+  //   }
 
-  }
+  // }
 
   async function getShippingDetailsAndOrdersByOrderId(orderId) {
     try {
@@ -89,4 +89,4 @@ async function getCompletedOrdersByUserId(userId) {
   }
 
 
-  module.exports = {getCompletedOrderProductsByOrderId, getCompletedOrdersByUserId, addShippingInfo, addPaymentInfo, getPaymentAndShippingDetails, getShippingDetailsAndOrdersByOrderId, addDateToOrder}
+  module.exports = {getCompletedOrderProductsByOrderId, getCompletedOrdersByUserId, addShippingInfo, addPaymentInfo, getShippingDetailsAndOrdersByOrderId, addDateToOrder}

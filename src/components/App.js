@@ -239,6 +239,7 @@ const App = () => {
               guestCart={guestCart}
               setOrderDetails={setOrderDetails}
               setGuestCart={setGuestCart}
+              error={error}
             />
           }
         ></Route>
