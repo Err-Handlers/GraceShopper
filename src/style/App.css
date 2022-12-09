@@ -386,4 +386,16 @@
 .usersTitle {
   color: rgb(104, 182, 188);
   margin-top: auto;
+  font-weight: bold;
+}
+
+.adminUserContainer{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.allOrderContainer{
+  border: 2px solid rgba(104, 182, 188, 0.636);
+  padding: 25px;
 }
