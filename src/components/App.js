@@ -11,9 +11,10 @@ import Cart from "./Cart";
 import { callApi } from "../api/utils";
 import Login from "./Login";
 import Account from "./Account";
-import CreateForm from "./CreateForm";
+import Admin from "./Admin";
 import Users from "./Users";
 import { useNavigate } from "react-router-dom";
+import ContactPage from "./ContactPage";
 
 const App = () => {
   const [APIHealth, setAPIHealth] = useState("");
@@ -102,7 +103,12 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <h2 className="logoName"><img src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="80" height="50"></img>StickySituations</h2>
+        <div className="logoContainer">
+        
+          <h2 className="logoName">St</h2>
+          <img className="logo" src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="40" height="40"></img>
+          <h2 className="logoName2">ckySituations</h2>
+        </div>
         <ul className="navbar">
           <li>
             <Link className="navbarLinks" to="/products">
@@ -121,9 +127,15 @@ const App = () => {
               </div>
             ) : (
               <div>
+                {isAdmin ? (
+                   <Link className="navbarLinks" to="/admin">
+                   Admin
+                 </Link>
+                ) : (
                 <Link className="navbarLinks" to="/account">
                   Account
                 </Link>
+                )}
 
                 <Link
                   className="navbarLinks"
@@ -131,6 +143,7 @@ const App = () => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
+                    
                     swal({
                       text: "Thank you for shopping with us!",
                     });
@@ -142,23 +155,20 @@ const App = () => {
               </div>
             )}
           </li>
+          {!isAdmin &&
+          <>
           <li>
             <Link className="navbarLinks" to="/cart">
               Cart
             </Link>
           </li>
           <li>
-            {isAdmin ? (
-              <>
-                <Link className="navbarLinks" to="/admin">
-                  Admin
-                </Link>
-                <Link className="navbarLinks" to="/users">
-                  Users
-                </Link>
-              </>
-            ) : null}
+            <Link className="navbarLinks" to="/contactus">
+              Contact Us
+            </Link>
           </li>
+          </>
+          }
         </ul>
       </nav>
       <Routes>
@@ -216,7 +226,7 @@ const App = () => {
         <Route
           path="/admin"
           element={
-            <CreateForm
+            <Admin
               token={token}
               navigate={navigate}
               setProducts={setProducts}
@@ -272,8 +282,13 @@ const App = () => {
             />
           }
         ></Route>
+        <Route path="/account" element={<Account token={token} cart={cart} shippingFirstName={shippingFirstName} setShippingFirstName={setShippingFirstName} shippingLastName={shippingLastName} setShippingLastName={setShippingLastName} shippingState={shippingState} setShippingState={setShippingState} shippingZipcode={shippingZipcode} setShippingZipcode={setShippingZipcode} shippingCity={shippingCity} setShippingCity={setShippingCity} shippingStreet={shippingStreet} setShippingStreet={setShippingStreet}/>}></Route>
+
+        <Route path="/contactus" element={<ContactPage  navigate={navigate} />}></Route>
       </Routes>
           
+
+
     </div>
   );
 };

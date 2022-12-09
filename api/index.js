@@ -47,6 +47,9 @@ router.use("/order_history", orderHistoryRouter)
 const allUsersRouter = require("./allusers")
 router.use("/allusers", allUsersRouter);
 
+const guestRouter = require("./guest")
+router.use("/guest", guestRouter);
+
 
 // const adminRouter = require("./admin")
 // router.use("/admin", adminRouter);
