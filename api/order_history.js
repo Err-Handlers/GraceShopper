@@ -1,10 +1,11 @@
 const express = require("express");
 const orderHistoryRouter = express.Router();
-const { getProductById, getOrdersByUserId, getOrderProductsByOrderId } = require("../db/models");
-const { getCompletedOrdersByUserId, addPaymentInfo, addShippingInfo, getShippingDetailsAndOrdersByOrderId, addDateToOrder, getCompletedOrderProductsByOrderId } = require("../db/models/order_history");
+const { getProductById, getOrdersByUserId } = require("../db/models");
+const { getCompletedOrdersByUserId, addPaymentInfo, addShippingInfo, getShippingDetailsAndOrdersByOrderId, addDateToOrder, getCompletedOrderProductsByOrderId, getPaymentAndShippingDetails } = require("../db/models/order_history");
 
 orderHistoryRouter.get("/", async (req, res, next) => {
     try {
+        console.log('req.user :>> ', req.user);
         const completedOrders = await getOrdersByUserId(req.user.id);
         res.send(completedOrders)
     } catch ({name, message}) {
@@ -50,6 +51,15 @@ orderHistoryRouter.get("/order_products", async (req, res, next) => {
     try {
         const orderProducts = await getCompletedOrderProductsByOrderId(req.body.orderId);
         res.send(orderProducts)
+    } catch ({name, message}) {
+        next({name, message})
+    }
+})
+
+orderHistoryRouter.get("/shipping_details", async (req, res, next) => {
+    try {
+        const shippingAndPaymentDetails = await getPaymentAndShippingDetails(req.user.id)
+        res.send(shippingAndPaymentDetails)
     } catch ({name, message}) {
         next({name, message})
     }

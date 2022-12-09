@@ -1,46 +1,21 @@
 const client = require("../client");
 const { getProductById } = require("./products");
 
-async function createOrder({ userId, status, orderDate }) {
+async function createOrder({ userId, status }) {
   try {
     const {
       rows: [order],
     } = await client.query(
       `
-    INSERT INTO orders("userId", status, "orderDate")
-    VALUES ($1, $2, $3)
+    INSERT INTO orders("userId", status)
+    VALUES ($1, $2)
     RETURNING *;
   `,
-      [userId, status, orderDate]
+      [userId, status]
     );
     return order;
   } catch (err) {
     console.log(err);
-  }
-}
-
-async function getOrdersByUserId(id) {
-  try {
-    const {
-      rows: orders
-    } = await client.query(
-      `
-            SELECT * FROM orders
-            WHERE "userId" = $1 AND status = 'completed'
-        `,
-      [id]
-    );
-    
-    for (let i = 0; i < orders.length; i++) {
-      const order = orders[i]
-      const orderProducts = await getOrderProductsByOrderId(order.id)
-      const products = await Promise.all(orderProducts.map(p => getProductById(p.productId)))
-      order.products = products
-    }
-
-    return orders;
-  } catch (error) {
-    console.log(error);
   }
 }
 
@@ -124,7 +99,7 @@ async function findOrCreateCart(userId) {
   }
 }
 
-async function getOrderProductsByOrderId(orderId) {
+async function getOrderProductByOrderId(orderId) {
   try {
     const { rows } = await client.query(
       `
@@ -133,7 +108,6 @@ async function getOrderProductsByOrderId(orderId) {
     `,
       [orderId]
     );
-    console.log('getOrderProductsByOrderId :>> ', rows);
     return rows;
   } catch (error) {
    console.log(error); 
@@ -222,19 +196,72 @@ async function updateOrderStatus(orderId, cartTotal) {
   }
 }
 
+async function getOrderProductsByOrderId(orderId) {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT * FROM order_products
+      WHERE "orderId" = $1 
+    `,
+      [orderId]
+    );
+    console.log('getOrderProductsByOrderId :>> ', rows);
+    return rows;
+  } catch (error) {
+   console.log(error); 
+  }
+}
+
+async function getOrdersByUserId(id) {
+  try {
+    const {
+      rows: orders
+    } = await client.query(
+      `
+            SELECT orders.*, shipping_details.*, payment_details.* FROM orders
+            JOIN shipping_details
+            ON orders.id = shipping_details."orderId"
+            JOIN payment_details
+            ON orders.id = payment_details."orderId"
+            WHERE orders."userId" = $1 AND orders.status = 'completed'
+        `,
+      [id]
+    );
+    console.log('orders :>> ', orders);
+    for (let i = 0; i < orders.length; i++) {
+      const order = orders[i]
+      console.log('order :>> ', order);
+      const orderProducts = await getOrderProductsByOrderId(order.id);
+      console.log('orderProducts :>> ', orderProducts);
+      const products = await Promise.all(orderProducts.map( async p => {
+       let product = await getProductById(p.productId)
+       console.log('product :>> ', product);
+       let newProduct = {quantity: p.quantity, ...product}
+       return newProduct
+      }))
+      console.log('products :>> ', products);
+      order.products = products
+    }
+
+    return orders;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 
 module.exports = {
   getOrdersByUserId,
   updateOrderStatus,
-  getOrdersByUserId,
   addProductToCart,
   createOrder,
   findOrCreateCart,
   updateOrderQuantity,
   getProductInCart,
-  getOrderProductsByOrderId,
+  getOrderProductByOrderId,
   getOrderProductsByUserId,
   getProductInCartDetails,
   deleteProductFromCart,
-  addProductToOrderProducts
+  addProductToOrderProducts,
 };
