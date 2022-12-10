@@ -8,7 +8,6 @@ import swal from "sweetalert";
 const Product = ({
   token,
   isAdmin,
-  productToEdit,
   cart,
   setCart,
   products,
@@ -17,9 +16,7 @@ const Product = ({
   product,
   guestCart,
   setGuestCart,
-  error,
-  setCartTotal,
-  cartTotal
+  error
 }) => {
   const [show, setShow] = useState(false);
   const [quantity, setQuantity] = useState(0);
@@ -27,11 +24,9 @@ const Product = ({
   const [inCartLabel, setInCartLabel] = useState(false);
 
   
-  const addProductToCart = async ({e, token, quantity, productId, price}) => {
+  const addProductToCart = async ({e, token, quantity, productId}) => {
     e.preventDefault();
     try {
-      //adding to order_products (which gives us primaryId, orderId, productId, quantity, and price)
-      //cart is an array of all of these order_products that share the same orderId
       if (token) {
         const data = await callApi({
           method: "POST",
@@ -41,7 +36,6 @@ const Product = ({
         });
         setCart((prev) => [data, ...prev]);
         setInCartLabel((prev) => !prev);
-        setCartTotal( prev => prev + ((price/100) * quantity))
       } else {
         const product = await callApi({
           path: `/guest/products/${productId}`,
@@ -60,19 +54,22 @@ const Product = ({
         if (product.id === cartItem.productId) {
           setInCartLabel(true);
         }
+        if (cart.length = 0){
+          setInCartLabel(false)
+        }
       });
     } else {
       guestCart.map((cartItem) => {
         if (product.id === cartItem.productId) {
           setInCartLabel(true);
         }
+        if (guestCart.length = 0){
+          setInCartLabel(false)
+        }
       });
     }
-  }, [cart, guestCart]);
-
-  console.log("cartTotal:", cartTotal);
+  }, []);
     
-    // const token = localStorage.getItem("token");
     const deleteProduct = async (productId) => {
         try {
             await callApi({
@@ -101,7 +98,6 @@ const Product = ({
   const handleClose = () => {
     setShow(false);
   };
-  const handleShow = () => setShow(true);
 
   return (
     <div className="mx-auto">
@@ -113,7 +109,6 @@ const Product = ({
           height="300"
         ></img>
         <h3 className="productName">{product.name}</h3>
-        {/* <h4>Inventory: {product.inventory}</h4> */}
 
         <h4 className="productPrice">{`$${product.priceInCents / 100}.00`}</h4>
 
@@ -164,7 +159,7 @@ const Product = ({
               <button
                 className="addToCartButton"
                 onClick={(e) =>
-                  addProductToCart({e, token, quantity, productId: product.id, price: product.priceInCents})
+                  addProductToCart({e, token, quantity, productId: product.id})
                 }
               >
                 Add to cart
@@ -184,13 +179,9 @@ const Product = ({
               </Modal.Header>
               <Modal.Body>
                 <EditProductForm
-                  product={selectedProduct}
-                  isAdmin={isAdmin}
                   token={token}
                   setProducts={setProducts}
-                  productToEdit={productToEdit}
                   onProductEditedHandler={onProductEdited}
-                  error={error}
                 />
               </Modal.Body>
               <Modal.Footer>

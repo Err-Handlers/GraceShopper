@@ -1,6 +1,6 @@
 import { callApi } from "../api/utils";
 import { useNavigate } from "react-router-dom";
-import swal from 'sweetalert'
+import swal from "sweetalert";
 
 export default function Register({
   email,
@@ -11,39 +11,33 @@ export default function Register({
   setToken,
   error,
   confirmPassword,
-  setConfirmPassword
+  setConfirmPassword,
 }) {
   const navigate = useNavigate();
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      if(password === confirmPassword) {
-      const result = await callApi({
-        method: "POST",
-        body: { email, password },
-        path: "/users/register",
-      });
-      console.log("result :>> ", result);
-      setToken(result.token);
-      console.log("User Registered");
-
-      if (!error){
-        swal({
-          icon: "success",
+      if (password === confirmPassword) {
+        const result = await callApi({
+          method: "POST",
+          body: { email, password },
+          path: "/users/register",
         });
-      }
+        setToken(result.token);
 
-      navigate("/login");
+        if (!error) {
+          swal({
+            icon: "success",
+          });
+        }
 
-      } else (
+        navigate("/products");
+      } else
         swal({
-          text: "Passwords do not match, try again."
-        })
-      )
-      
+          text: "Passwords do not match, try again.",
+        });
     } catch (err) {
-      
       setError(err);
       console.error(err);
     }
@@ -80,16 +74,13 @@ export default function Register({
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
-
-
           <p className="passwordLength">(Must be at least 8 characters long)</p>
           <center>
             <input
               className="loginButton"
               type="submit"
               value="Sign up"
-              onClick={handleRegisterSubmit
-              }
+              onClick={handleRegisterSubmit}
             />
           </center>
         </form>

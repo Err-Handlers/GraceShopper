@@ -1,8 +1,5 @@
 import { useState, useEffect } from "react";
-// getAPIHealth is defined in our axios-services directory index.js
-// you can think of that directory as a collection of api adapters
-// where each adapter fetches specific info from our express server's /api route
-import { getAPIHealth } from "../axios-services";
+
 import "../style/App.css";
 import { Route, Routes, Link } from "react-router-dom";
 import Register from "./Register";
@@ -24,22 +21,16 @@ const App = () => {
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const [guestCart, setGuestCart] = useState([]);
-  const [success, setSuccess] = useState("");
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || ""
   );
-  const [orderDetails, setOrderDetails] = useState([]);
+  const [shippingFirstName, setShippingFirstName] = useState("");
+  const [shippingLastName, setShippingLastName] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingZipcode, setShippingZipcode] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingStreet, setShippingStreet] = useState("");
   const userToken = localStorage.getItem("token");
-  console.log('orderDetails :>> ', orderDetails);
-  console.log("token :>> ", token);
-  // console.log(userToken)
-  // console.log('token :>> ', token);
-
-  const [productToEdit, setProductToEdit] = useState("");
-
-  // const isAdmin = localStorage.getItem("isAdmin");
-  // console.log(isAdmin)
-  // const [currentUser, setCurrentUser] = useState(undefined);
 
   useEffect(() => {
     window.localStorage.setItem("token", token);
@@ -49,7 +40,6 @@ const App = () => {
 
   useEffect(() => {
     const admin = localStorage.getItem("isAdmin");
-    console.log(admin, "isAdmin");
 
     if (admin === "false") {
       return setIsAdmin(false);
@@ -59,9 +49,6 @@ const App = () => {
       return setIsAdmin(true);
     }
   }, []);
-  //watch for a user change
-  //if user changes, set admin to this
-  //add a logout function
 
   const navigate = useNavigate();
 
@@ -75,31 +62,18 @@ const App = () => {
     fetchProducts();
   }, [cart]);
 
-  const fetchCart = async () => {
-    try {
-      if (token) {
-        const data = await callApi({
-          path: "/cart/products",
-          token,
-        });
-        setCart(data);
-      }
-    } catch (error) {
-      console.log("error :>> ", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
-
   return (
     <div className="app-container">
       <nav className="navbarContainer">
         <div className="logoContainer">
-        
           <h2 className="logoName">St</h2>
-          <img className="logo" src="https://i.postimg.cc/2jJYq5DL/logo.png" alt="" width="40" height="40"></img>
+          <img
+            className="logo"
+            src="https://i.postimg.cc/2jJYq5DL/logo.png"
+            alt=""
+            width="40"
+            height="40"
+          ></img>
           <h2 className="logoName2">ckySituations</h2>
         </div>
         <ul className="navbar">
@@ -121,13 +95,13 @@ const App = () => {
             ) : (
               <div>
                 {isAdmin ? (
-                   <Link className="navbarLinks" to="/admin">
-                   Admin
-                 </Link>
+                  <Link className="navbarLinks" to="/admin">
+                    Admin
+                  </Link>
                 ) : (
-                <Link className="navbarLinks" to="/account">
-                  Account
-                </Link>
+                  <Link className="navbarLinks" to="/account">
+                    Account
+                  </Link>
                 )}
 
                 <Link
@@ -136,7 +110,7 @@ const App = () => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
-                    
+
                     swal({
                       text: "Thank you for shopping with us!",
                     });
@@ -148,20 +122,20 @@ const App = () => {
               </div>
             )}
           </li>
-          {!isAdmin &&
-          <>
-          <li>
-            <Link className="navbarLinks" to="/cart">
-              Cart
-            </Link>
-          </li>
-          <li>
-            <Link className="navbarLinks" to="/contactus">
-              Contact Us
-            </Link>
-          </li>
-          </>
-          }
+          {!isAdmin && (
+            <>
+              <li>
+                <Link className="navbarLinks" to="/cart">
+                  Cart
+                </Link>
+              </li>
+              <li>
+                <Link className="navbarLinks" to="/contactus">
+                  Contact Us
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
       <Routes>
@@ -193,8 +167,6 @@ const App = () => {
               password={password}
               setToken={setToken}
               setIsAdmin={setIsAdmin}
-              success={success}
-              setSuccess={setSuccess}
             />
           }
         ></Route>
@@ -206,7 +178,6 @@ const App = () => {
               isAdmin={isAdmin}
               cart={cart}
               setCart={setCart}
-              productToEdit={productToEdit}
               products={products}
               setProducts={setProducts}
               fetchProducts={fetchProducts}
@@ -237,11 +208,25 @@ const App = () => {
               cart={cart}
               setCart={setCart}
               guestCart={guestCart}
-              setOrderDetails={setOrderDetails}
               setGuestCart={setGuestCart}
-              error={error}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
             />
           }
+        ></Route>
+        <Route
+          path="/account"
+          element={<Account token={token} cart={cart} />}
         ></Route>
         <Route
           path="/account"
@@ -249,16 +234,27 @@ const App = () => {
             <Account
               token={token}
               cart={cart}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
             />
           }
         ></Route>
-        <Route path="/account" element={<Account token={token}/>}></Route>
 
-        <Route path="/contactus" element={<ContactPage  navigate={navigate} />}></Route>
+        <Route
+          path="/contactus"
+          element={<ContactPage navigate={navigate} />}
+        ></Route>
       </Routes>
-          
-
-
     </div>
   );
 };
