@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
 import swal from 'sweetalert';
 
-export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin, success, setSuccess }) {
+export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin }) {
   const navigate = useNavigate();
-  console.log(password);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -16,10 +15,8 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       });
 
       setToken(result.token);
-      console.log(result);
-
+  
       localStorage.setItem("user", result.user);
-      console.log(result.user)
       localStorage.setItem("isAdmin", result.user.isAdmin);
       localStorage.setItem("token", result.token);
 
@@ -30,7 +27,6 @@ export default function Login({ setEmail, email, setPassword, password, setToken
 
       if (result.user.isAdmin = true){
         navigate("/products");
-        // window.location.reload(false);
         setToken(result.token);
         setIsAdmin(true)
       }

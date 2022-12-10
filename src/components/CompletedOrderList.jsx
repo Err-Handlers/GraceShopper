@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react";
 import CompletedOrderProduct from "./CompletedOrderProduct"
-import { callApi } from "../api/utils";
 
-function CompletedOrderList ({completedOrderProducts, orderId, token}) {
-
+function CompletedOrderList ({completedOrderProducts}) {
     return (
         <div>
            {completedOrderProducts.map((completedOrderProduct) => {
-                return (
-                    <div key={completedOrderProduct.id}>
+            return (
+                <div key={completedOrderProduct.id} className="orderImgNameQuantityPrice">
                     <CompletedOrderProduct imageURL={completedOrderProduct.imageURL} name={completedOrderProduct.name}/>
-                    <p>{completedOrderProduct.quantity}</p>
-                    </div>
-                )
-                
+                    <p className="orderProductQuantity">{completedOrderProduct.quantity}</p>
+                    <p className="orderProductPrice">${completedOrderProduct.priceInCents / 100}.00</p>
+                </div>
+            )  
            })}
         </div>
     )
-
 }
 
 export default CompletedOrderList

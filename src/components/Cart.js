@@ -21,7 +21,6 @@ function Cart({
   setShippingCity,
   shippingStreet,
   setShippingStreet,
-  error
 }) {
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
@@ -39,7 +38,7 @@ function Cart({
   const [guestUserId, setGuestUserId] = useState(null);
   const [guestOrderId, setGuestOrderId] = useState(null);
 
-  const fetchCart = async () => {
+  const fetchCartProducts = async () => {
     try {
       if (token) {
         const data = await callApi({
@@ -47,17 +46,34 @@ function Cart({
           token,
         });
         setCartProducts(data);
+        return data;
       }
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
+    fetchCartProducts();
+  }, []);
+
+  const fetchCart = async () => {
+    try {
+      if (token) {
+        const data = await callApi({
+          path: "/cart/products",
+          token,
+        });
+        setCart(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
     fetchCart();
   }, []);
-  // if(cart) {
-  //   console.log('cart[0].orderId :>> ', cart[0].id);
-  // }
+
   const handleShowPayment = () => {
     setShowPayment((p) => !p);
   };
@@ -76,45 +92,44 @@ function Cart({
 
   const calculateGuestCartTotal = () => {
     const initialValue = 0;
-    const orderTotal = guestCart.reduce( (accumulator, product) => {
-      return accumulator + (product.priceInCents * product.quantity) /100;
+    const orderTotal = guestCart.reduce((accumulator, product) => {
+      return accumulator + (product.priceInCents * product.quantity) / 100;
     }, initialValue);
     return orderTotal;
-  }
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     setGuestCartTotal(calculateGuestCartTotal());
-  }, [guestCart])
+  }, [guestCart]);
 
   const addGuestEmail = async () => {
     try {
       const data = await callApi({
         method: "POST",
         path: "/guest/email",
-        body: {email: guestEmail}
-      })
-      setGuestUserId(data.id)
-      console.log("USER DATA", data.id);
+        body: { email: guestEmail },
+      });
+      setGuestUserId(data.id);
       return data.id;
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const addGuestOrder = async (guestUserId) => {
     try {
       const data = await callApi({
         method: "POST",
         path: "/guest/order",
-        body: {userId: guestUserId, totalPriceInCents: (guestCartTotal * 100)}
-      })
-        setGuestOrderId(data.id)
-        console.log("ORDER DATA", data.id);
-        return data.id;
+        body: { userId: guestUserId, totalPriceInCents: guestCartTotal * 100 },
+      });
+      setGuestOrderId(data.id);
+      console.log("ORDER DATA", data.id);
+      return data.id;
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const addPaymentInfo = async () => {
     try {
@@ -133,7 +148,6 @@ function Cart({
         token,
         path: "/order_history/payment",
       });
-      console.log("payment data :>> ", data);
       return data;
     } catch (err) {
       console.log(err);
@@ -157,7 +171,6 @@ function Cart({
         token,
         path: "/order_history/payment",
       });
-      console.log("payment data :>> ", data);
       return data;
     } catch (err) {
       console.log(err);
@@ -177,12 +190,10 @@ function Cart({
           state: shippingState,
           zipcode: shippingZipcode,
           orderId: cart[0].orderId,
-          // orderDate: date,
         },
         token,
         path: "/order_history/shipping",
       });
-      console.log("shipping data :>> ", data);
       return data;
     } catch (err) {
       console.log(err);
@@ -191,7 +202,6 @@ function Cart({
 
   const addGuestShippingInfo = async () => {
     try {
-      console.log("TESTTTTTt");
       const data = await callApi({
         method: "POST",
         body: {
@@ -201,39 +211,43 @@ function Cart({
           street: shippingStreet,
           state: shippingState,
           zipcode: shippingZipcode,
-          orderId: guestOrderId
+          orderId: guestOrderId,
         },
         token,
         path: "/order_history/shipping",
       });
-      console.log("shipping data :>> ", data);
       return data;
     } catch (err) {
       console.log(err);
     }
   };
-const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) => {
-  try {
-    const data = await callApi({
-      path: "/guest/orderProducts",
-      method: "POST",
-      body: {
-        quantity,
-        priceInCents: price,
-        productId,
-        orderId: guestOrderId
-      }
-    })
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+  const addGuestOrderProduct = async (
+    guestOrderId,
+    quantity,
+    price,
+    productId
+  ) => {
+    try {
+      const data = await callApi({
+        path: "/guest/orderProducts",
+        method: "POST",
+        body: {
+          quantity,
+          priceInCents: price,
+          productId,
+          orderId: guestOrderId,
+        },
+      });
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handlePurchase = async (e, error) => {
     e.preventDefault();
     try {
-      if(token){
+      if (token) {
         await addShippingInfo();
         await addPaymentInfo();
         const data = await callApi({
@@ -242,42 +256,39 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
           body: { orderId: cart[0].orderId, cartTotal: cartTotal * 100 },
           token,
         });
-  
-        console.log("update status", data);
-        if (!error){
+
+        if (!error) {
           swal({
             text: "Your order was succesfully placed!",
           });
         }
         navigate("/account");
-
-      } else{
+      } else {
         const guestUserId = await addGuestEmail();
         const guestOrderId = await addGuestOrder(guestUserId);
         await addGuestShippingInfo(guestOrderId);
         await addGuestPaymentInfo(guestOrderId);
-        
-        const addOrderProducts = guestCart.map( async (p) => {
-          return addGuestOrderProduct(guestOrderId, p.quantity, p.priceInCents, p.id)
-        })
-        const guestOrderProducts = await Promise.all(addOrderProducts)
-        console.log("guestOrderProducts", guestOrderProducts);
-        //have a thanks for your purchase, a confirmation email will be sent shortly.
-        if (!error){
+
+        const addOrderProducts = guestCart.map(async (p) => {
+          return addGuestOrderProduct(
+            guestOrderId,
+            p.quantity,
+            p.priceInCents,
+            p.id
+          );
+        });
+        const guestOrderProducts = await Promise.all(addOrderProducts);
+        if (!error) {
           swal({
             text: "Your order was succesfully placed!",
           });
         }
-        navigate("/products")
+        navigate("/products");
       }
     } catch (err) {
       console.log(err);
     }
   };
-  
-
-  console.log('guestCart :>> ', guestCart);
-  
 
   const cartProductsToDisplay = token ? cartProducts : guestCart;
 
@@ -296,30 +307,32 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
                 <div>
                   {cartProducts.map((productInCart) => {
                     return (
-                      <CartProduct
-                        productInCart={productInCart}
-                        token={token}
-                        cart={cart}
-                        setCart={setCart}
-                        cartProducts={cartProducts}
-                        setCartProducts={setCartProducts}
-                      />
+                      <div key={productInCart.id}>
+                        <CartProduct
+                          productInCart={productInCart}
+                          token={token}
+                          setCart={setCart}
+                          cart={cart}
+                          cartProducts={cartProducts}
+                          setCartProducts={setCartProducts}
+                        />
+                      </div>
                     );
                   })}
                   <p className="cartTotal">Total: ${cartTotal}.00</p>
                 </div>
               ) : (
                 <div>
-                {guestCart.map((productInGuestCart) => {
-                  return (
-                    <CartProduct
-                      productInGuestCart={productInGuestCart}
-                      setGuestCart={setGuestCart}
-                      guestCart={guestCart}
-                    />
-                  );
-                })}
-                <p className="cartTotal">Total: ${guestCartTotal}.00</p>
+                  {guestCart.map((productInGuestCart) => {
+                    return (
+                      <CartProduct
+                        productInGuestCart={productInGuestCart}
+                        setGuestCart={setGuestCart}
+                        guestCart={guestCart}
+                      />
+                    );
+                  })}
+                  <p className="cartTotal">Total: ${guestCartTotal}.00</p>
                 </div>
               )}
             </div>
@@ -347,126 +360,137 @@ const addGuestOrderProduct = async (guestOrderId, quantity, price, productId) =>
       )}
       {showPayment && (
         <div className="mainContainer">
-        <div className="checkoutContainer">
-          <h3 className="cartHeader">Please fill out the fields below to complete your order.</h3>
-          <form>
-            <br></br>
-            {!token && (
-              <div>
-                <label>Email: </label>
-                <input className="emailInput" type="text" placeholder="johnyappleseed@gmail.com" onChange={(e) => setGuestEmail(e.target.value)}></input>
-                <span>(So we can send you an order confirmation email!)</span>
+          <div className="checkoutContainer">
+            <h3 className="cartHeader">
+              Please fill out the fields below to complete your order.
+            </h3>
+            <form>
+              <br></br>
+              {!token && (
+                <div>
+                  <label>Email: </label>
+                  <input
+                    className="emailInput"
+                    type="text"
+                    placeholder="johnyappleseed@gmail.com"
+                    onChange={(e) => setGuestEmail(e.target.value)}
+                  ></input>
+                  <span>(So we can send you an order confirmation email!)</span>
+                </div>
+              )}
+              <h4 className="orderDetailsHeader">Shipping Details</h4>
+              <label>First Name: </label>
+              <input
+                type="text"
+                placeholder="First Name"
+                onChange={(e) => setShippingFirstName(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>Last Name: </label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                onChange={(e) => setShippingLastName(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <label>Street: </label>
+              <input
+                type="text"
+                placeholder="Street"
+                onChange={(e) => setShippingStreet(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <label>City: </label>
+              <input
+                type="text"
+                placeholder="City"
+                onChange={(e) => setShippingCity(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>State: </label>
+              <input
+                type="text"
+                placeholder="State"
+                onChange={(e) => setShippingState(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>Zipcode: </label>
+              <input
+                type="text"
+                placeholder="Zipcode"
+                onChange={(e) => setShippingZipcode(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <br></br>
+              <h4 className="orderDetailsHeader">Payment Details</h4>
+              <label>Name On Card: </label>
+              <input
+                type="text"
+                placeholder="Credit Card Holders Name"
+                onChange={(e) => setPaymentName(e.target.value)}
+                className="checkoutInput"
+              />
+              <label htmlFor="ccn">Card Number: </label>
+              <input
+                id="ccn"
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9\s]{13,19}"
+                maxLength="19"
+                placeholder="xxxx xxxx xxxx xxxx"
+                onChange={(e) => setPaymentCardNumber(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>CVC: </label>
+              <input
+                type="text"
+                placeholder="CVC"
+                onChange={(e) => setPaymentCardCVC(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <label>Street: </label>
+              <input
+                type="text"
+                placeholder="Street"
+                onChange={(e) => setPaymentStreet(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <label>City: </label>
+              <input
+                type="text"
+                placeholder="City"
+                onChange={(e) => setPaymentCity(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>State: </label>
+              <input
+                type="text"
+                placeholder="State"
+                onChange={(e) => setPaymentState(e.target.value)}
+                className="checkoutInput"
+              />
+              <label>Zipcode: </label>
+              <input
+                type="text"
+                placeholder="Zipcode"
+                onChange={(e) => setPaymentZipcode(e.target.value)}
+                className="checkoutInput"
+              />
+              <br></br>
+              <div className="cartButtons">
+                <input
+                  className="cartButton"
+                  type="submit"
+                  onClick={handlePurchase}
+                />
               </div>
-            )}
-            <h4 className="orderDetailsHeader">Shipping Details</h4>
-            <label>First Name: </label>
-            <input
-              type="text"
-              placeholder="First Name"
-              onChange={(e) => setShippingFirstName(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>Last Name: </label>
-            <input
-              type="text"
-              placeholder="Last Name"
-              onChange={(e) => setShippingLastName(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-            <label>Street: </label>
-            <input
-              type="text"
-              placeholder="Street"
-              onChange={(e) => setShippingStreet(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-            <label>City: </label>
-            <input
-              type="text"
-              placeholder="City"
-              onChange={(e) => setShippingCity(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>State: </label>
-            <input
-              type="text"
-              placeholder="State"
-              onChange={(e) => setShippingState(e.target.value)}
-              className="checkoutInput"
-            />
-             <label>Zipcode: </label>
-            <input
-              type="text"
-              placeholder="Zipcode"
-              onChange={(e) => setShippingZipcode(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-            <br></br>
-            <h4 className="orderDetailsHeader">Payment Details</h4>
-            <label>Name On Card: </label>
-            <input
-              type="text"
-              placeholder="Credit Card Holders Name"
-              onChange={(e) => setPaymentName(e.target.value)}
-              className="checkoutInput"
-            />
-            <label htmlFor="ccn">Card Number: </label>
-            <input
-              id="ccn"
-              type="tel"
-              inputMode="numeric"
-              pattern="[0-9\s]{13,19}"
-              maxLength="19"
-              placeholder="xxxx xxxx xxxx xxxx"
-              onChange={(e) => setPaymentCardNumber(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>CVC: </label>
-            <input
-              type="text"
-              placeholder="CVC"
-              onChange={(e) => setPaymentCardCVC(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-            <label>Street: </label>
-            <input
-              type="text"
-              placeholder="Street"
-              onChange={(e) => setPaymentStreet(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-             <label>City: </label>
-            <input
-              type="text"
-              placeholder="City"
-              onChange={(e) => setPaymentCity(e.target.value)}
-              className="checkoutInput"
-            />
-            <label>State: </label>
-            <input
-              type="text"
-              placeholder="State"
-              onChange={(e) => setPaymentState(e.target.value)}
-              className="checkoutInput"
-            />
-             <label>Zipcode: </label>
-            <input
-              type="text"
-              placeholder="Zipcode"
-              onChange={(e) => setPaymentZipcode(e.target.value)}
-              className="checkoutInput"
-            />
-            <br></br>
-            <div className="cartButtons">
-            <input className="cartButton" type="submit" onClick={handlePurchase}/>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
         </div>
       )}
     </div>

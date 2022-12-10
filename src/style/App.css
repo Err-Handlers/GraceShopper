@@ -381,6 +381,7 @@
 
 .contactTitle {
   color: rgb(104, 182, 188);
+  font-weight: bold;
 }
 
 .usersTitle {
@@ -398,4 +399,70 @@
 .allOrderContainer{
   border: 2px solid rgba(104, 182, 188, 0.636);
   padding: 25px;
+}
+
+.singleOrderContainer{
+  display: flex;
+  flex-direction: column;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 35px;
+  margin-bottom: 20px;
+}
+
+.orderProductImgName{
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+
+.orderImgNameQuantityPrice{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.orderHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: solid 2px rgb(104, 182, 188);
+  margin-bottom: 20px;
+}
+
+.orderProductName{
+  margin-left: 12px;
+}
+
+.orderProductPrice{
+  margin-right: 18px;
+}
+
+.orderProductQuantity{
+  margin-right: 230px;
+}
+
+.orderHeaders{
+  font-weight: bold;
+  color: rgb(104, 182, 188);
+  font-size: 20px;
+}
+
+.orderTotal{
+  text-align: right;
+  margin-right: 18px;
+}
+
+.shippingAndPaymentDiv{
+  display: flex;
+  justify-content: space-around;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.shippingHeader{
+  margin-bottom: 12px;
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: underline;
 }
