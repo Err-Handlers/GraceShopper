@@ -41,6 +41,12 @@ const Product = ({
           path: `/guest/products/${productId}`,
         });
         setGuestCart((prev) => [...prev, { ...product, quantity }]);
+        const localGuestCart = JSON.parse(localStorage.getItem("guestCart"))
+        let newGuestCart = [{ ...product, quantity }];
+        if(localGuestCart){
+          newGuestCart = localGuestCart.push({ ...product, quantity })
+        }
+        localStorage.setItem("guestCart", JSON.stringify(newGuestCart))
         setInCartLabel((prev) => !prev);
       }
     } catch (error) {
@@ -90,7 +96,6 @@ const Product = ({
 
 
   function onProductEdited() {
-    console.log("product was updated");
     fetchProducts();
     handleClose();
   }

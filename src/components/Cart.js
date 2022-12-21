@@ -124,7 +124,6 @@ function Cart({
         body: { userId: guestUserId, totalPriceInCents: guestCartTotal * 100 },
       });
       setGuestOrderId(data.id);
-      console.log("ORDER DATA", data.id);
       return data.id;
     } catch (error) {
       console.log(error);
@@ -179,7 +178,6 @@ function Cart({
 
   const addShippingInfo = async () => {
     try {
-      console.log("TESTTTTTt");
       const data = await callApi({
         method: "POST",
         body: {
@@ -289,7 +287,7 @@ function Cart({
       console.log(err);
     }
   };
-
+  console.log("guestCart", guestCart);
   const cartProductsToDisplay = token ? cartProducts : guestCart;
 
   return (

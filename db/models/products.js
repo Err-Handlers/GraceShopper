@@ -40,7 +40,6 @@ async function getProductById(id) {
     `,
       [id]
     );
-    console.log("product :>> ", product);
     return product;
   } catch (error) {
     console.log("product not found", error);

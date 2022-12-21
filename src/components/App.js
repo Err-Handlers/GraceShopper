@@ -50,6 +50,10 @@ const App = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   localStorage.setItem("guestCart", JSON.stringify(guestCart))
+  // }, [guestCart])
+
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
