@@ -1,12 +1,11 @@
-# Let's Build a Full Stack Application
+# Full Stack E-commerce Site (Sticky Situations)
+A team of four worked to create an online storefront, called Sticky Situations, that sells stickers. Customers can add items to a persisting cart and checkout as a guest, or as a signed-in user. User accounts have access to all order history information. Admins can sign in to create, update, or delete item listings, and access user account information and order history.
 
-This full stack app boilerplate consists of:
+## This full stack app boilerplate consists of:
 
 - an Express web server,
 - a PostgreSQL database instance,
 - and a React front-end
-
-You'll also find a bunch of convenient commands and workflows that will allow you to develop your app locally and deploy it to heroku. Let's dive in!
 
 # Local Development
 
@@ -119,10 +118,6 @@ Under Settings, choose the Secrets option under Security. You'll see the followi
 
 ![](/assets/github-actions-secrets.png)
 
-Each project group will elect one person to be the "owner" of the heroku account, and that person's api key and email address will be used to register the secrets above.
-
-**After the bootcamp ends**, you might want to redeploy and make changes to your team's application. Once you've forked this repo to your personal GitHub Account, you can add your own secrets and redeploy under a different heroku app name!
-
 ## Deployment
 
 In `.github/workflows` you'll find a YAML, an acronym for "YAML Ain't Markup Language", that triggers an automated deployment by watching your `main` branch: whenever a new pull request is merged to `main`, your app will automagically deploy itself on heroku.
@@ -140,4 +135,4 @@ As you project grows you'll probably want to re-seed and refresh your database f
 
 # Wrapup
 
-You'll be able to view your fullstack application by running `heroku open`. Bask in the glory of your live site, and happy coding!
+You'll be able to view your fullstack application by running `heroku open`.
