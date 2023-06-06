@@ -6,8 +6,13 @@
   font-family: Verdana, sans-serif;
 }
 
+li {
+  list-style-type: none;
+}
+
 .logoContainer{
   display: flex;
+  cursor: pointer;
 }
 
 .mainContainer {
@@ -16,15 +21,15 @@
   margin-top: 50px;
 }
 
-.logoName{
-  color: rgb(104, 182, 188);
+.logoName {
+  color: white;
   font-weight: bold;
   padding-top: 9px;
   margin-right: -10px;
 }
 
 .logoName2{
-  color: rgb(104, 182, 188);
+  color: white;
   font-weight: bold;
   padding-top: 9px;
   margin-left: -10px;
@@ -32,10 +37,115 @@
 
 .navbarContainer{
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0 4px rgb(75, 132, 136);
+  background-color: rgb(82, 194, 187);
   padding: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+ul {
+  padding: 0;
+}
+
+.menu-icon {
+  display: none;
+  z-index: 3;
+}
+
+.dropdown-menu-close-icon {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+@media  (min-width: 640px) {
+  .dropdown {
+    display: none;
+  }
+  .menu-icon {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbarLinks {
+    display: none;
+  }
+  .navbar {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+    cursor: pointer;
+    margin-right: .5em;
+  }
+
+}
+
+.dropdown {
+  /* position: fixed; */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0px;
+  border-radius: 20em;
+}
+
+.dropdown-container-closed {
+  position: fixed;
+  z-index: 4;
+  left: 0;
+  top: 5rem;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(255, 255, 255, 0.696); 
+  animation: dropdown-scroll-out 200ms ease-out;
+}
+
+@keyframes dropdown-scroll-in {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes dropdown-scroll-out {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.dropdown-container-active {
+  position: fixed;
+  z-index: 4;
+  left: 0;
+  top: 5rem;
+  width: 100dvw;
+  height: 100dvh;
+  background-color: rgba(255, 255, 255, 0.696); 
+  animation: dropdown-scroll-in 200ms ease-out;
+}
+
+
+.dropdown > li {
+  display: flex;
+  padding: .25em .5em;
+  width: 10em;
+  align-items: center;
+}
+
+.dropdown-link {
+  text-decoration: none;
+  color: black;
 }
 
 .searchBar{
@@ -48,16 +158,17 @@
 
 .navbar{
   display: flex;
+  position: relative;
   flex-direction: row;
-  justify-content: space-around;
   width:max-content;
+  margin: 0;
   list-style: none;
 }
 
 .navbarLinks{
   padding-right: 10px;
   text-decoration: none;
-  color: rgb(104, 182, 188);
+  color: white;
 }
 
 .navbarLinks:hover{

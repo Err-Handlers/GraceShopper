@@ -287,7 +287,6 @@ function Cart({
       console.log(err);
     }
   };
-  console.log("guestCart", guestCart);
   const cartProductsToDisplay = token ? cartProducts : guestCart;
 
   return (

@@ -7,4 +7,4 @@ function CompletedOrderProduct({ imageURL, name }) {
   )
 }
 
-export default CompletedOrderProduct;
+export default CompletedOrderProduct
