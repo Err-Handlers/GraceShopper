@@ -293,6 +293,7 @@ function Cart({
     <div>
       {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
+          <h1>Your Order</h1>
           <div className="cartContainer">
             <div className="cartHeaders">
               <h3 className="cartHeader">ITEMS</h3>

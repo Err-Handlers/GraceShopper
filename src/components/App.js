@@ -152,12 +152,12 @@ const App = () => {
               {!menu ? (
                 <MenuIcon sx={{ fontSize: 30 }} />
               ) : (
-                <CloseOutlinedIcon sx={{ fontSize: 30 }} />
+                <CloseOutlinedIcon sx={{ fontSize: 30}} />
               )}
             </div>
           </li>
         </ul>
-        {menu && <MenuDropdown menu={menu} setMenu={setMenu} />}
+        {menu && <MenuDropdown menu={menu} setMenu={setMenu} setIsAdmin={setIsAdmin}/>}
       </nav>
 
       <Routes>

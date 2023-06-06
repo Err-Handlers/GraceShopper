@@ -15,10 +15,11 @@ li {
   cursor: pointer;
 }
 
-.mainContainer {
+
+.mainContainer h1 {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin: 20px;
 }
 
 .logoName {
@@ -103,7 +104,7 @@ ul {
   width: 100dvw;
   height: 100dvh;
   background-color: rgba(255, 255, 255, 0.696); 
-  animation: dropdown-scroll-out 200ms ease-out;
+  animation: dropdown-scroll-out 200ms ease-in-out;
 }
 
 @keyframes dropdown-scroll-in {
@@ -132,7 +133,7 @@ ul {
   width: 100dvw;
   height: 100dvh;
   background-color: rgba(255, 255, 255, 0.696); 
-  animation: dropdown-scroll-in 200ms ease-out;
+  animation: dropdown-scroll-in 200ms ease-in-out;
 }
 
 
@@ -306,10 +307,67 @@ ul {
 }
 
 .cartContainer{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
   background-color:#FFF;
   padding: 20px;
   box-shadow: 0 0 4px rgb(75, 132, 136);
-  width: 1000px;
+  max-width: 70%;
+}
+
+.cartButton{
+  border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid white;
+  background-color: rgb(104, 182, 188);
+  color: white;
+  
+}
+
+.cartTotal{
+  text-align: right;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+@media (max-width: 500px ) {
+
+  .cartHeaders {
+    position: absolute;
+    right: 1000%;
+  }
+
+  .cartContainer img {
+    max-width: 4em;
+    max-height: 4em;
+  }
+
+  .singularCartProduct {
+    flex-direction: column;
+    gap: 2em;
+    position: relative;
+  }
+  .cart-delete-btn-container {
+    position: absolute;
+    padding: 0;
+    top: 0;
+    right: 0;
+  }
+
+  .cartButtons {
+    flex-direction: column;
+  }
+  .cartButton {
+    padding: 5px
+  }
+  .cartTotal {
+    text-align: center;
+    margin: 0;
+  }
 }
 
 .emailInput{
@@ -329,8 +387,6 @@ ul {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding-left: 18px;
-  padding-right: 135px;
   border-bottom: solid 1px rgb(104, 182, 188);
 }
 
@@ -360,13 +416,17 @@ ul {
 .nameAndPhoto{
   display: flex;
   align-items: center;
+  gap: .5em;
+  min-width: 10em;
+  max-width: 10em;
 }
 
 .cartProducts {
   display: flex;
   flex-direction:column;
   margin-bottom: 20px;
-  padding: 18px;
+  /* padding: 18px 0px; */
+  width: 100%;
 }
 
 .singularCartProduct{
@@ -375,11 +435,11 @@ ul {
   margin-bottom: 12px;
   border-bottom: solid 1px rgb(104, 182, 188);
   align-items: center;
-  padding-bottom: 18px;
+  padding: 1em 0;
 }
 .cartProductName {
-  margin-left: 5px;
-  width: 150px;
+  display: flex;
+
   color: rgb(98, 98, 98);
   font-size: 18px;
 }
@@ -399,23 +459,16 @@ ul {
 
 .cartProductPrice {
   color: rgb(98, 98, 98);
-  margin-left: 180px;
+  display: flex;
 }
 
-.cartTotal{
-  text-align: right;
-  margin-top: 20px;
-}
+
 
 .productQuantity{
   border-radius: 25px;
   border-color: rgb(75, 132, 136);
-  width: 10%;
-  height: 10%;
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  font-size: 15px;
+  padding: .5em;
+  font-size: 1em;
   color:rgb(98, 98, 98);
 }
 
@@ -423,20 +476,10 @@ ul {
   display: flex;
   justify-content: right;
   padding-bottom: 12px;
+  gap: 1em
 }
 
-.cartButton{
-  margin-left: 8px;
-  border-radius: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border: 2px solid white;
-  background-color: rgb(104, 182, 188);
-  color: white;
-  
-}
+
 
 .cartButton:hover{
   background-color: rgba(104, 182, 188, 0.389);
@@ -446,13 +489,21 @@ ul {
 }
 
 .cartDeleteButton{
-  color: rgb(98, 98, 98);
+  cursor: pointer;
+  transition: 150ms;
+
+}
+
+.cart-delete-btn-container {
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
 }
 
 .cartDeleteButton:hover{
-  border: 1px solid rgb(98, 98, 98);
-  border-radius: 5px;
-  padding: 2px;
+  /* border: 1px solid rgb(98, 98, 98); */
+  border-radius: 25%;
+  background-color: rgb(201, 201, 201);
 }
 
 .pricePerQuantity{
