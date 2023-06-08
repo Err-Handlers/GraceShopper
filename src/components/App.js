@@ -15,6 +15,9 @@ import { useNavigate } from "react-router-dom";
 import ContactPage from "./ContactPage";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import Footer from "./Footer";
+import Completion from "./Completion";
+import Payment from "./Payment"
 
 const App = () => {
   const [error, setError] = useState("");
@@ -34,8 +37,6 @@ const App = () => {
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
   const [menu, setMenu] = useState(false);
-
-  console.log("menu :>> ", menu);
 
   const userToken = localStorage.getItem("token");
 
@@ -81,7 +82,6 @@ const App = () => {
           <img
             className="logo"
             src="https://i.postimg.cc/2jJYq5DL/logo.png"
-            alt=""
             width="40"
             height="40"
           ></img>
@@ -159,7 +159,6 @@ const App = () => {
         </ul>
         {menu && <MenuDropdown menu={menu} setMenu={setMenu} setIsAdmin={setIsAdmin}/>}
       </nav>
-
       <Routes>
         <Route
           path="/register"
@@ -276,7 +275,10 @@ const App = () => {
           path="/contactus"
           element={<ContactPage navigate={navigate} />}
         ></Route>
+        <Route path="/payment" element={<Payment />}></Route>
+        <Route path="/completion" element={<Completion />}></Route>
       </Routes>
+      <Footer />
     </div>
   );
 };

@@ -43,6 +43,9 @@ router.use("/order_history", orderHistoryRouter);
 const guestRouter = require("./guest");
 router.use("/guest", guestRouter);
 
+const checkoutRouter = require("./checkout");
+router.use("/checkout", checkoutRouter)
+
 router.get("/health", (req, res, next) => {
   res.send({
     healthy: true,

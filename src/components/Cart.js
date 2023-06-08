@@ -38,6 +38,8 @@ function Cart({
   const [guestUserId, setGuestUserId] = useState(null);
   const [guestOrderId, setGuestOrderId] = useState(null);
 
+  console.log('cartProducts :>> ', cartProducts);
+
   const fetchCartProducts = async () => {
     try {
       if (token) {
@@ -74,9 +76,25 @@ function Cart({
     fetchCart();
   }, []);
 
-  const handleShowPayment = () => {
-    setShowPayment((p) => !p);
-  };
+  // const handleShowPayment = () => {
+  //   setShowPayment((p) => !p);
+  // };
+
+  const handleShowPayment = async () => {
+    try {
+      const data = await callApi({
+        method: "POST",
+        path: "/checkout/config",
+        body: {
+          items:  cartProducts,
+        }
+      })
+      if (data.ok) return data.json()
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const calculateTotal = () => {
     const initialValue = 0;
@@ -341,7 +359,7 @@ function Cart({
               >
                 I WANT MORE
               </button>
-              <button className="cartButton" onClick={handleShowPayment}>
+              <button className="cartButton" onClick={() => navigate("/payment")}>
                 CHECKOUT
               </button>
             </div>

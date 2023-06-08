@@ -15,10 +15,16 @@ li {
   cursor: pointer;
 }
 
+.mainContainer {
+  height: 100dvh;
+}
+
 
 .mainContainer h1 {
   display: flex;
   justify-content: center;
+  color: rgb(104, 182, 188);
+  font-weight: bold;
   margin: 20px;
 }
 
@@ -88,7 +94,6 @@ ul {
 }
 
 .dropdown {
-  /* position: fixed; */
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -152,6 +157,7 @@ ul {
 .searchBar{
   height: 40px;
   width: 50%;
+  margin-top: 2em;
   border: solid 1px rgb(104, 182, 188);
   border-radius: 10px;
   padding: 10px;
@@ -173,24 +179,30 @@ ul {
 }
 
 .navbarLinks:hover{
-  text-decoration: underline solid 1.5px rgb(104, 182, 188);
+  color: rgb(51, 151, 157);
+  transition: 350ms;
 }
 
 .registerTitle{
   font-weight: bold;
 }
 
-
 .loginpage{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 60px;
+  height: 100dvh;
 }
 
 .loginHeaders{
   font-weight: bolder;
   font-size: small;
+}
+
+.message-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1em;
 }
 
 .loginInput{
@@ -211,11 +223,8 @@ ul {
 
 .loginButton{
   border-radius: 25px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 10px;
+  padding: 10px 25px;
+  margin-bottom: 10px;
   border: 2px solid white;
   background-color: rgb(104, 182, 188);
   color: white;
@@ -225,6 +234,7 @@ ul {
   border: 2px solid rgb(104, 182, 188);
   color: rgb(134, 134, 134);
   background-color: white;
+  transition: 350ms;
 }
 
 
@@ -304,6 +314,7 @@ ul {
   font-size: 13px;
   height: 35px;
   border: 2px solid rgb(155, 220, 226);
+  transition: 400ms;
 }
 
 .cartContainer{
@@ -314,6 +325,7 @@ ul {
   padding: 20px;
   box-shadow: 0 0 4px rgb(75, 132, 136);
   max-width: 70%;
+  height: 100dvh;
 }
 
 .cartButton{
@@ -358,6 +370,11 @@ ul {
     right: 0;
   }
 
+  .accountImg {
+    max-width: 4em;
+    max-height: 4em;
+  }
+
   .cartButtons {
     flex-direction: column;
   }
@@ -367,6 +384,14 @@ ul {
   .cartTotal {
     text-align: center;
     margin: 0;
+  }
+
+  .message-btn-container {
+    justify-content: center;
+  }
+
+  .footer-container {
+    padding: 0 1em;
   }
 }
 
@@ -391,6 +416,9 @@ ul {
 }
 
 .cartHeader{
+  display: flex;
+  justify-content: center;
+  margin: 1em;
   font-weight: bold;
   color: rgb(104, 182, 188);
 }
@@ -486,6 +514,7 @@ ul {
   border: 2px solid rgb(104, 182, 188);
   color: rgb(134, 134, 134);
   background-color: white;
+  transition: 400ms;
 }
 
 .cartDeleteButton{
@@ -566,20 +595,29 @@ ul {
 .singleOrderContainer{
   display: flex;
   flex-direction: column;
+  margin-bottom: 1em;
   border: 2px solid rgb(104, 182, 188);
-  padding: 35px;
-  margin-bottom: 20px;
+  padding: 3em;
+  max-width: 70%;
+  margin: auto;
+  margin-bottom: 2em  ;
+
+}
+
+.completed-order-container {
+
+
 }
 
 .orderProductImgName{
   display: flex;
   align-items: center;
-  width: 300px;
 }
 
 .orderImgNameQuantityPrice{
   display: flex;
   align-items: center;
+  gap: 2em;
   justify-content: space-between;
 }
 
@@ -597,10 +635,6 @@ ul {
 
 .orderProductPrice{
   margin-right: 18px;
-}
-
-.orderProductQuantity{
-  margin-right: 230px;
 }
 
 .orderHeaders{
@@ -627,4 +661,64 @@ ul {
   font-weight: bold;
   font-size: 18px;
   text-decoration: underline;
+}
+
+.contact-us-btn {
+  border-radius: 25px;
+  padding: 10px 25px;
+  border: 2px solid white;
+  background-color: rgb(104, 182, 188);
+  color: white;
+}
+
+.contact-us-btn:hover {
+  background-color: rgba(104, 182, 188, 0.389);
+  border: 2px solid rgb(104, 182, 188);
+  color: rgb(134, 134, 134);
+  background-color: white;
+  transition: 400ms;
+}
+
+label {
+  color: rgb(75, 132, 136);
+}
+
+#form_message {
+  resize: none;
+  margin-bottom: 1em;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 3em;
+  height: 4em;
+  background-color: rgb(82, 194, 187);
+  color: white;
+}
+
+.social-icons {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2em;
+}
+
+.social-icons li {
+  cursor: pointer;
+}
+
+.container {
+  height: 100dvh;
+}
+
+#payment-form {
+  width: 80%;
+  margin: auto;
+  height: 100dvh;
+}
+
+.payment-container {
+  display: flex;
 }

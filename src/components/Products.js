@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Product from "./Product";
+import Footer from "./Footer";
 
 const Products = ({
   token,
@@ -27,7 +28,6 @@ const Products = ({
 
   return (
     <>
-      <br></br>
       <input
         className="searchBar mx-auto"
         type="text"

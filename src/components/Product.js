@@ -22,7 +22,7 @@ const Product = ({
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inCartLabel, setInCartLabel] = useState(false);
-
+  console.log('quantity :>> ', quantity);
   
   const addProductToCart = async ({e, token, quantity, productId}) => {
     e.preventDefault();
