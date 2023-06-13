@@ -39,7 +39,7 @@ const App = () => {
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
   const [menu, setMenu] = useState(false);
-  console.log('token :>> ', token);
+  console.log("token :>> ", token);
 
   const userToken = localStorage.getItem("token");
 
@@ -80,10 +80,13 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <div className="logoContainer" onClick={() => {
-          navigate("/products")
-          window.scrollTo(0, 0)
-          }}>
+        <div
+          className="logoContainer"
+          onClick={() => {
+            navigate("/products");
+            window.scrollTo(0, 0);
+          }}
+        >
           <h2 className="logoName">St</h2>
           <img
             className="logo"
@@ -127,11 +130,13 @@ const App = () => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
-
+                    console.log("CLICKED");
+                    
                     swal({
                       text: "Thank you for shopping with us!",
                     });
                     navigate("/products");
+                    location.reload()
                   }}
                 >
                   Logout
@@ -164,7 +169,13 @@ const App = () => {
           </li>
         </ul>
         {menu && (
-          <MenuDropdown menu={menu} setMenu={setMenu} setIsAdmin={setIsAdmin} token={token} setToken={setToken}/>
+          <MenuDropdown
+            menu={menu}
+            setMenu={setMenu}
+            setIsAdmin={setIsAdmin}
+            token={token}
+            setToken={setToken}
+          />
         )}
       </nav>
       <Routes>
@@ -285,7 +296,28 @@ const App = () => {
           path="/contactus"
           element={<ContactPage navigate={navigate} />}
         ></Route>
-        <Route path="/payment" element={<Payment cart={cart}/>}></Route>
+        <Route
+          path="/payment"
+          element={
+            <Payment
+              cart={cart}
+              token={token}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
+              cartTotal={cartTotal}
+            />
+          }
+        ></Route>
         <Route path="/completion" element={<Completion />}></Route>
         <Route
           path="/shipping"

@@ -23,77 +23,10 @@ const ShippingForm = ({
   console.log('cartTotal :>> ', cartTotal);
 
   console.log('shippingFirstName :>> ', shippingFirstName);
-  const addShippingInfo = async () => {
-    try {
-      const data = await callApi({
-        method: "POST",
-        body: {
-          firstName: shippingFirstName,
-          lastName: shippingLastName,
-          city: shippingCity,
-          street: shippingStreet,
-          state: shippingState,
-          zipcode: shippingZipcode,
-          orderId: cart[0].orderId,
-        },
-        token,
-        path: "/order_history/shipping",
-      });
-      return data;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handlePurchase = async (e, error) => {
-    e.preventDefault();
-    try {
-      if (token) {
-        await addShippingInfo();
-        const data = await callApi({
-          path: "/cart/checkout",
-          method: "PATCH",
-          body: { orderId: cart[0].orderId, cartTotal: cartTotal * 100 },
-          token,
-        });
-
-        // if (!error) {
-        //   swal({
-        //     text: "Your order was succesfully placed!",
-        //   });
-        // }
-        navigate("/payment");
-        location.reload();
-      } else {
-        const guestUserId = await addGuestEmail();
-        const guestOrderId = await addGuestOrder(guestUserId);
-        await addGuestShippingInfo(guestOrderId);
-        await addGuestPaymentInfo(guestOrderId);
-
-        const addOrderProducts = guestCart.map(async (p) => {
-          return addGuestOrderProduct(
-            guestOrderId,
-            p.quantity,
-            p.priceInCents,
-            p.id
-          );
-        });
-        const guestOrderProducts = await Promise.all(addOrderProducts);
-        if (!error) {
-          swal({
-            text: "Your order was succesfully placed!",
-          });
-        }
-        navigate("/products");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   return (
     <div className="shippingContainer">
-      <form onSubmit={handlePurchase} className="shippingForm">
+      <div className="shippingForm">
         <h4 className="orderDetailsHeader">Shipping Details</h4>
         <label>First Name: </label>
         <input
@@ -154,9 +87,10 @@ const ShippingForm = ({
             className="cartButton"
             type="submit"
             value="Procced to payment"
+            onClick={() => navigate("/payment")}
           />
         </div>
-      </form>
+      </div>
     </div>
   );
 };
