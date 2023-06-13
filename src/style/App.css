@@ -16,11 +16,15 @@ li {
 }
 
 .mainContainer{
-  height: 100dvh;
+  min-height: 100%;
 }
 
 body {
   height: 100dvh;
+}
+
+.body-scroll {
+  overflow: hidden;
 }
 
 
@@ -56,7 +60,7 @@ body {
   padding: 15px;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 2;
 }
 ul {
   padding: 0;
@@ -95,15 +99,11 @@ ul {
     margin-right: .5em;
   }
 
-  .shippingForm {
-
-  }
-
 }
 
 .dropdown {
   display: flex;
-
+  margin-top: 2em;
   flex-direction: column;
   padding: 0px;
   border-radius: 20em;
@@ -139,6 +139,7 @@ ul {
 }
 
 .dropdown-container-active {
+  margin-top: 0;
   position: fixed;
   z-index: 4;
   left: 0;
@@ -149,20 +150,30 @@ ul {
   animation: dropdown-scroll-in 200ms ease-in-out;
 }
 
-
-.dropdown > li {
+.dropdown-link {
   display: flex;
-  border: 2px solid black;
+  border: 2px solid rgb(104, 182, 188);
   margin-bottom: 1em;
   justify-content: center;
   padding: .25em .5em;
   width: 100%;
   align-items: center;
+  box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.75);;
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+  text-decoration: none;
 }
 
-.dropdown-link {
-  text-decoration: none;
-  color: black;
+.dropdown-link:active {
+  transform: scale(.95);
+  color: rgb(104, 182, 188);
+  transform: translateY(5px);
+  transition: 100ms;
+  box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.75);
+}
+
+.dropdown-link:hover {
+  color: rgb(104, 182, 188)
 }
 
 .searchBar{
@@ -337,7 +348,7 @@ ul {
   box-shadow: 0 0 4px rgb(75, 132, 136);
   max-width: 70%;
   margin-bottom: 1em;
-  height: 100%;
+  height: 100dvh;
 }
 
 .cartButton{
@@ -358,9 +369,26 @@ ul {
   font-weight: bold;
 }
 
-@media (max-width: 500px ) {
+.singleOrderContainer{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 3em;
+  min-width: 50dvw;
+  box-shadow: 2px 2px 5px 2px rgba(0,0,0,0.25);
+  margin-bottom: 2em;
+
+}
+
+@media (max-width: 790px ) {
 
   .cartHeaders {
+    position: absolute;
+    right: 1000%;
+  }
+
+  .orderHeaders {
     position: absolute;
     right: 1000%;
   }
@@ -386,16 +414,14 @@ ul {
     right: 0;
   }
 
-  .accountImg {
-    max-width: 4em;
-    max-height: 4em;
-  }
-
   .cartButtons {
     flex-direction: column;
+
   }
   .cartButton {
-    padding: 5px
+    padding: 5px;
+    width: 60%;
+    margin: auto;
   }
   .cartTotal {
     text-align: center;
@@ -408,6 +434,32 @@ ul {
 
   .footer-container {
     padding: 0 1em;
+  }
+
+  .orderImgNameQuantityPrice {
+    flex-direction: column;
+  }
+
+  .orderProductName {
+    margin: 0;
+  }
+
+  .orderProductQuantity, .orderProductPrice {
+    position: absolute;
+    right: 1000%
+  }
+
+  .singleOrderContainer {
+    margin: 1em;
+    min-width: 90%;
+  }
+
+  .orderImgNameQuantityPrice img {
+    width: 100px;
+  }
+
+  .accountImg {
+    width: 100px;
   }
 }
 
@@ -422,6 +474,13 @@ ul {
   box-shadow: 0 0 4px rgb(75, 132, 136);
   width: 1000px;
   margin-bottom: 60px;
+}
+
+.completed-order-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cartHeaders{
@@ -508,8 +567,6 @@ ul {
   display: flex;
 }
 
-
-
 .productQuantity{
   border-radius: 25px;
   border-color: rgb(75, 132, 136);
@@ -532,7 +589,7 @@ ul {
   border: 2px solid rgb(104, 182, 188);
   color: rgb(134, 134, 134);
   background-color: white;
-  transition: 400ms;
+  transition: 300ms;
 }
 
 .cartDeleteButton{
@@ -610,22 +667,7 @@ ul {
   padding: 25px;
 }
 
-.singleOrderContainer{
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1em;
-  border: 2px solid rgb(104, 182, 188);
-  padding: 3em;
-  max-width: 70%;
-  margin: auto;
-  margin-bottom: 2em  ;
 
-}
-
-.completed-order-container {
-
-
-}
 
 .orderProductImgName{
   display: flex;
@@ -637,6 +679,7 @@ ul {
   align-items: center;
   gap: 2em;
   justify-content: space-between;
+  margin-bottom: 2em;
 }
 
 .orderHeader{
@@ -647,13 +690,14 @@ ul {
   margin-bottom: 20px;
 }
 
-.orderProductName{
-  margin-left: 12px;
-}
-
 .orderProductPrice{
   margin-right: 18px;
 }
+
+.orderProductName, .orderProductQuantity, .orderProductPrice {
+  margin: 0;
+}
+
 
 .orderHeaders{
   font-weight: bold;
@@ -662,8 +706,9 @@ ul {
 }
 
 .orderTotal{
-  text-align: right;
-  margin-right: 18px;
+  text-align: center;
+  margin: 0;
+  font-weight: bold;
 }
 
 .shippingAndPaymentDiv{
@@ -732,13 +777,13 @@ label {
 }
 
 #payment-form {
-  width: 80%;
   margin: auto;
   height: 100dvh;
 }
 
 .payment-container {
   display: flex;
+  min-width: 50%;
 }
 
 .shippingContainer {
@@ -778,4 +823,28 @@ label {
 
 .shippingForm div {
   justify-content: center;
+}
+
+#submit {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  margin-top: 1em;
+  border-radius: 25px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 2px solid white;
+  background-color: rgb(104, 182, 188);
+  color: white;
+  width: 50%;
+}
+
+#submit:hover {
+  background-color: rgba(104, 182, 188, 0.389);
+  border: 2px solid rgb(104, 182, 188);
+  color: rgb(134, 134, 134);
+  background-color: white;
+  transition: 400ms;
 }

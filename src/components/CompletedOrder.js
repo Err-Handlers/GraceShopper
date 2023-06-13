@@ -17,8 +17,8 @@ function CompletedOrder({ token }) {
     getOrderHistory();
   }, []);
   return (
-    <div>
-      {orderHistory.map((order) => {
+    <>
+      {orderHistory.reverse().map((order) => {
         return (
           <div className="singleOrderContainer" key={order.id}>
             <p>Order#: {order.id}</p>
@@ -58,7 +58,7 @@ function CompletedOrder({ token }) {
           </div>
         );
       })}
-    </div>
+    </>
   );
 }
 
