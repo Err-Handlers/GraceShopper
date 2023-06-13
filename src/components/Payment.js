@@ -4,11 +4,12 @@ import { callApi } from "../api/utils";
 import CheckoutForm from "./CheckoutForm";
 import { Elements } from "@stripe/react-stripe-js";
 
-const Payment = () => {
+const Payment = ({cart}) => {
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   console.log("stripePromise :>> ", stripePromise);
   console.log("clientSecret :>> ", clientSecret);
+  console.log('cart :>> ', cart);
 
   const fetchConfig = async () => {
     try {
@@ -26,6 +27,7 @@ const Payment = () => {
       const data = await callApi({
         method: "POST",
         path: "/checkout/create-payment-intent",
+        body: cart
       });
       setClientSecret(data.clientSecret);
     } catch (err) {

@@ -21,6 +21,8 @@ function Cart({
   setShippingCity,
   shippingStreet,
   setShippingStreet,
+  cartTotal, 
+  setCartTotal
 }) {
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
@@ -32,13 +34,15 @@ function Cart({
   const [paymentState, setPaymentState] = useState("");
   const [paymentStreet, setPaymentStreet] = useState("");
   const [paymentZipcode, setPaymentZipcode] = useState("");
-  const [cartTotal, setCartTotal] = useState(0);
   const [guestCartTotal, setGuestCartTotal] = useState(0);
   const [guestEmail, setGuestEmail] = useState("");
   const [guestUserId, setGuestUserId] = useState(null);
   const [guestOrderId, setGuestOrderId] = useState(null);
 
   console.log('cartProducts :>> ', cartProducts);
+  console.log('cart :>> ', cart);
+
+  console.log('cartTotal :>> ', cartTotal);
 
   const fetchCartProducts = async () => {
     try {
@@ -272,13 +276,7 @@ function Cart({
           body: { orderId: cart[0].orderId, cartTotal: cartTotal * 100 },
           token,
         });
-
-        if (!error) {
-          swal({
-            text: "Your order was succesfully placed!",
-          });
-        }
-        navigate("/account");
+        navigate("/shipping");
       } else {
         const guestUserId = await addGuestEmail();
         const guestOrderId = await addGuestOrder(guestUserId);
@@ -294,11 +292,7 @@ function Cart({
           );
         });
         const guestOrderProducts = await Promise.all(addOrderProducts);
-        if (!error) {
-          swal({
-            text: "Your order was succesfully placed!",
-          });
-        }
+    
         navigate("/products");
       }
     } catch (err) {
@@ -308,7 +302,7 @@ function Cart({
   const cartProductsToDisplay = token ? cartProducts : guestCart;
 
   return (
-    <div>
+    <div className="mainContainer">
       {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
           <h1>Your Order</h1>
@@ -359,7 +353,7 @@ function Cart({
               >
                 I WANT MORE
               </button>
-              <button className="cartButton" onClick={() => navigate("/payment")}>
+              <button className="cartButton" onClick={() => navigate("/shipping")}>
                 CHECKOUT
               </button>
             </div>

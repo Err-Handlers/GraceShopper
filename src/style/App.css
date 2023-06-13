@@ -15,7 +15,11 @@ li {
   cursor: pointer;
 }
 
-.mainContainer {
+.mainContainer{
+  height: 100dvh;
+}
+
+body {
   height: 100dvh;
 }
 
@@ -91,11 +95,15 @@ ul {
     margin-right: .5em;
   }
 
+  .shippingForm {
+
+  }
+
 }
 
 .dropdown {
   display: flex;
-  justify-content: center;
+
   flex-direction: column;
   padding: 0px;
   border-radius: 20em;
@@ -137,15 +145,18 @@ ul {
   top: 5rem;
   width: 100dvw;
   height: 100dvh;
-  background-color: rgba(255, 255, 255, 0.696); 
+  background-color: rgb(255, 255, 255); 
   animation: dropdown-scroll-in 200ms ease-in-out;
 }
 
 
 .dropdown > li {
   display: flex;
+  border: 2px solid black;
+  margin-bottom: 1em;
+  justify-content: center;
   padding: .25em .5em;
-  width: 10em;
+  width: 100%;
   align-items: center;
 }
 
@@ -325,7 +336,8 @@ ul {
   padding: 20px;
   box-shadow: 0 0 4px rgb(75, 132, 136);
   max-width: 70%;
-  height: 100dvh;
+  margin-bottom: 1em;
+  height: 100%;
 }
 
 .cartButton{
@@ -356,6 +368,10 @@ ul {
   .cartContainer img {
     max-width: 4em;
     max-height: 4em;
+  }
+
+  .cartContainer {
+    max-width: 100%;
   }
 
   .singularCartProduct {
@@ -431,9 +447,11 @@ ul {
 
 .orderDetailsHeader{
   font-size: 20px;
-  margin-top: 25px;
-  margin-bottom: 15px;
-  text-decoration: underline;
+  margin: 2em;
+  text-align: center;
+  color: rgb(75, 132, 136);
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 .checkoutInput{
@@ -721,4 +739,43 @@ label {
 
 .payment-container {
   display: flex;
+}
+
+.shippingContainer {
+  display: flex;
+  justify-content: center;
+  height: 100dvh;
+
+}
+
+.shippingForm {
+  display: flex;
+  flex-direction: column;
+  width: 50dvh;
+}
+
+.shippingForm input[type=text] {
+  margin-bottom: .5em;
+  padding: .25em;
+  border: 1px solid rgb(104, 182, 188);
+  outline: none;
+  border-radius: 10px;
+  transition: 150ms;
+}
+
+.shippingForm input[type=text]:focus {
+  border: 3px solid rgb(93, 189, 196);
+  padding: .5em;
+}
+
+.shippingForm label {
+  margin-bottom: .25em;
+}
+
+.shippingForm input[type=submit] {
+  margin-top: 1em;
+}
+
+.shippingForm div {
+  justify-content: center;
 }

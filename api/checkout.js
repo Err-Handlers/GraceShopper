@@ -24,7 +24,12 @@ checkoutRouter.get("/", async (req, res, next) => {
   
   checkoutRouter.post("/create-payment-intent", async (req, res) => {
     try {
-      
+      const cart = req.body;
+      const total = 0;
+      cart.forEach(item => {
+        total += item.priceInCents
+      });
+      console.log('total :>> ', total);
       const paymentIntent = await stripe.paymentIntents.create({
         currency: "usd",
         amount: 1000,

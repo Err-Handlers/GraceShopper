@@ -26,7 +26,6 @@ export default function CheckoutForm() {
         // Make sure to change this to your payment completion page
         return_url: `${window.location.origin}/completion`,
       },
-      redirect: "if_required"
     });
 
     if (error.type === "card_error" || error.type === "validation_error") {
@@ -41,7 +40,7 @@ export default function CheckoutForm() {
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <button disabled={isProcessing || !stripe || !elements} id="submit">
+      <button disabled={isProcessing || !stripe || !elements} id="submit" onClick={() => console.log(' >> CLICKEDD << ')}>
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Pay now"}
         </span>
