@@ -38,6 +38,8 @@ async function validateAndGetUser({ email, password }) {
   if (isValid) {
     delete user.password;
     return user;
+  } else {
+    throw new Error("Incorrect Password")
   }
 }
 

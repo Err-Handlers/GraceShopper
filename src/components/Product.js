@@ -153,7 +153,6 @@ const Product = ({
                 className="productButtons"
                 onChange={(e) => setQuantity(e.target.value)}
               >
-                <option>0</option>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>

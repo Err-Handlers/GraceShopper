@@ -45,15 +45,6 @@ function CompletedOrder({ token }) {
                 </p>
                 <p>{order.shippingZipcode}</p>
               </div>
-              {/* <div>
-                <h4 className="shippingHeader">Payment Details: </h4>
-                <p>{order.paymentName}</p>
-                <p>{order.paymentStreet}</p>
-                <p>
-                  {order.paymentCity}, {order.paymentState}
-                </p>
-                <p>{order.paymentZipcode}</p>
-              </div> */}
             </div>
           </div>
         );

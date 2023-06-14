@@ -1,6 +1,7 @@
 import CompletedOrderProduct from "./CompletedOrderProduct"
 
 function CompletedOrderList ({completedOrderProducts}) {
+    console.log('object :>> ', completedOrderProducts);
     return (
         <div>
            {completedOrderProducts.map((completedOrderProduct) => {
@@ -8,7 +9,7 @@ function CompletedOrderList ({completedOrderProducts}) {
                 <div key={completedOrderProduct.id} className="orderImgNameQuantityPrice">
                     <CompletedOrderProduct imageURL={completedOrderProduct.imageURL} name={completedOrderProduct.name}/>
                     <p className="orderProductQuantity">{completedOrderProduct.quantity}</p>
-                    <p className="orderProductPrice">${completedOrderProduct.priceInCents / 100}.00</p>
+                    <p className="orderProductPrice">${completedOrderProduct.priceInCents / 100 * completedOrderProduct.quantity}.00</p>
                 </div>
             )  
            })}
