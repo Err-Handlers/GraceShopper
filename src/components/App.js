@@ -20,6 +20,7 @@ import Completion from "./Completion";
 import Payment from "./Payment";
 import ShippingForm from "./ShippingForm";
 
+
 const App = () => {
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +28,12 @@ const App = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [guestCart, setGuestCart] = useState([]);
+  const guestCartLocalStor = JSON.parse(localStorage.getItem("guestCart") || "[]")
+  const [guestCart, setGuestCart] = useState(guestCartLocalStor)
+  useEffect(() => {
+    localStorage.setItem("guestCart", JSON.stringify(guestCart))
+    console.log('Changing guestCart :>> ', guestCart);
+  }, [guestCart])
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || ""
   );
@@ -60,10 +66,6 @@ const App = () => {
       return setIsAdmin(true);
     }
   }, []);
-
-  // useEffect(() => {
-  //   localStorage.setItem("guestCart", JSON.stringify(guestCart))
-  // }, [guestCart])
 
   const navigate = useNavigate();
 

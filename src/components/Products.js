@@ -25,7 +25,7 @@ const Products = ({
   const filteredProducts = products.filter((product) => {
     return productMatches(product);
   });
-
+  
   return (
     <>
       <input

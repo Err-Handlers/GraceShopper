@@ -39,10 +39,11 @@ function Cart({
   const [guestUserId, setGuestUserId] = useState(null);
   const [guestOrderId, setGuestOrderId] = useState(null);
 
-  console.log('cartProducts :>> ', cartProducts);
-  console.log('cart :>> ', cart);
+  // console.log('cartProducts :>> ', cartProducts);
+  // console.log('cart :>> ', cart);
 
-  console.log('cartTotal :>> ', cartTotal);
+  // console.log('cartTotal :>> ', cartTotal);
+  console.log('guestCart :>> ', guestCart);
 
   const fetchCartProducts = async () => {
     try {
@@ -101,6 +102,10 @@ function Cart({
   }
 
   const calculateTotal = () => {
+    // if(token){
+    //   let products = cartProducts;
+    // } else products = guestCart;
+
     const initialValue = 0;
     const orderTotal = cartProducts.reduce((acccumulator, product) => {
       return acccumulator + (product.priceInCents * product.quantity) / 100;
@@ -338,8 +343,7 @@ function Cart({
                       <CartProduct
                         productInGuestCart={productInGuestCart}
                         setGuestCart={setGuestCart}
-                        guestCart={guestCart}
-                      />
+                        guestCart={guestCart}                      />
                     );
                   })}
                   <p className="cartTotal">Total: ${guestCartTotal}.00</p>
@@ -368,7 +372,7 @@ function Cart({
           </div>
         </div>
       )}
-      {showPayment && (
+      {/* {showPayment && (
         <div className="mainContainer">
           <div className="checkoutContainer">
             <h3 className="cartHeader">
@@ -502,7 +506,7 @@ function Cart({
             </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

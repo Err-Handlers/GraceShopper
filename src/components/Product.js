@@ -22,10 +22,10 @@ const Product = ({
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inCartLabel, setInCartLabel] = useState(false);
-  console.log('quantity :>> ', quantity);
   
   const addProductToCart = async ({e, token, quantity, productId}) => {
     e.preventDefault();
+    console.log("this happened");
     try {
       if (token) {
         const data = await callApi({
@@ -35,26 +35,33 @@ const Product = ({
           body: { quantity, productId },
         });
         setCart((prev) => [data, ...prev]);
-        setInCartLabel((prev) => !prev);
+       
       } else {
         const product = await callApi({
           path: `/guest/products/${productId}`,
         });
-        setGuestCart((prev) => [...prev, { ...product, quantity }]);
-        const localGuestCart = JSON.parse(localStorage.getItem("guestCart"))
-        let newGuestCart = [{ ...product, quantity }];
-        if(localGuestCart){
-          newGuestCart = localGuestCart.push({ ...product, quantity })
-        }
-        localStorage.setItem("guestCart", JSON.stringify(newGuestCart))
-        setInCartLabel((prev) => !prev);
+        console.log('setting  :>> ', product.name, product.quantity );
+        setGuestCart((prev) => [...prev, { ...product, quantity: Number(quantity) }]);
+       
+        // // const localGuestCart = JSON.parse(localStorage.getItem("guestCart"))
+        // let newGuestCart = [{ ...product, quantity: Number(quantity) }];
+        // if(localGuestCart){
+        //   newGuestCart = localGuestCart.push({ ...product, quantity })
+        // }
+        // localStorage.setItem("guestCart", JSON.stringify(newGuestCart))
+        // setInCartLabel((prev) => !prev);
       }
+      setInCartLabel((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
   };
+
   
   useEffect(() => {
+    console.log(JSON.stringify(guestCart, null, 2));
+    console.log('product.id :>> ', product.id);
+
     if (token) {
       cart.map((cartItem) => {
         if (product.id === cartItem.productId) {
@@ -65,11 +72,16 @@ const Product = ({
         }
       });
     } else {
+      console.log("updating cart from cache");
+      console.log(JSON.stringify(guestCart, null, 2));
       guestCart.map((cartItem) => {
-        if (product.id === cartItem.productId) {
+        console.log('product.id :>> ', product.id);
+        console.log('cartItem.productId :>> ', cartItem.id);
+        if (product.id === cartItem.id) {
           setInCartLabel(true);
+          console.log("should update the product", cartItem.id);
         }
-        if (guestCart.length = 0){
+        if (guestCart.length === 0){
           setInCartLabel(false)
         }
       });
