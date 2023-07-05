@@ -32,7 +32,6 @@ const App = () => {
   const [guestCart, setGuestCart] = useState(guestCartLocalStor)
   useEffect(() => {
     localStorage.setItem("guestCart", JSON.stringify(guestCart))
-    console.log('Changing guestCart :>> ', guestCart);
   }, [guestCart])
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || ""
@@ -45,7 +44,6 @@ const App = () => {
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
   const [menu, setMenu] = useState(false);
-  console.log("token :>> ", token);
 
   const userToken = localStorage.getItem("token");
 

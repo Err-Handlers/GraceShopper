@@ -54,7 +54,6 @@ const CartProduct = ({
 
 
   const deleteHandler = async ({ token, productId, orderId }) => {
-    console.log('productId :>> ', productId);
     try {
       if (token) {
         const deleteProduct = await callApi({
@@ -67,20 +66,16 @@ const CartProduct = ({
           setCartProducts((prev) =>
             prev.filter((p) => p.productId !== productId)
           );
-          console.log('productId :>> ', productId);
           setCart((prev) => prev.filter((p) => p.productId !== productId));
         }
         return cartProducts;
       } else {
-        setGuestCart((prev) => prev.filter((p) => p.productId !== productId));
-        console.log('productId :>> ', productId);
+        setGuestCart((prev) => prev.filter((p) => p.id !== productId));
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log('productInGuestCart :>> ', productInGuestCart);
   return (
     <div>
       {token ? (

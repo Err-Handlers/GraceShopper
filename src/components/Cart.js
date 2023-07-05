@@ -39,12 +39,6 @@ function Cart({
   const [guestUserId, setGuestUserId] = useState(null);
   const [guestOrderId, setGuestOrderId] = useState(null);
 
-  // console.log('cartProducts :>> ', cartProducts);
-  // console.log('cart :>> ', cart);
-
-  // console.log('cartTotal :>> ', cartTotal);
-  console.log('guestCart :>> ', guestCart);
-
   const fetchCartProducts = async () => {
     try {
       if (token) {
