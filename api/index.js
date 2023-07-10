@@ -1,14 +1,13 @@
 const express = require("express");
-const router = express.Router()
+const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = process.env;
-const { getUserById } = require("../db/models/user")
-
+const { getUserById } = require("../db/models/user");
 
 router.use(async (req, res, next) => {
-  const prefix = 'Bearer ';
-  const auth = req.header('Authorization');
-  if (!auth) { 
+  const prefix = "Bearer ";
+  const auth = req.header("Authorization");
+  if (!auth) {
     next();
   } else if (auth.startsWith(prefix)) {
     const token = auth.slice(prefix.length);
@@ -16,8 +15,6 @@ router.use(async (req, res, next) => {
       const { id } = jwt.verify(token, JWT_SECRET);
       if (id) {
         req.user = await getUserById(id);
-        console.log(req.user)
-        console.log(id)
         next();
       }
     } catch ({ name, message }) {
@@ -25,29 +22,31 @@ router.use(async (req, res, next) => {
     }
   } else {
     next({
-      name: 'AuthorizationHeaderError',
-      message: `Authorization token must start with ${ prefix }`
+      name: "AuthorizationHeaderError",
+      message: `Authorization token must start with ${prefix}`,
     });
   }
 });
 
-// place your routers here
+const usersRouter = require("./users");
+router.use("/users", usersRouter);
 
-const usersRouter = require("./users")
-router.use("/users", usersRouter)
+const cartRouter = require("./cart");
+router.use("/cart", cartRouter);
 
-const cartRouter = require("./cart")
-router.use("/cart", cartRouter)
-
-const productsRouter = require("./products")
+const productsRouter = require("./products");
 router.use("/products", productsRouter);
 
-// const adminRouter = require("./admin")
-// router.use("/admin", adminRouter);
-const orderHistoryRouter = require("./order_history")
-router.use("/order_history", orderHistoryRouter)
+const orderHistoryRouter = require("./order_history");
+router.use("/order_history", orderHistoryRouter);
 
-router.get('/health', (req, res, next) => {
+const guestRouter = require("./guest");
+router.use("/guest", guestRouter);
+
+const checkoutRouter = require("./checkout");
+router.use("/checkout", checkoutRouter)
+
+router.get("/health", (req, res, next) => {
   res.send({
     healthy: true,
   });

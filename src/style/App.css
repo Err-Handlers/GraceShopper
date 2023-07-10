@@ -6,6 +6,10 @@
   font-family: Verdana, sans-serif;
 }
 
+.logoContainer{
+  display: flex;
+}
+
 .mainContainer {
   display: flex;
   justify-content: center;
@@ -14,6 +18,16 @@
 
 .logoName{
   color: rgb(104, 182, 188);
+  font-weight: bold;
+  padding-top: 9px;
+  margin-right: -10px;
+}
+
+.logoName2{
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+  padding-top: 9px;
+  margin-left: -10px;
 }
 
 .navbarContainer{
@@ -41,7 +55,7 @@
 }
 
 .navbarLinks{
-  padding-left: 9px;
+  padding-right: 10px;
   text-decoration: none;
   color: rgb(104, 182, 188);
 }
@@ -49,6 +63,11 @@
 .navbarLinks:hover{
   text-decoration: underline solid 1.5px rgb(104, 182, 188);
 }
+
+.registerTitle{
+  font-weight: bold;
+}
+
 
 .loginpage{
   display: flex;
@@ -66,6 +85,16 @@
   height: 30px;
   border: 2px solid rgb(190, 190, 190);
   border-radius: 5px;
+  font-size: 15px;
+}
+
+.registerForm{
+  display: flex;
+  flex-direction: column;
+}
+
+.passwordLength{
+  font-size: small;
 }
 
 .loginButton{
@@ -107,8 +136,8 @@
 
 .productsContainer{
   display: flex;
-
-
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .singleProduct{
@@ -120,18 +149,49 @@
   color: rgb(75, 132, 136);
 }
 
+.picBorder{
+  box-shadow: 0 0 4px rgb(75, 132, 136);
+}
+
 .productPrice{
   margin-top: -10px;
 }
 .productButtonsContainer{
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .productButtons{
   border-radius: 20%;
   padding: 10px;
   margin: 10px;
+  border: solid 2px rgb(104, 182, 188);
+  font-size: small;
+}
+
+.addToCartButton{
+  border-radius: 20px;
+  background-color: rgb(104, 182, 188);
+  color: white;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  height: 35px;
+  border: 2px solid rgb(155, 220, 226);
+}
+
+.addToCartButton:hover{
+  border-radius: 20px;
+  background-color: white;
+  color: rgb(104, 182, 188);
+  padding-left: 12px;
+  padding-right: 12px;
+  font-weight: bold;
+  font-size: 13px;
+  height: 35px;
+  border: 2px solid rgb(155, 220, 226);
 }
 
 .cartContainer{
@@ -141,14 +201,49 @@
   width: 1000px;
 }
 
+.emailInput{
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+.checkoutContainer{
+  background-color:#FFF;
+  padding: 20px;
+  box-shadow: 0 0 4px rgb(75, 132, 136);
+  width: 1000px;
+  margin-bottom: 60px;
+}
+
 .cartHeaders{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-left: 18px;
   padding-right: 135px;
-  border-bottom: solid 1px rgb(75, 132, 136);
-  color: rgb(104, 182, 188)
+  border-bottom: solid 1px rgb(104, 182, 188);
+}
+
+.cartHeader{
+  font-weight: bold;
+  color: rgb(104, 182, 188);
+}
+
+.emptyCart{
+  color: rgb(75, 132, 136);
+  text-align: center;
+  font-weight: bold;
+}
+
+.orderDetailsHeader{
+  font-size: 20px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  text-decoration: underline;
+}
+
+.checkoutInput{
+  margin-right: 10px;
+  margin-left: 5px;
 }
 
 .nameAndPhoto{
@@ -167,7 +262,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
-  border-bottom: solid 1px rgb(85, 148, 153);
+  border-bottom: solid 1px rgb(104, 182, 188);
   align-items: center;
   padding-bottom: 18px;
 }
@@ -175,11 +270,30 @@
   margin-left: 5px;
   width: 150px;
   color: rgb(98, 98, 98);
+  font-size: 18px;
+}
+
+.productName{
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: large;
+  color: rgb(104, 182, 188)
+}
+
+.productPrice{
+  margin-top: 12px;
+  font-weight: bold;
+  font-size: 18px;
 }
 
 .cartProductPrice {
   color: rgb(98, 98, 98);
   margin-left: 180px;
+}
+
+.cartTotal{
+  text-align: right;
+  margin-top: 20px;
 }
 
 .productQuantity{
@@ -231,5 +345,124 @@
 }
 
 .pricePerQuantity{
-  font-size: small;
+  font-size: 13px;
+}
+
+.inCartLabel{
+  margin-top: 12px;
+  color: rgb(104, 182, 188);
+  border: 2px solid rgb(104, 182, 188);
+  padding: 8px;
+  border-radius: 12px;
+  margin-bottom: 50px;
+}
+
+.adminHeader{
+  color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.addStickerTitle {
+  color: rgb(104, 182, 188);
+  font-size: 18px;
+  font-weight: bold;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.addStickerTitle:hover {
+  color:white;
+  background-color: rgb(104, 182, 188);
+}
+
+.contactTitle {
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+}
+
+.usersTitle {
+  color: rgb(104, 182, 188);
+  margin-top: auto;
+  font-weight: bold;
+}
+
+.adminUserContainer{
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.allOrderContainer{
+  border: 2px solid rgba(104, 182, 188, 0.636);
+  padding: 25px;
+}
+
+.singleOrderContainer{
+  display: flex;
+  flex-direction: column;
+  border: 2px solid rgb(104, 182, 188);
+  padding: 35px;
+  margin-bottom: 20px;
+}
+
+.orderProductImgName{
+  display: flex;
+  align-items: center;
+  width: 300px;
+}
+
+.orderImgNameQuantityPrice{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.orderHeader{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: solid 2px rgb(104, 182, 188);
+  margin-bottom: 20px;
+}
+
+.orderProductName{
+  margin-left: 12px;
+}
+
+.orderProductPrice{
+  margin-right: 18px;
+}
+
+.orderProductQuantity{
+  margin-right: 230px;
+}
+
+.orderHeaders{
+  font-weight: bold;
+  color: rgb(104, 182, 188);
+  font-size: 20px;
+}
+
+.orderTotal{
+  text-align: right;
+  margin-right: 18px;
+}
+
+.shippingAndPaymentDiv{
+  display: flex;
+  justify-content: space-around;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.shippingHeader{
+  margin-bottom: 12px;
+  color: rgb(104, 182, 188);
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: underline;
 }

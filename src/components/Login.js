@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
+import swal from 'sweetalert';
 
 export default function Login({ setEmail, email, setPassword, password, setToken, setError, error, setIsAdmin }) {
   const navigate = useNavigate();
-  console.log(password);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -15,10 +15,8 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       });
 
       setToken(result.token);
-      console.log(result);
-
+  
       localStorage.setItem("user", result.user);
-      console.log(result.user)
       localStorage.setItem("isAdmin", result.user.isAdmin);
       localStorage.setItem("token", result.token);
 
@@ -29,11 +27,16 @@ export default function Login({ setEmail, email, setPassword, password, setToken
 
       if (result.user.isAdmin = true){
         navigate("/products");
-        // window.location.reload(false);
         setToken(result.token);
         setIsAdmin(true)
       }
-      
+
+      if (!error){
+        swal({
+          icon: "success",
+        });
+      }
+
     } catch (error) {
       setError(error)  
       console.error(error);
@@ -43,7 +46,7 @@ export default function Login({ setEmail, email, setPassword, password, setToken
   return (
     <div className="loginpage">
     <div className= "loginContainer">
-      <h2>SIGN IN</h2>
+      <h2 className="registerTitle">SIGN IN</h2>
       <br></br>
       <form >
         <label className="loginHeaders">EMAIL ADDRESS</label>
@@ -63,11 +66,13 @@ export default function Login({ setEmail, email, setPassword, password, setToken
           required
         ></input>
         <br></br>
-        <center><button className="loginButton" onClick={submitHandler}>SIGN IN</button></center>
+        <br></br>
+        <center><button className="loginButton" onClick={submitHandler}>Sign in</button></center>
       </form>
-      <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? Click me!</p>
+      <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? <a href="/register">Register here!</a></p>
+      {error && <p className="text-danger">{error}</p>}
     </div>
-
+    
     </div>
   );
 }
