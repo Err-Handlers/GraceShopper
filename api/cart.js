@@ -82,4 +82,23 @@ cartRouter.patch("/checkout", async (req, res, next) => {
   }
 });
 
+cartRouter.patch("/checkout", async (req, res, next) => {
+  try {
+    const updateStatus = await updateOrderStatus(req.body.orderId)
+    console.log('updateStatus :>> ', updateStatus);
+    res.send(updateStatus)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
+cartRouter.get("/test", async (req, res, next) => {
+  try {
+    const data = await getOrdersByUserId(req.user.id)
+    res.send(data)
+  } catch ({name, message}) {
+    next({name, message})
+  }
+})
+
 module.exports = cartRouter;

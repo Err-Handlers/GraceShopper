@@ -220,6 +220,19 @@ async function getOrdersByUserId(id) {
   }
 }
 
+async function getOrdersByUserId(userId) {
+  try {
+    const {rows} = await client.query(`
+      SELECT * FROM orders
+      WHERE userId = ${userId}
+    `)
+    return rows
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 module.exports = {
   getOrdersByUserId,
   updateOrderStatus,

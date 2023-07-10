@@ -345,6 +345,36 @@ function Cart({
                 CHECKOUT
               </button>
             </div>
+            {showPayment && <div>
+            <h1>Cart</h1>
+            <form>
+              <p>Shipping Details</p>
+                <label>Full Name: </label>
+                <input type="text" placeholder="Full Name"/>
+                <label>City: </label>
+                <input type="text" placeholder="City"/>
+                <label>State: </label>
+                <input type="text" placeholder="State"/>
+                <label>Street: </label>
+                <input type="text" placeholder="Street"/>
+                <label>Zipcode: </label>
+                <input type="text" placeholder="Zipcode"/>
+                <p>Payment Details</p>
+                <label>Name On Card: </label>
+                <input type="text" placeholder="Credit Card Holders Name"/>
+                <label htmlFor="ccn">Card Number: </label>
+                <input id="ccn" type="tel" inputMode="numeric" pattern="[0-9\s]{13,19}" maxLength="19" placeholder="xxxx xxxx xxxx xxxx"/>
+                <label>City: </label>
+                <input type="text" placeholder="City"/>
+                <label>State: </label>
+                <input type="text" placeholder="State"/>
+                <label>Street: </label>
+                <input type="text" placeholder="Street"/>
+                <label>Zipcode: </label>
+                <input type="text" placeholder="Zipcode"/>
+                <input type="submit" onClick={handleSubmit}/>
+            </form>
+        </div>}
           </div>
         </div>
       ) : (
