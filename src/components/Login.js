@@ -69,6 +69,8 @@ export default function Login({ setEmail, email, setPassword, password, setToken
         <br></br>
         <center><button className="loginButton" onClick={submitHandler}>Sign in</button></center>
       </form>
+      <p>Test Email: test@gmail.com </p>
+      <p>Test Password: testpassword</p>
       <p className="registerLink" onClick={ () => navigate("/register")}>Don't have an account yet? <a href="/register">Register here!</a></p>
       {error && <p className="text-danger">{error}</p>}
     </div>

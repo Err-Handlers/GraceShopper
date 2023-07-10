@@ -186,15 +186,47 @@ async function updateOrderStatus(orderId, cartTotal) {
   }
 }
 
+// async function getOrdersByUserId(id) {
+//   try {
+//     const { rows: orders } = await client.query(
+//       `
+//             SELECT orders.*, shipping_details.*, payment_details.* FROM orders
+//             JOIN shipping_details
+//             ON orders.id = shipping_details."orderId"
+//             JOIN payment_details
+//             ON orders.id = payment_details."orderId"
+//             WHERE orders."userId" = $1 AND orders.status = 'completed'
+//         `,
+//       [id]
+//     );
+//     for (let i = 0; i < orders.length; i++) {
+//       const order = orders[i];
+//       const orderProducts = await getCompletedOrderProductsByOrderId(
+//         order.orderId
+//       );
+//       const products = await Promise.all(
+//         orderProducts.map(async (p) => {
+//           let product = await getProductById(p.productId);
+//           let newProduct = { quantity: p.quantity, ...product };
+//           return newProduct;
+//         })
+//       );
+//       order.products = products;
+//     }
+
+//     return orders;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
 async function getOrdersByUserId(id) {
   try {
     const { rows: orders } = await client.query(
       `
-            SELECT orders.*, shipping_details.*, payment_details.* FROM orders
+            SELECT orders.*, shipping_details.* FROM orders
             JOIN shipping_details
             ON orders.id = shipping_details."orderId"
-            JOIN payment_details
-            ON orders.id = payment_details."orderId"
             WHERE orders."userId" = $1 AND orders.status = 'completed'
         `,
       [id]

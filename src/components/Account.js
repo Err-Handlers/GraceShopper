@@ -3,14 +3,10 @@ import CompletedOrder from "./CompletedOrder";
 const Account = ({ token }) => {
   return (
     <>
-      <div className="mainContainer">
-        <div className="cartContainer">
-          <center>
-            <h2 className="cartHeader">Order History</h2>
-          </center>
-          <CompletedOrder token={token} />
+      <h2 className="cartHeader">Order History</h2>
+      <div className="completed-order-container">
+        <CompletedOrder token={token} />
         </div>
-      </div>
     </>
   );
 };

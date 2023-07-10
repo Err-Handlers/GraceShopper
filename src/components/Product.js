@@ -22,7 +22,6 @@ const Product = ({
   const [quantity, setQuantity] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [inCartLabel, setInCartLabel] = useState(false);
-
   
   const addProductToCart = async ({e, token, quantity, productId}) => {
     e.preventDefault();
@@ -35,26 +34,22 @@ const Product = ({
           body: { quantity, productId },
         });
         setCart((prev) => [data, ...prev]);
-        setInCartLabel((prev) => !prev);
+       
       } else {
         const product = await callApi({
           path: `/guest/products/${productId}`,
         });
-        setGuestCart((prev) => [...prev, { ...product, quantity }]);
-        const localGuestCart = JSON.parse(localStorage.getItem("guestCart"))
-        let newGuestCart = [{ ...product, quantity }];
-        if(localGuestCart){
-          newGuestCart = localGuestCart.push({ ...product, quantity })
-        }
-        localStorage.setItem("guestCart", JSON.stringify(newGuestCart))
-        setInCartLabel((prev) => !prev);
+        setGuestCart((prev) => [...prev, { ...product, quantity: Number(quantity) }]);
       }
+      setInCartLabel((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
   };
+
   
   useEffect(() => {
+
     if (token) {
       cart.map((cartItem) => {
         if (product.id === cartItem.productId) {
@@ -66,10 +61,10 @@ const Product = ({
       });
     } else {
       guestCart.map((cartItem) => {
-        if (product.id === cartItem.productId) {
+        if (product.id === cartItem.id) {
           setInCartLabel(true);
         }
-        if (guestCart.length = 0){
+        if (guestCart.length === 0){
           setInCartLabel(false)
         }
       });

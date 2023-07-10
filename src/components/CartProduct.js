@@ -9,6 +9,7 @@ const CartProduct = ({
   setCart,
   cartProducts,
   setCartProducts,
+  guestCart,
   setGuestCart,
 }) => {
   const quantityUpdateHandler = async ({
@@ -17,6 +18,7 @@ const CartProduct = ({
     productId,
     orderId,
   }) => {
+
     try {
       if (token) {
         const updateQuantity = await callApi({
@@ -39,7 +41,7 @@ const CartProduct = ({
         setGuestCart((prev) =>
           prev.map((p) => {
             if (p.id === productId) {
-              return { ...p, quantity };
+              return { ...p, quantity: Number(quantity) };
             }
             return p;
           })
@@ -68,13 +70,12 @@ const CartProduct = ({
         }
         return cartProducts;
       } else {
-        setGuestCart((prev) => prev.filter((p) => p.productId !== productId));
+        setGuestCart((prev) => prev.filter((p) => p.id !== productId));
       }
     } catch (error) {
       console.log(error);
     }
   };
-
   return (
     <div>
       {token ? (

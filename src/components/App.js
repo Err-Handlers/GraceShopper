@@ -15,6 +15,11 @@ import { useNavigate } from "react-router-dom";
 import ContactPage from "./ContactPage";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import Footer from "./Footer";
+import Completion from "./Completion";
+import Payment from "./Payment";
+import ShippingForm from "./ShippingForm";
+
 
 const App = () => {
   const [error, setError] = useState("");
@@ -23,10 +28,15 @@ const App = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
-  const [guestCart, setGuestCart] = useState([]);
+  const guestCartLocalStor = JSON.parse(localStorage.getItem("guestCart") || "[]")
+  const [guestCart, setGuestCart] = useState(guestCartLocalStor)
+  useEffect(() => {
+    localStorage.setItem("guestCart", JSON.stringify(guestCart))
+  }, [guestCart])
   const [token, setToken] = useState(
     window.localStorage.getItem("token") || ""
   );
+  const [cartTotal, setCartTotal] = useState(0);
   const [shippingFirstName, setShippingFirstName] = useState("");
   const [shippingLastName, setShippingLastName] = useState("");
   const [shippingState, setShippingState] = useState("");
@@ -34,8 +44,6 @@ const App = () => {
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
   const [menu, setMenu] = useState(false);
-
-  console.log("menu :>> ", menu);
 
   const userToken = localStorage.getItem("token");
 
@@ -57,10 +65,6 @@ const App = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("guestCart", JSON.stringify(guestCart))
-  // }, [guestCart])
-
   const navigate = useNavigate();
 
   const fetchProducts = async () => {
@@ -76,12 +80,17 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <div className="logoContainer" onClick={() => navigate("/products")}>
+        <div
+          className="logoContainer"
+          onClick={() => {
+            navigate("/products");
+            window.scrollTo(0, 0);
+          }}
+        >
           <h2 className="logoName">St</h2>
           <img
             className="logo"
             src="https://i.postimg.cc/2jJYq5DL/logo.png"
-            alt=""
             width="40"
             height="40"
           ></img>
@@ -121,11 +130,13 @@ const App = () => {
                   onClick={() => {
                     localStorage.removeItem("token");
                     setIsAdmin(false);
-
+                    console.log("CLICKED");
+                    
                     swal({
                       text: "Thank you for shopping with us!",
                     });
                     navigate("/products");
+                    location.reload()
                   }}
                 >
                   Logout
@@ -152,14 +163,21 @@ const App = () => {
               {!menu ? (
                 <MenuIcon sx={{ fontSize: 30 }} />
               ) : (
-                <CloseOutlinedIcon sx={{ fontSize: 30}} />
+                <CloseOutlinedIcon sx={{ fontSize: 30 }} />
               )}
             </div>
           </li>
         </ul>
-        {menu && <MenuDropdown menu={menu} setMenu={setMenu} setIsAdmin={setIsAdmin}/>}
+        {menu && (
+          <MenuDropdown
+            menu={menu}
+            setMenu={setMenu}
+            setIsAdmin={setIsAdmin}
+            token={token}
+            setToken={setToken}
+          />
+        )}
       </nav>
-
       <Routes>
         <Route
           path="/register"
@@ -243,6 +261,8 @@ const App = () => {
               setShippingCity={setShippingCity}
               shippingStreet={shippingStreet}
               setShippingStreet={setShippingStreet}
+              cartTotal={cartTotal}
+              setCartTotal={setCartTotal}
             />
           }
         ></Route>
@@ -276,7 +296,53 @@ const App = () => {
           path="/contactus"
           element={<ContactPage navigate={navigate} />}
         ></Route>
+        <Route
+          path="/payment"
+          element={
+            <Payment
+              cart={cart}
+              token={token}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
+              cartTotal={cartTotal}
+            />
+          }
+        ></Route>
+        <Route path="/completion" element={<Completion />}></Route>
+        <Route
+          path="/shipping"
+          element={
+            <ShippingForm
+              cart={cart}
+              token={token}
+              shippingFirstName={shippingFirstName}
+              setShippingFirstName={setShippingFirstName}
+              shippingLastName={shippingLastName}
+              setShippingLastName={setShippingLastName}
+              shippingState={shippingState}
+              setShippingState={setShippingState}
+              shippingZipcode={shippingZipcode}
+              setShippingZipcode={setShippingZipcode}
+              shippingCity={shippingCity}
+              setShippingCity={setShippingCity}
+              shippingStreet={shippingStreet}
+              setShippingStreet={setShippingStreet}
+              cartTotal={cartTotal}
+            />
+          }
+        ></Route>
       </Routes>
+      <Footer />
     </div>
   );
 };

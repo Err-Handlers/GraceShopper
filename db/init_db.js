@@ -108,6 +108,11 @@ async function populateInitialData() {
         email: "thuansemail@email.com",
         isAdmin: false,
       },
+      {
+        password: "testpassword",
+        email: "test@gmail.com",
+        isAdmin: false
+      }
     ];
 
     const createdUsers = await Promise.all(users.map(createUser));

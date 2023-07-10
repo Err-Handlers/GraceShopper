@@ -34,6 +34,8 @@ cartRouter.get("/", async (req, res, next) => {
   }
 });
 
+
+
 cartRouter.patch("/", async (req, res, next) => {
   try {
     const { quantity, productId, orderId } = req.body;
@@ -62,6 +64,7 @@ cartRouter.post("/", async (req, res, next) => {
   }
 });
 
+
 cartRouter.delete("/", async (req, res, next) => {
   try {
     const { productId, orderId } = req.body;
@@ -75,6 +78,7 @@ cartRouter.delete("/", async (req, res, next) => {
 cartRouter.patch("/checkout", async (req, res, next) => {
   try {
     const { cartTotal, orderId } = req.body;
+    console.log('cartTotal :>> ', cartTotal);
     const updateStatus = await updateOrderStatus(orderId, cartTotal);
     res.send(updateStatus);
   } catch ({ name, message }) {

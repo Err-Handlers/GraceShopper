@@ -21,6 +21,8 @@ function Cart({
   setShippingCity,
   shippingStreet,
   setShippingStreet,
+  cartTotal, 
+  setCartTotal
 }) {
   const navigate = useNavigate();
   const [cartProducts, setCartProducts] = useState([]);
@@ -32,7 +34,6 @@ function Cart({
   const [paymentState, setPaymentState] = useState("");
   const [paymentStreet, setPaymentStreet] = useState("");
   const [paymentZipcode, setPaymentZipcode] = useState("");
-  const [cartTotal, setCartTotal] = useState(0);
   const [guestCartTotal, setGuestCartTotal] = useState(0);
   const [guestEmail, setGuestEmail] = useState("");
   const [guestUserId, setGuestUserId] = useState(null);
@@ -74,11 +75,31 @@ function Cart({
     fetchCart();
   }, []);
 
-  const handleShowPayment = () => {
-    setShowPayment((p) => !p);
-  };
+  // const handleShowPayment = () => {
+  //   setShowPayment((p) => !p);
+  // };
+
+  const handleShowPayment = async () => {
+    try {
+      const data = await callApi({
+        method: "POST",
+        path: "/checkout/config",
+        body: {
+          items:  cartProducts,
+        }
+      })
+      if (data.ok) return data.json()
+      
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   const calculateTotal = () => {
+    // if(token){
+    //   let products = cartProducts;
+    // } else products = guestCart;
+
     const initialValue = 0;
     const orderTotal = cartProducts.reduce((acccumulator, product) => {
       return acccumulator + (product.priceInCents * product.quantity) / 100;
@@ -254,13 +275,7 @@ function Cart({
           body: { orderId: cart[0].orderId, cartTotal: cartTotal * 100 },
           token,
         });
-
-        if (!error) {
-          swal({
-            text: "Your order was succesfully placed!",
-          });
-        }
-        navigate("/account");
+        navigate("/shipping");
       } else {
         const guestUserId = await addGuestEmail();
         const guestOrderId = await addGuestOrder(guestUserId);
@@ -276,11 +291,7 @@ function Cart({
           );
         });
         const guestOrderProducts = await Promise.all(addOrderProducts);
-        if (!error) {
-          swal({
-            text: "Your order was succesfully placed!",
-          });
-        }
+    
         navigate("/products");
       }
     } catch (err) {
@@ -290,7 +301,7 @@ function Cart({
   const cartProductsToDisplay = token ? cartProducts : guestCart;
 
   return (
-    <div>
+    <div className="mainContainer">
       {cartProductsToDisplay.length > 0 ? (
         <div className="mainContainer">
           <h1>Your Order</h1>
@@ -326,8 +337,7 @@ function Cart({
                       <CartProduct
                         productInGuestCart={productInGuestCart}
                         setGuestCart={setGuestCart}
-                        guestCart={guestCart}
-                      />
+                        guestCart={guestCart}                      />
                     );
                   })}
                   <p className="cartTotal">Total: ${guestCartTotal}.00</p>
@@ -341,7 +351,7 @@ function Cart({
               >
                 I WANT MORE
               </button>
-              <button className="cartButton" onClick={handleShowPayment}>
+              <button className="cartButton" onClick={() => navigate("/shipping")}>
                 CHECKOUT
               </button>
             </div>
@@ -386,7 +396,7 @@ function Cart({
           </div>
         </div>
       )}
-      {showPayment && (
+      {/* {showPayment && (
         <div className="mainContainer">
           <div className="checkoutContainer">
             <h3 className="cartHeader">
@@ -520,7 +530,7 @@ function Cart({
             </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

@@ -1,7 +1,8 @@
 function CompletedOrderProduct({ imageURL, name }) {
   return (
-    <div className="orderProductImgName">
-      <img src={imageURL} width="150" height="150" />
+    <div className="nameAndPhoto">
+      <img src={imageURL} className="accountImg" width="100"
+              height="100"/>
       <p className="orderProductName">{name}</p>
     </div>
   )

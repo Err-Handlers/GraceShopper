@@ -4,6 +4,7 @@ import CompletedOrderList from "./CompletedOrderList";
 
 function CompletedOrder({ token }) {
   const [orderHistory, setOrderHistory] = useState([]);
+  console.log('orderHistory :>> ', orderHistory);
   const getOrderHistory = async () => {
     const data = await callApi({
       path: "/order_history",
@@ -44,7 +45,7 @@ function CompletedOrder({ token }) {
                 </p>
                 <p>{order.shippingZipcode}</p>
               </div>
-              <div>
+              {/* <div>
                 <h4 className="shippingHeader">Payment Details: </h4>
                 <p>{order.paymentName}</p>
                 <p>{order.paymentStreet}</p>
@@ -52,7 +53,7 @@ function CompletedOrder({ token }) {
                   {order.paymentCity}, {order.paymentState}
                 </p>
                 <p>{order.paymentZipcode}</p>
-              </div>
+              </div> */}
             </div>
           </div>
         );

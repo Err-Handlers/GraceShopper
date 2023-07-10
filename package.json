@@ -17,10 +17,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@emotion/react": "^11.11.0",
+    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.11.16",
-    "@mui/material": "^5.13.3",
+    "@mui/material": "^5.13.5",
+    "@stripe/react-stripe-js": "^2.1.0",
+    "@stripe/stripe-js": "^1.54.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.1.0",
     "bootstrap": "^5.2.2",
@@ -40,7 +42,7 @@
     "react-router-dom": "^6.4.3",
     "react-scripts": "^5.0.1",
     "reactjs-popup": "^2.0.5",
-    "stripe": "^12.8.0",
+    "stripe": "^12.9.0",
     "sweetalert": "^2.1.2"
   },
   "devDependencies": {

@@ -30,7 +30,7 @@ const ContactPage = ({ navigate }) => {
         <div className="col-lg-7 mx-auto">
           <div className="card mt-2 mx-auto p-4 bg-light">
             <div className="card-body bg-light">
-              <div className="container">
+              <div className="inner-container">
                 <form onSubmit={contactHandler} id="contact-form" role="form">
                   <div className="controls">
                     <div className="row">
@@ -42,7 +42,7 @@ const ContactPage = ({ navigate }) => {
                             type="text"
                             name="name"
                             className="form-control"
-                            placeholder="Please enter your firstname *"
+                            placeholder="First Name"
                             required="required"
                             data-error="Firstname is required."
                             onChange={(event) =>
@@ -53,13 +53,13 @@ const ContactPage = ({ navigate }) => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="form_lastname">Last name</label>
+                          <label htmlFor="form_lastname">Last Name</label>
                           <input
                             id="form_lastname"
                             type="text"
                             name="surname"
                             className="form-control"
-                            placeholder="Please enter your lastname *"
+                            placeholder="Last Name"
                             required="required"
                             data-error="Lastname is required."
                             onChange={(event) =>
@@ -78,7 +78,7 @@ const ContactPage = ({ navigate }) => {
                             type="email"
                             name="email"
                             className="form-control"
-                            placeholder="Please enter your email *"
+                            placeholder="Email"
                             required="required"
                             data-error="Valid email is required."
                             onChange={(event) => setEmail(event.target.value)}
@@ -88,7 +88,7 @@ const ContactPage = ({ navigate }) => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="form_need">
-                            Please specify your need{" "}
+                            Specify your request{" "}
                           </label>
                           <select
                             id="form_need"
@@ -101,7 +101,7 @@ const ContactPage = ({ navigate }) => {
                             }
                           >
                             <option value="" selected disabled>
-                              --Select Your Issue--
+                              --Select Your Request--
                             </option>
                             <option>General Question</option>
                             <option>Request a Sticker</option>
@@ -120,7 +120,7 @@ const ContactPage = ({ navigate }) => {
                             id="form_message"
                             name="message"
                             className="form-control"
-                            placeholder="Write your message here."
+                            placeholder="Message"
                             rows="4"
                             required="required"
                             data-error="Please, leave us a message."
@@ -128,10 +128,10 @@ const ContactPage = ({ navigate }) => {
                           ></textarea>
                         </div>
                       </div>
-                      <div className="col-md-12">
+                      <div className="col-md-12 message-btn-container">
                         <input
                           type="submit"
-                          className="btn btn-primary btn-send  pt-2 btn-block"
+                          className="contact-us-btn"
                           value="Send Message"
                         ></input>
                       </div>

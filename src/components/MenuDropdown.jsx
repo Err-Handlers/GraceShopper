@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import LoginIcon from "@mui/icons-material/Login";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import ContactSupportOutlinedIcon from "@mui/icons-material/ContactSupportOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import { useState } from "react";
 
-function MenuDropdown({ menu, setMenu, setIsAdmin }) {
+function MenuDropdown({ menu, setMenu, setIsAdmin, token, setToken }) {
   const [dropdownLinkClicked, setDropdownLinkClicked] = useState(false);
   console.log("dropdownLinkClicked :>> ", dropdownLinkClicked);
 
@@ -36,19 +37,7 @@ function MenuDropdown({ menu, setMenu, setIsAdmin }) {
       title: "Contact Us",
       path: "/contactus",
       cName: "dropdown-link",
-      icon: <ContactMailOutlinedIcon />,
-    },
-    {
-      title: "Login",
-      path: "/login",
-      cName: "dropdown-link",
-      icon: <LoginIcon />,
-    },
-    {
-      title: "Logout",
-      path: "/products",
-      cName: "dropdown-link",
-      icon: <LogoutIcon onClick={() => handleLogout()}/>,
+      icon: <ContactSupportOutlinedIcon />,
     },
   ];
 
@@ -72,6 +61,37 @@ function MenuDropdown({ menu, setMenu, setIsAdmin }) {
             </li>
           );
         })}
+
+        {token ? (
+          <>
+          <li>
+            <Link to="Account" className="dropdown-link" onClick={() => setMenu(false)}>
+              <AccountBoxOutlinedIcon /> Account
+            </Link>
+          </li>
+          <li> <Link
+                  className="dropdown-link"
+                  to="/products"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                    setToken("");
+                    setIsAdmin(false);
+                    setMenu(false);
+                    swal({
+                      text: "Thank you for shopping with us!",
+                    });
+                  }}
+                >
+                 <LogoutIcon /> Logout
+                </Link></li>
+          </>
+        ) : (
+          <li>
+          <Link to="/login" className="dropdown-link" onClick={() => setMenu(false)}>
+            <LoginIcon /> Login
+          </Link>
+          </li>
+        )}
       </ul>
     </div>
   );
