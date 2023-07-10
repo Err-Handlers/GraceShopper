@@ -1,4 +1,5 @@
 import { callApi } from "../api/utils";
+import CloseIcon from "@mui/icons-material/Close";
 
 const CartProduct = ({
   productInCart,
@@ -49,6 +50,7 @@ const CartProduct = ({
     }
   };
 
+
   const deleteHandler = async ({ token, productId, orderId }) => {
     try {
       if (token) {
@@ -81,6 +83,7 @@ const CartProduct = ({
             <img src={productInCart.imageURL} width="100" height="100"></img>
             <h4 className="cartProductName">{productInCart.name}</h4>
           </div>
+          <div className="product-quantity-container">
           <select
             defaultValue={productInCart.quantity}
             className="productQuantity"
@@ -101,24 +104,26 @@ const CartProduct = ({
             <option>5</option>
             <option>6</option>
           </select>
-          <p className="cartProductPrice">
-            ${(productInCart.priceInCents / 100) * productInCart.quantity}.00{" "}
-            <span className="pricePerQuantity">
-              (${productInCart.priceInCents / 100}.00 each)
-            </span>
-          </p>
-          <p
-            className="cartDeleteButton"
-            onClick={() =>
-              deleteHandler({
-                token,
-                productId: productInCart.productId,
-                orderId: cart[0].orderId,
-              })
-            }
-          >
-            X
-          </p>
+          </div>
+          <div className="cartProductPrice">
+            <div>
+                ${(productInCart.priceInCents / 100) * productInCart.quantity}
+                .00{" "}
+            </div>
+            <div className="cart-delete-btn-container">
+              <CloseIcon
+              sx={{ fontSize: 25 }}
+              className="cartDeleteButton"
+              onClick={() =>
+                deleteHandler({
+                  token,
+                  productId: productInCart.productId,
+                  orderId: cart[0].orderId,
+                })
+              }
+            />
+            </div>
+          </div>
         </div>
       ) : (
         <div key={productInGuestCart.id} className="singularCartProduct">
@@ -148,21 +153,21 @@ const CartProduct = ({
             <option>5</option>
             <option>6</option>
           </select>
-          <p className="cartProductPrice">
+          <div className="cartProductPrice">
             $
             {(productInGuestCart.priceInCents / 100) *
               productInGuestCart.quantity}
             .00{" "}
-            <span className="pricePerQuantity">
+            <div className="pricePerQuantity">
               (${productInGuestCart.priceInCents / 100}.00 each)
-            </span>
-          </p>
-          <p
-            className="cartDeleteButton"
-            onClick={() => deleteHandler({ productId: productInGuestCart.id })}
-          >
-            X
-          </p>
+            </div>
+            <CloseIcon
+              className="cartDeleteButton"
+              onClick={() =>
+                deleteHandler({ productId: productInGuestCart.id })
+              }
+            />
+          </div>
         </div>
       )}
     </div>

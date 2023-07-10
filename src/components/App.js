@@ -10,8 +10,11 @@ import Login from "./Login";
 import Account from "./Account";
 import Admin from "./Admin";
 import Users from "./Users";
+import MenuDropdown from "./MenuDropdown";
 import { useNavigate } from "react-router-dom";
 import ContactPage from "./ContactPage";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 const App = () => {
   const [error, setError] = useState("");
@@ -30,6 +33,10 @@ const App = () => {
   const [shippingZipcode, setShippingZipcode] = useState("");
   const [shippingCity, setShippingCity] = useState("");
   const [shippingStreet, setShippingStreet] = useState("");
+  const [menu, setMenu] = useState(false);
+
+  console.log("menu :>> ", menu);
+
   const userToken = localStorage.getItem("token");
 
   useEffect(() => {
@@ -69,7 +76,7 @@ const App = () => {
   return (
     <div className="app-container">
       <nav className="navbarContainer">
-        <div className="logoContainer">
+        <div className="logoContainer" onClick={() => navigate("/products")}>
           <h2 className="logoName">St</h2>
           <img
             className="logo"
@@ -140,8 +147,19 @@ const App = () => {
               </li>
             </>
           )}
+          <li>
+            <div className="menu-icon" onClick={() => setMenu(!menu)}>
+              {!menu ? (
+                <MenuIcon sx={{ fontSize: 30 }} />
+              ) : (
+                <CloseOutlinedIcon sx={{ fontSize: 30}} />
+              )}
+            </div>
+          </li>
         </ul>
+        {menu && <MenuDropdown menu={menu} setMenu={setMenu} setIsAdmin={setIsAdmin}/>}
       </nav>
+
       <Routes>
         <Route
           path="/register"
