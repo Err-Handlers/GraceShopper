@@ -15,9 +15,10 @@ li {
   cursor: pointer;
 }
 
-/* .mainContainer{
+.mainContainer{
   height: 100dvh;
-} */
+  overflow: scroll;
+}
 
 body {
   height: 100dvh;

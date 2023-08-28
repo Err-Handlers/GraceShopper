@@ -77,6 +77,8 @@ const App = () => {
     fetchProducts();
   }, [cart]);
 
+  console.log('isAdmin :>> ', isAdmin);
+
   return (
     <div className="app-container">
       <nav className="navbarContainer">
@@ -129,8 +131,7 @@ const App = () => {
                   to="/products"
                   onClick={() => {
                     localStorage.removeItem("token");
-                    setIsAdmin(false);
-                    console.log("CLICKED");
+                    setIsAdmin((prev) => !prev);
                     
                     swal({
                       text: "Thank you for shopping with us!",

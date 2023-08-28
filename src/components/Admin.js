@@ -152,7 +152,7 @@ const CreateForm = ({ token, navigate, setProducts, error }) => {
                 className="addStickerTitle"
                 onClick={() => navigate("/users")}
               >
-                SEE ALL ORDERS
+                SEE ALL USERS
               </h2>
             </center>
             <br></br>
