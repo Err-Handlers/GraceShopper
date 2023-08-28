@@ -125,7 +125,7 @@ export default function CheckoutForm({
       <PaymentElement id="payment-element" />
       <button disabled={isProcessing || !stripe || !elements} id="submit" onClick={() => handleSubmit()}>
         <span id="button-text">
-          {isProcessing ? "Processing ... " : "Pay now"}
+          {isProcessing ? "Processing ... " : "Finish & Pay"}
         </span>
       </button>
       {/* Show any error or success messages */}

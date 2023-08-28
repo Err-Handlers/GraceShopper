@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import "../style/App.css";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, Navigate } from "react-router-dom";
 import Register from "./Register";
 import Products from "./Products";
 import Cart from "./Cart";
@@ -179,6 +179,7 @@ const App = () => {
         )}
       </nav>
       <Routes>
+        <Route path="/" element={<Navigate to="/products" />} />
         <Route
           path="/register"
           element={

@@ -15,9 +15,9 @@ li {
   cursor: pointer;
 }
 
-.mainContainer{
+/* .mainContainer{
   height: 100dvh;
-}
+} */
 
 body {
   height: 100dvh;
@@ -72,6 +72,24 @@ ul {
   justify-content: flex-end;
 }
 
+@media screen and (max-width: 480px) {
+  .shippingForm {
+    width: 90%;
+  }
+  .shippingName {
+    flex-direction: column;
+  }
+  .cartButtons {
+    flex-direction: column;
+  }
+  .orderDetailsHeader {
+    margin: 0px !important;
+  }
+  .cartButtons {
+    margin-top: 1em;
+  }
+}
+
 
 @media  (min-width: 640px) {
   .dropdown {
@@ -95,11 +113,8 @@ ul {
     margin-right: .5em;
   }
 
-  .shippingForm {
-
-  }
-
 }
+
 
 .dropdown {
   display: flex;
@@ -257,14 +272,15 @@ ul {
   width: 500px;
   height: 500px;
   justify-content: center;
-  color: rgb(104, 182, 188)
+  color: rgb(104, 182, 188);
+  padding-top: 2em;
+  padding-bottom: 2em;
   
 }
 
 .registerLink{
   font-size: small;
   text-decoration: underline;
-  margin-top: 40px;
 }
 
 .productsContainer{
@@ -341,7 +357,7 @@ ul {
 }
 
 .cartButton{
-  border-radius: 25px;
+  border-radius: 15px;
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 10px;
@@ -349,7 +365,13 @@ ul {
   border: 2px solid white;
   background-color: rgb(104, 182, 188);
   color: white;
+  text-align: center;
+  font-weight: bold;
   
+}
+
+input {
+  margin-top: 16px !important;
 }
 
 .cartTotal{
@@ -385,13 +407,6 @@ ul {
   .accountImg {
     max-width: 4em;
     max-height: 4em;
-  }
-
-  .cartButtons {
-    flex-direction: column;
-  }
-  .cartButton {
-    padding: 5px
   }
   .cartTotal {
     text-align: center;
@@ -452,7 +467,6 @@ ul {
 
 .checkoutInput{
   margin-right: 10px;
-  margin-left: 5px;
 }
 
 .nameAndPhoto{
@@ -504,8 +518,6 @@ ul {
   display: flex;
 }
 
-
-
 .productQuantity{
   border-radius: 25px;
   border-color: rgb(75, 132, 136);
@@ -517,11 +529,9 @@ ul {
 .cartButtons{
   display: flex;
   justify-content: right;
-  padding-bottom: 12px;
-  gap: 1em
+  gap: 1em;
+  padding-bottom: 1em;
 }
-
-
 
 .cartButton:hover{
   background-color: rgba(104, 182, 188, 0.389);
@@ -730,24 +740,60 @@ label {
 #payment-form {
   width: 80%;
   margin: auto;
-  height: 100dvh;
+}
+
+#submit {
+  text-align: center;
+  border-radius: 7px;
+  font-weight: bold;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: .2em 8em .2em 8em;
+  background-color: rgb(93, 189, 196);
+  border-color: rgba(255, 255, 255, 0);
+  color: white;
+  
 }
 
 .payment-container {
   display: flex;
+  flex-direction: column;
+  padding-top: 4em;
+  padding-bottom: 4em;
+  text-align: center;
+  margin-top: 2em;
+}
+
+.stripelogo{
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: rgb(70, 70, 196);
+}
+
+.poweredBy {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(218, 218, 218);
+  margin-top: 2em;
+
+}
+
+#button-text {
+  width: 200px !important;
 }
 
 .shippingContainer {
   display: flex;
   justify-content: center;
-  height: 100dvh;
 
 }
 
 .shippingForm {
   display: flex;
   flex-direction: column;
-  width: 50dvh;
+  box-shadow: 0 0 4px rgb(75, 132, 136);
+  padding: 2em;
+  margin-top: 4em;
+  margin-bottom: 4em;
 }
 
 .shippingForm input[type=text] {
@@ -774,4 +820,14 @@ label {
 
 .shippingForm div {
   justify-content: center;
+  width: 100%;
+}
+
+.shippingName {
+  display: flex;
+}
+
+.flex-col{
+  display: flex;
+  flex-direction: column;
 }

@@ -316,8 +316,9 @@ function Cart({
                 <div>
                   {cartProducts.map((productInCart) => {
                     return (
-                      <div key={productInCart.id}>
+                      <div>
                         <CartProduct
+                          key={productInCart.id}
                           productInCart={productInCart}
                           token={token}
                           setCart={setCart}
@@ -349,10 +350,10 @@ function Cart({
                 className="cartButton"
                 onClick={() => navigate("/products")}
               >
-                I WANT MORE
+                I want more
               </button>
               <button className="cartButton" onClick={() => navigate("/shipping")}>
-                CHECKOUT
+                Checkout
               </button>
             </div>
             {showPayment && <div>
@@ -389,6 +390,7 @@ function Cart({
         </div>
       ) : (
         <div className="mainContainer">
+          <h1>CART</h1>
           <div className="cartContainer">
             <p className="emptyCart">
               Uh oh, look's like you have some shopping to do!

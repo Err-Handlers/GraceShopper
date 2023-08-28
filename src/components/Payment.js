@@ -58,7 +58,6 @@ const Payment = ({
 
   return (
     <div className="payment-container">
-      <h1>React Stripe</h1>
       {stripePromise && clientSecret && (
         <Elements stripe={stripePromise} options={{ clientSecret }}>
           <CheckoutForm
@@ -80,6 +79,8 @@ const Payment = ({
           />
         </Elements>
       )}
+      <p className="poweredBy">powered by <span className="stripelogo">stripe</span></p>
+
     </div>
   );
 };
