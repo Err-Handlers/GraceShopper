@@ -6,18 +6,12 @@ export default function CheckoutForm({
   cart,
   token,
   shippingFirstName,
-  setShippingFirstName,
   shippingLastName,
-  setShippingLastName,
   shippingCity,
-  setShippingCity,
   shippingStreet,
-  setShippingStreet,
   shippingState,
-  setShippingState,
   shippingZipcode,
-  setShippingZipcode,
-  cartTotal
+  cartTotal,
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -58,12 +52,6 @@ export default function CheckoutForm({
           body: { orderId: cart[0].orderId, cartTotal: cartTotal * 100 },
           token,
         });
-
-        // if (!error) {
-        //   swal({
-        //     text: "Your order was succesfully placed!",
-        //   });
-        // }
       } else {
         const guestUserId = await addGuestEmail();
         const guestOrderId = await addGuestOrder(guestUserId);
@@ -123,13 +111,18 @@ export default function CheckoutForm({
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
       <PaymentElement id="payment-element" />
-      <button disabled={isProcessing || !stripe || !elements} id="submit" onClick={() => handleSubmit()}>
+      <button
+        disabled={isProcessing || !stripe || !elements}
+        id="submit"
+        onClick={() => handleSubmit()}
+      >
         <span id="button-text">
           {isProcessing ? "Processing ... " : "Finish & Pay"}
         </span>
       </button>
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
+      <p>(To test transaction, please use '4242 4242 4242 4242' as the card number, and any expiration, CVC, and Zipcode.)</p>
     </form>
   );
 }

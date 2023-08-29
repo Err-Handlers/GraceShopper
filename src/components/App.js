@@ -77,7 +77,7 @@ const App = () => {
     fetchProducts();
   }, [cart]);
 
-  console.log('isAdmin :>> ', isAdmin);
+  console.log("isAdmin", isAdmin);
 
   return (
     <div className="app-container">
@@ -131,8 +131,8 @@ const App = () => {
                   to="/products"
                   onClick={() => {
                     localStorage.removeItem("token");
-                    setIsAdmin((prev) => !prev);
-                    
+                    if(isAdmin === true) setIsAdmin((prev) => !prev);
+                    localStorage.removeItem("guestCart")
                     swal({
                       text: "Thank you for shopping with us!",
                     });

@@ -18,7 +18,6 @@ const CartProduct = ({
     productId,
     orderId,
   }) => {
-
     try {
       if (token) {
         const updateQuantity = await callApi({
@@ -52,7 +51,6 @@ const CartProduct = ({
     }
   };
 
-
   const deleteHandler = async ({ token, productId, orderId }) => {
     try {
       if (token) {
@@ -76,6 +74,7 @@ const CartProduct = ({
       console.log(error);
     }
   };
+  
   return (
     <div>
       {token ? (
@@ -85,44 +84,44 @@ const CartProduct = ({
             <h4 className="cartProductName">{productInCart.name}</h4>
           </div>
           <div className="product-quantity-container">
-          <select
-            defaultValue={productInCart.quantity}
-            className="productQuantity"
-            onChange={(e) =>
-              quantityUpdateHandler({
-                token,
-                quantity: e.target.value,
-                productId: productInCart.productId,
-                orderId: cart[0].orderId,
-              })
-            }
-          >
-            <option>0</option>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-          </select>
-          </div>
-          <div className="cartProductPrice">
-            <div>
-                ${(productInCart.priceInCents / 100) * productInCart.quantity}
-                .00{" "}
-            </div>
-            <div className="cart-delete-btn-container">
-              <CloseIcon
-              sx={{ fontSize: 25 }}
-              className="cartDeleteButton"
-              onClick={() =>
-                deleteHandler({
+            <select
+              defaultValue={productInCart.quantity}
+              className="productQuantity"
+              onChange={(e) =>
+                quantityUpdateHandler({
                   token,
+                  quantity: e.target.value,
                   productId: productInCart.productId,
                   orderId: cart[0].orderId,
                 })
               }
-            />
+            >
+              <option>0</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+          </div>
+          <div className="cartProductPrice">
+            <div>
+              ${(productInCart.priceInCents / 100) * productInCart.quantity}
+              .00{" "}
+            </div>
+            <div className="cart-delete-btn-container">
+              <CloseIcon
+                sx={{ fontSize: 25 }}
+                className="cartDeleteButton"
+                onClick={() =>
+                  deleteHandler({
+                    token,
+                    productId: productInCart.productId,
+                    orderId: cart[0].orderId,
+                  })
+                }
+              />
             </div>
           </div>
         </div>

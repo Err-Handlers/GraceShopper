@@ -20,12 +20,12 @@ export default function Login({ setEmail, email, setPassword, password, setToken
       localStorage.setItem("isAdmin", result.user.isAdmin);
       localStorage.setItem("token", result.token);
 
-      if (result.user.isAdmin != true){
+      if (result.user.isAdmin !== true){
         navigate("/products");
         window.location.reload(false);
       }
 
-      if (result.user.isAdmin = true){
+      if (result.user.isAdmin === true){
         navigate("/products");
         setToken(result.token);
         setIsAdmin(true)

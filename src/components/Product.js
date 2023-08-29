@@ -49,13 +49,12 @@ const Product = ({
 
   
   useEffect(() => {
-
     if (token) {
       cart.map((cartItem) => {
         if (product.id === cartItem.productId) {
           setInCartLabel(true);
         }
-        if (cart.length = 0){
+        if (cart.length === 0){
           setInCartLabel(false)
         }
       });
@@ -70,7 +69,6 @@ const Product = ({
       });
     }
   }, []);
-    
     const deleteProduct = async (productId) => {
         try {
             await callApi({
