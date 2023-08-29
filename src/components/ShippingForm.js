@@ -2,25 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { callApi } from "../api/utils";
 const ShippingForm = ({
-  cart,
-  token,
-  shippingFirstName,
   setShippingFirstName,
-  shippingLastName,
   setShippingLastName,
-  shippingCity,
   setShippingCity,
-  shippingStreet,
   setShippingStreet,
-  shippingState,
   setShippingState,
-  shippingZipcode,
   setShippingZipcode,
   cartTotal,
 }) => {
   const navigate = useNavigate();
-  console.log("cart :>> ", cart);
-  console.log("cartTotal :>> ", cartTotal);
 
   return (
     <div className="shippingContainer">
